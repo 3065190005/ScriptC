@@ -1,0 +1,328 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="AutoElement">
+      <UniqueIdentifier>{17c6e8df-ab6e-4c2e-b5d6-8727f25305d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CerLexical">
+      <UniqueIdentifier>{f318550e-7f27-48d9-be87-497699d0ad0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CerParser">
+      <UniqueIdentifier>{9d5d35fa-0a67-42d7-aec2-a0a93658d953}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CerInterpreter">
+      <UniqueIdentifier>{865ed64a-a7e1-4f09-985a-ff6f92f86f26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CerVirtualMachine">
+      <UniqueIdentifier>{d5b82cdb-01d9-46c6-8024-d44dc5a372b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global">
+      <UniqueIdentifier>{7297a720-791d-4037-9b4c-61bc59ab8ea2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DllReader">
+      <UniqueIdentifier>{3eebe858-b712-473e-b335-ac685e8efe17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\res">
+      <UniqueIdentifier>{35f05389-dda0-4aca-b243-fe3dd8e7667e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\libs">
+      <UniqueIdentifier>{4d59fc3d-efea-43a5-868e-89a1a3f86c9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ErrorHandling">
+      <UniqueIdentifier>{0ec3b9a0-4135-4840-8b16-4cc5599ab737}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="QuickLib">
+      <UniqueIdentifier>{e8a733ba-0e9b-4a5c-88fd-4df771a0c158}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="QuickLib\kEncrypt">
+      <UniqueIdentifier>{c6e5a761-b808-46b8-871a-2a845a72115a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="QuickLib\kEncrypt\implement">
+      <UniqueIdentifier>{8696fb06-afa5-4275-b078-c603eba3f837}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="QuickLib\kString">
+      <UniqueIdentifier>{e080aa8b-40a2-495f-8125-6bbc1e5fed15}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CerLexical\CerLexical.cpp">
+      <Filter>CerLexical</Filter>
+    </ClCompile>
+    <ClCompile Include="CerParser\CerParser.cpp">
+      <Filter>CerParser</Filter>
+    </ClCompile>
+    <ClCompile Include="CerParser\AST.cpp">
+      <Filter>CerParser</Filter>
+    </ClCompile>
+    <ClCompile Include="CerInterpreter\CerInterpreter.cpp">
+      <Filter>CerInterpreter</Filter>
+    </ClCompile>
+    <ClCompile Include="CerInterpreter\NodeVisitor.cpp">
+      <Filter>CerInterpreter</Filter>
+    </ClCompile>
+    <ClCompile Include="CerInterpreter\CommandCode.cpp">
+      <Filter>CerInterpreter</Filter>
+    </ClCompile>
+    <ClCompile Include="CerVirtualMachine\CerVm.cpp">
+      <Filter>CerVirtualMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="CerVirtualMachine\CerCalcStack.cpp">
+      <Filter>CerVirtualMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="CerInterpreter\SymbolClass.cpp">
+      <Filter>CerInterpreter</Filter>
+    </ClCompile>
+    <ClCompile Include="CerInterpreter\SemanticAnalyzer.cpp">
+      <Filter>CerInterpreter</Filter>
+    </ClCompile>
+    <ClCompile Include="CerVirtualMachine\CerStackSystem.cpp">
+      <Filter>CerVirtualMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="CerVirtualMachine\CerStackFrame.cpp">
+      <Filter>CerVirtualMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="CerVirtualMachine\CerRunTime.cpp">
+      <Filter>CerVirtualMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="DllReader\DllFuncReader.cpp">
+      <Filter>DllReader</Filter>
+    </ClCompile>
+    <ClCompile Include="ErrorHandling\ErrorHandling.cpp">
+      <Filter>ErrorHandling</Filter>
+    </ClCompile>
+    <ClCompile Include="..\QuickLib\QuickLib\QuickLib\kEncrypt\base64.cpp">
+      <Filter>QuickLib\kEncrypt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\QuickLib\QuickLib\QuickLib\kEncrypt\md5.cpp">
+      <Filter>QuickLib\kEncrypt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\QuickLib\QuickLib\QuickLib\kEncrypt\implement\md5encrypt.cpp">
+      <Filter>QuickLib\kEncrypt\implement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\QuickLib\QuickLib\QuickLib\kString\kString.cpp">
+      <Filter>QuickLib\kString</Filter>
+    </ClCompile>
+    <ClCompile Include="AutoElement\LetArrayMotion.cpp">
+      <Filter>AutoElement</Filter>
+    </ClCompile>
+    <ClCompile Include="AutoElement\LetManager.cpp">
+      <Filter>AutoElement</Filter>
+    </ClCompile>
+    <ClCompile Include="AutoElement\LetObject.cpp">
+      <Filter>AutoElement</Filter>
+    </ClCompile>
+    <ClCompile Include="AutoElement\LetObjectOperator.cpp">
+      <Filter>AutoElement</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CerLexical\CerLexical.h">
+      <Filter>CerLexical</Filter>
+    </ClInclude>
+    <ClInclude Include="CerLexical\CerLexicalMacro.h">
+      <Filter>CerLexical</Filter>
+    </ClInclude>
+    <ClInclude Include="CerParser\CerParser.h">
+      <Filter>CerParser</Filter>
+    </ClInclude>
+    <ClInclude Include="CerParser\AST.h">
+      <Filter>CerParser</Filter>
+    </ClInclude>
+    <ClInclude Include="CerParser\CerParserMacro.h">
+      <Filter>CerParser</Filter>
+    </ClInclude>
+    <ClInclude Include="CerInterpreter\CerInterpreter.h">
+      <Filter>CerInterpreter</Filter>
+    </ClInclude>
+    <ClInclude Include="CerInterpreter\NodeVisitor.h">
+      <Filter>CerInterpreter</Filter>
+    </ClInclude>
+    <ClInclude Include="CerInterpreter\CommandCode.h">
+      <Filter>CerInterpreter</Filter>
+    </ClInclude>
+    <ClInclude Include="CerInterpreter\CerInterpreterMacro.h">
+      <Filter>CerInterpreter</Filter>
+    </ClInclude>
+    <ClInclude Include="CerVirtualMachine\CerVm.h">
+      <Filter>CerVirtualMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="CerVirtualMachine\CerCalcStack.h">
+      <Filter>CerVirtualMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="CerInterpreter\SymbolClass.h">
+      <Filter>CerInterpreter</Filter>
+    </ClInclude>
+    <ClInclude Include="CerInterpreter\SemanticAnalyzer.h">
+      <Filter>CerInterpreter</Filter>
+    </ClInclude>
+    <ClInclude Include="CerVirtualMachine\CerStackSystem.h">
+      <Filter>CerVirtualMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="CerVirtualMachine\CerStackFrame.h">
+      <Filter>CerVirtualMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="CerVirtualMachine\CerRunTime.h">
+      <Filter>CerVirtualMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="Global\globalDefine.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="DllReader\DllFuncReader.h">
+      <Filter>DllReader</Filter>
+    </ClInclude>
+    <ClInclude Include="ErrorHandling\ErrorHandling.h">
+      <Filter>ErrorHandling</Filter>
+    </ClInclude>
+    <ClInclude Include="..\QuickLib\QuickLib\QuickLib\kEncrypt\base64.h">
+      <Filter>QuickLib\kEncrypt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\QuickLib\QuickLib\QuickLib\kEncrypt\md5.h">
+      <Filter>QuickLib\kEncrypt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\QuickLib\QuickLib\QuickLib\kEncrypt\implement\md5encrypt.h">
+      <Filter>QuickLib\kEncrypt\implement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\QuickLib\QuickLib\QuickLib\kString\kString.h">
+      <Filter>QuickLib\kString</Filter>
+    </ClInclude>
+    <ClInclude Include="..\QuickLib\QuickLib\QuickLib\encrypt.h">
+      <Filter>QuickLib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\QuickLib\QuickLib\QuickLib\quicklib.h">
+      <Filter>QuickLib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\QuickLib\QuickLib\QuickLib\string.h">
+      <Filter>QuickLib</Filter>
+    </ClInclude>
+    <ClInclude Include="AutoElement\LetArrayMotion.h">
+      <Filter>AutoElement</Filter>
+    </ClInclude>
+    <ClInclude Include="AutoElement\letMacro.h">
+      <Filter>AutoElement</Filter>
+    </ClInclude>
+    <ClInclude Include="AutoElement\LetManager.h">
+      <Filter>AutoElement</Filter>
+    </ClInclude>
+    <ClInclude Include="AutoElement\LetNatureDefine.h">
+      <Filter>AutoElement</Filter>
+    </ClInclude>
+    <ClInclude Include="AutoElement\LetObject.h">
+      <Filter>AutoElement</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CerLexical\CerLexical.tpp">
+      <Filter>CerLexical</Filter>
+    </None>
+    <None Include="Resources\sources.crvs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="Resources\res\io.crvs">
+      <Filter>资源文件\res</Filter>
+    </None>
+    <None Include="Resources\res\system.crvs">
+      <Filter>资源文件\res</Filter>
+    </None>
+    <None Include="..\QuickLib\QuickLib\QuickLib\kString\kString.tpp">
+      <Filter>QuickLib\kString</Filter>
+    </None>
+    <None Include="Resources\Cervice.md">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="Resources\res\os.crvs">
+      <Filter>资源文件\res</Filter>
+    </None>
+    <None Include="Resources\ioTest.crvs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="Resources\mathTest.crvs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="Resources\osTest.crvs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="Resources\res\math.crvs">
+      <Filter>资源文件\res</Filter>
+    </None>
+    <None Include="Resources\res\string.crvs">
+      <Filter>资源文件\res</Filter>
+    </None>
+    <None Include="Resources\stringTest.crvs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="AutoElement\LetArrayMotion.tpp">
+      <Filter>AutoElement</Filter>
+    </None>
+    <None Include="AutoElement\LetObject.tpp">
+      <Filter>AutoElement</Filter>
+    </None>
+    <None Include="Resources\arrayTest.crvs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="Resources\res\array.crvs">
+      <Filter>资源文件\res</Filter>
+    </None>
+    <None Include="Resources\res\time.crvs">
+      <Filter>资源文件\res</Filter>
+    </None>
+    <None Include="Resources\res\type.crvs">
+      <Filter>资源文件\res</Filter>
+    </None>
+    <None Include="Resources\libs\config.cfg">
+      <Filter>资源文件\libs</Filter>
+    </None>
+    <None Include="Resources\libs\std_array.dll">
+      <Filter>资源文件\libs</Filter>
+    </None>
+    <None Include="Resources\libs\std_io.dll">
+      <Filter>资源文件\libs</Filter>
+    </None>
+    <None Include="Resources\libs\std_math.dll">
+      <Filter>资源文件\libs</Filter>
+    </None>
+    <None Include="Resources\libs\std_os.dll">
+      <Filter>资源文件\libs</Filter>
+    </None>
+    <None Include="Resources\libs\std_string.dll">
+      <Filter>资源文件\libs</Filter>
+    </None>
+    <None Include="Resources\libs\std_time.dll">
+      <Filter>资源文件\libs</Filter>
+    </None>
+    <None Include="Resources\libs\std_type.dll">
+      <Filter>资源文件\libs</Filter>
+    </None>
+    <None Include="Resources\timeTest.crvs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="Resources\typeTest.crvs">
+      <Filter>资源文件</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Resources\cfg.txt">
+      <Filter>资源文件</Filter>
+    </Text>
+    <Text Include="Resources\mission.txt">
+      <Filter>资源文件</Filter>
+    </Text>
+    <Text Include="Resources\log.txt">
+      <Filter>资源文件</Filter>
+    </Text>
+  </ItemGroup>
+</Project>

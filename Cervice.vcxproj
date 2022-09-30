@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Package|Win32">
+      <Configuration>Package</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Package|x64">
+      <Configuration>Package</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{c6d351d9-633f-47ef-a916-58710c32b3b5}</ProjectGuid>
+    <RootNamespace>Cervice</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Package|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Package|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Package|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Package|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Package|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Package|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <Optimization>Custom</Optimization>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Package|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>E:\VsPro\CerviceScript\QuickLib\QuickLib\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PreBuildEvent>
+      <Command>copy /Y E:\VsPro\CerviceScript\STD\CompileDLL\debug\*.* E:\VsPro\CerviceScript\Cervice\Resources\libs\
+cd E:\VsPro\CerviceScript\Cervice\AutoElement\
+update.bat</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <Optimization>MaxSpeed</Optimization>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <AdditionalIncludeDirectories>E:\VsPro\CerviceScript\QuickLib\QuickLib\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PreBuildEvent>
+      <Command>copy /Y E:\VsPro\CerviceScript\STD\CompileDLL\release\*.* E:\VsPro\CerviceScript\Cervice\Resources\libs\
+cd .\AutoElement\
+.\update.bat</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Package|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_PACKAGE;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <Optimization>MaxSpeed</Optimization>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <AdditionalIncludeDirectories>E:\VsPro\CerviceScript\QuickLib\QuickLib\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PreBuildEvent>
+      <Command>cd .\AutoElement\
+.\update.bat</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>copy /Y E:\VsPro\CerviceScript\STD\CompileDLL\release\*.* E:\VsPro\CerviceScript\Cervice\Resources\libs\
+xcopy /Y .\Resources\libs .\Package\libs\
+xcopy /Y .\Resources\res .\Package\res\
+copy /Y .\x64\Package\Cervice.exe .\Package\</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\QuickLib\QuickLib\QuickLib\kEncrypt\base64.cpp" />
+    <ClCompile Include="..\QuickLib\QuickLib\QuickLib\kEncrypt\implement\md5encrypt.cpp" />
+    <ClCompile Include="..\QuickLib\QuickLib\QuickLib\kEncrypt\md5.cpp" />
+    <ClCompile Include="..\QuickLib\QuickLib\QuickLib\kString\kString.cpp" />
+    <ClCompile Include="AutoElement\LetArrayMotion.cpp" />
+    <ClCompile Include="AutoElement\LetManager.cpp" />
+    <ClCompile Include="AutoElement\LetObject.cpp" />
+    <ClCompile Include="AutoElement\LetObjectOperator.cpp" />
+    <ClCompile Include="CerInterpreter\CerInterpreter.cpp" />
+    <ClCompile Include="CerInterpreter\CommandCode.cpp" />
+    <ClCompile Include="CerInterpreter\NodeVisitor.cpp" />
+    <ClCompile Include="CerInterpreter\SemanticAnalyzer.cpp" />
+    <ClCompile Include="CerInterpreter\SymbolClass.cpp" />
+    <ClCompile Include="CerLexical\CerLexical.cpp" />
+    <ClCompile Include="CerParser\AST.cpp" />
+    <ClCompile Include="CerParser\CerParser.cpp" />
+    <ClCompile Include="CerVirtualMachine\CerCalcStack.cpp" />
+    <ClCompile Include="CerVirtualMachine\CerRunTime.cpp" />
+    <ClCompile Include="CerVirtualMachine\CerStackFrame.cpp" />
+    <ClCompile Include="CerVirtualMachine\CerStackSystem.cpp" />
+    <ClCompile Include="CerVirtualMachine\CerVm.cpp" />
+    <ClCompile Include="DllReader\DllFuncReader.cpp" />
+    <ClCompile Include="ErrorHandling\ErrorHandling.cpp" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\QuickLib\QuickLib\QuickLib\encrypt.h" />
+    <ClInclude Include="..\QuickLib\QuickLib\QuickLib\kEncrypt\base64.h" />
+    <ClInclude Include="..\QuickLib\QuickLib\QuickLib\kEncrypt\implement\md5encrypt.h" />
+    <ClInclude Include="..\QuickLib\QuickLib\QuickLib\kEncrypt\md5.h" />
+    <ClInclude Include="..\QuickLib\QuickLib\QuickLib\kString\kString.h" />
+    <ClInclude Include="..\QuickLib\QuickLib\QuickLib\quicklib.h" />
+    <ClInclude Include="..\QuickLib\QuickLib\QuickLib\string.h" />
+    <ClInclude Include="AutoElement\LetArrayMotion.h" />
+    <ClInclude Include="AutoElement\letMacro.h" />
+    <ClInclude Include="AutoElement\LetManager.h" />
+    <ClInclude Include="AutoElement\LetNatureDefine.h" />
+    <ClInclude Include="AutoElement\LetObject.h" />
+    <ClInclude Include="CerInterpreter\CerInterpreter.h" />
+    <ClInclude Include="CerInterpreter\CerInterpreterMacro.h" />
+    <ClInclude Include="CerInterpreter\CommandCode.h" />
+    <ClInclude Include="CerInterpreter\NodeVisitor.h" />
+    <ClInclude Include="CerInterpreter\SemanticAnalyzer.h" />
+    <ClInclude Include="CerInterpreter\SymbolClass.h" />
+    <ClInclude Include="CerLexical\CerLexical.h" />
+    <ClInclude Include="CerLexical\CerLexicalMacro.h" />
+    <ClInclude Include="CerParser\AST.h" />
+    <ClInclude Include="CerParser\CerParser.h" />
+    <ClInclude Include="CerParser\CerParserMacro.h" />
+    <ClInclude Include="CerVirtualMachine\CerCalcStack.h" />
+    <ClInclude Include="CerVirtualMachine\CerRunTime.h" />
+    <ClInclude Include="CerVirtualMachine\CerStackFrame.h" />
+    <ClInclude Include="CerVirtualMachine\CerStackSystem.h" />
+    <ClInclude Include="CerVirtualMachine\CerVm.h" />
+    <ClInclude Include="DllReader\DllFuncReader.h" />
+    <ClInclude Include="ErrorHandling\ErrorHandling.h" />
+    <ClInclude Include="Global\globalDefine.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\QuickLib\QuickLib\QuickLib\kString\kString.tpp" />
+    <None Include="AutoElement\LetArrayMotion.tpp" />
+    <None Include="AutoElement\LetObject.tpp" />
+    <None Include="CerLexical\CerLexical.tpp" />
+    <None Include="Resources\arrayTest.crvs" />
+    <None Include="Resources\Cervice.md" />
+    <None Include="Resources\ioTest.crvs" />
+    <None Include="Resources\libs\config.cfg" />
+    <None Include="Resources\libs\std_array.dll" />
+    <None Include="Resources\libs\std_io.dll" />
+    <None Include="Resources\libs\std_math.dll" />
+    <None Include="Resources\libs\std_os.dll" />
+    <None Include="Resources\libs\std_string.dll" />
+    <None Include="Resources\libs\std_time.dll" />
+    <None Include="Resources\libs\std_type.dll" />
+    <None Include="Resources\mathTest.crvs" />
+    <None Include="Resources\osTest.crvs" />
+    <None Include="Resources\res\array.crvs" />
+    <None Include="Resources\res\io.crvs" />
+    <None Include="Resources\res\math.crvs" />
+    <None Include="Resources\res\os.crvs" />
+    <None Include="Resources\res\string.crvs" />
+    <None Include="Resources\res\system.crvs" />
+    <None Include="Resources\res\time.crvs" />
+    <None Include="Resources\res\type.crvs" />
+    <None Include="Resources\sources.crvs" />
+    <None Include="Resources\stringTest.crvs" />
+    <None Include="Resources\timeTest.crvs" />
+    <None Include="Resources\typeTest.crvs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Resources\cfg.txt" />
+    <Text Include="Resources\log.txt" />
+    <Text Include="Resources\mission.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
