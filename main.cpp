@@ -113,7 +113,7 @@ void ScriptRun() {
 			if (i.first.find("%::") != i.first.npos) {
 				std::string file;
 				file = i.first.substr(3);
-				CerVm::m_CodeBaseAddress.insert({ file + ".crvs",i.second + 1 });
+				CerVm::m_CodeBaseAddress.insert({ file + ".sc",i.second + 1 });
 			}
 		}
 
@@ -169,7 +169,7 @@ void ProgramerCall() {
 		if (i.first.find("%::") != i.first.npos) {
 			std::string file;
 			file = i.first.substr(3);
-			CerVm::m_CodeBaseAddress.insert({ file + ".crvs",i.second + 1 });
+			CerVm::m_CodeBaseAddress.insert({ file + ".sc",i.second + 1 });
 		}
 	};
 
@@ -228,7 +228,7 @@ void TestCodeCall() {
 
 					// lexic, paser, seman, inter, vmret, print
 	bool control[] = { ta,		ta,	   ta,	  ta,	ta,	   ta };
-	G_mainFile = "sources.crvs";
+	G_mainFile = "sources.sc";
 	if (control[0]) {
 		auto lexical = CerLexical<char>::create(input, "sources");
 		if (control[1]) {
@@ -252,7 +252,7 @@ void TestCodeCall() {
 						if (i.first.find("%::") != i.first.npos) {
 							std::string file;
 							file = i.first.substr(3);
-							CerVm::m_CodeBaseAddress.insert({ file+".crvs",i.second+1 });
+							CerVm::m_CodeBaseAddress.insert({ file+".sc",i.second+1 });
 						}
 					};
 
@@ -305,7 +305,7 @@ int getCmdParam(int args, char** argv) {
 
 std::string G_TipsSymbol = "->: ";
 std::string G_consoleTxt = 
-R"(Cervice £¨Update : 2022.9.25 | LetObject : v9_1) [console mode]
+R"(ScriptC £¨Last Update : 2022.9.30 | LetObject : v9_1) [console mode]
 If you want to compile and run the code, type Enter twice.
 
 )";
@@ -338,7 +338,7 @@ int CmdRunType()
 	AST* astTree = nullptr;
 
 	try {
-		G_mainFile = "^console.crvs";
+		G_mainFile = "^console.sc";
 		auto lexical = CerLexical<char>::create(input, "");
 		auto parser = CerParser::create(lexical);
 		astTree = parser->parser();
@@ -356,7 +356,7 @@ int CmdRunType()
 			if (i.first.find("%::") != i.first.npos) {
 				std::string file;
 				file = i.first.substr(3);
-				CerVm::m_CodeBaseAddress.insert({ file + ".crvs",i.second + 1 });
+				CerVm::m_CodeBaseAddress.insert({ file + ".sc",i.second + 1 });
 			}
 		};
 

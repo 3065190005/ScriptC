@@ -787,7 +787,7 @@ void Cervice::Obj::CerVm::VmInc()
 	resEipString = m_BaseAddress + ";";
 	resEipString += kstring::stringFrom<unsigned long>(nowEip);
 	resEipDatas << resEipString;
-	setBaseAddress(fileName + ".crvs");
+	setBaseAddress(fileName + ".sc");
 	jumperEip = getBaseAddress();
 	m_command_codes_index = jumperEip;
 	advance();

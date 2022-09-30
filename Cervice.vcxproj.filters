@@ -229,59 +229,14 @@
     <None Include="CerLexical\CerLexical.tpp">
       <Filter>CerLexical</Filter>
     </None>
-    <None Include="Resources\sources.crvs">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="Resources\res\io.crvs">
-      <Filter>资源文件\res</Filter>
-    </None>
-    <None Include="Resources\res\system.crvs">
-      <Filter>资源文件\res</Filter>
-    </None>
     <None Include="..\QuickLib\QuickLib\QuickLib\kString\kString.tpp">
       <Filter>QuickLib\kString</Filter>
-    </None>
-    <None Include="Resources\Cervice.md">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="Resources\res\os.crvs">
-      <Filter>资源文件\res</Filter>
-    </None>
-    <None Include="Resources\ioTest.crvs">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="Resources\mathTest.crvs">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="Resources\osTest.crvs">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="Resources\res\math.crvs">
-      <Filter>资源文件\res</Filter>
-    </None>
-    <None Include="Resources\res\string.crvs">
-      <Filter>资源文件\res</Filter>
-    </None>
-    <None Include="Resources\stringTest.crvs">
-      <Filter>资源文件</Filter>
     </None>
     <None Include="AutoElement\LetArrayMotion.tpp">
       <Filter>AutoElement</Filter>
     </None>
     <None Include="AutoElement\LetObject.tpp">
       <Filter>AutoElement</Filter>
-    </None>
-    <None Include="Resources\arrayTest.crvs">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="Resources\res\array.crvs">
-      <Filter>资源文件\res</Filter>
-    </None>
-    <None Include="Resources\res\time.crvs">
-      <Filter>资源文件\res</Filter>
-    </None>
-    <None Include="Resources\res\type.crvs">
-      <Filter>资源文件\res</Filter>
     </None>
     <None Include="Resources\libs\config.cfg">
       <Filter>资源文件\libs</Filter>
@@ -307,21 +262,69 @@
     <None Include="Resources\libs\std_type.dll">
       <Filter>资源文件\libs</Filter>
     </None>
-    <None Include="Resources\timeTest.crvs">
+    <None Include="Resources\arrayTest.sc">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="Resources\typeTest.crvs">
+    <None Include="Resources\Cervice.md">
       <Filter>资源文件</Filter>
+    </None>
+    <None Include="Resources\ioTest.sc">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="Resources\mathTest.sc">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="Resources\osTest.sc">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="Resources\sources.sc">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="Resources\stringTest.sc">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="Resources\timeTest.sc">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="Resources\typeTest.sc">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="Resources\res\array.sc">
+      <Filter>资源文件\res</Filter>
+    </None>
+    <None Include="Resources\res\io.sc">
+      <Filter>资源文件\res</Filter>
+    </None>
+    <None Include="Resources\res\math.sc">
+      <Filter>资源文件\res</Filter>
+    </None>
+    <None Include="Resources\res\os.sc">
+      <Filter>资源文件\res</Filter>
+    </None>
+    <None Include="Resources\res\string.sc">
+      <Filter>资源文件\res</Filter>
+    </None>
+    <None Include="Resources\res\system.sc">
+      <Filter>资源文件\res</Filter>
+    </None>
+    <None Include="Resources\res\time.sc">
+      <Filter>资源文件\res</Filter>
+    </None>
+    <None Include="Resources\res\type.sc">
+      <Filter>资源文件\res</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Resources\abcdef.txt">
+      <Filter>资源文件</Filter>
+    </Text>
     <Text Include="Resources\cfg.txt">
       <Filter>资源文件</Filter>
     </Text>
-    <Text Include="Resources\mission.txt">
+    <Text Include="Resources\log.txt">
       <Filter>资源文件</Filter>
     </Text>
-    <Text Include="Resources\log.txt">
+    <Text Include="Resources\mission.txt">
       <Filter>资源文件</Filter>
     </Text>
   </ItemGroup>

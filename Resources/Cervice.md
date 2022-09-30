@@ -13,7 +13,7 @@
 
 ## 第一个Cervice程序
 
-```crvs
+```sc
 include "io";
 let io = new StdIo;
 io.println("Hello World");
@@ -27,16 +27,16 @@ io.println("Hello World");
 
 ### 脚本式编程
 因为Cervice是预先编译好指定字节码然后再执行所以只有脚本式编程。
-我们可以将Cervice程序保存到以crvs结尾的文件并执行。
+我们可以将Cervice程序保存到以sc结尾的文件并执行。
 
-```crvs
+```sc
 include "io";
 let io = new StdIo;
 io.println("Hello World!");
 io.println("Hello Cervice!");
 ```
 
-将上面代码保存到crvs文件并执行
+将上面代码保存到sc文件并执行
 
 ```console
 Hello World!
@@ -46,7 +46,7 @@ Hello Cerrvice!
 
 ### 注释
 Cervice中只有 单行注释，可以通过使用**两个斜杠**进行单行注释
-```crvs
+```sc
 // this well be not compile
 ```
 
@@ -55,7 +55,7 @@ Cervice中只有 单行注释，可以通过使用**两个斜杠**进行单行�
 标识符用于定义用户自己的变量函数或接口。
 标识符可以由 字母 a 到 z 或 A 到 Z 或下划线 _ 开头 后面加上任意0个或多个字母下划线或数字(0~9)
 下面列出了合法标识符
-```crvs
+```sc
 mohd         zara      aBc     move_name    a_123
 myname50     _temp     Jsbd       a23b9        retVal
 ```
@@ -95,7 +95,7 @@ interface		 在Cervice中interface是一个可以用来声明各种变量和函�
 
 **实例**
 
-```crvs
+```sc
 let result1 = null;					// 未声明空间
 let result2 = undef;				// 声明空间但值不可用或没有值
 let result3 = true;					// 布尔类型true
@@ -112,8 +112,8 @@ let result 7 = new struct;			// 接口类型，其内部具有成员变量number
 
 
 ## 作用域
-```crvs
-// main.crvs
+```sc
+// main.sc
 let value = 0;	// 声明全局变量
 
 function func():
@@ -255,7 +255,7 @@ value = value + 1; // 使用全局变量 value = 2
 
 
 ***实例***
-```crvs
+```sc
 let value = 0;
 
 if (value == 1) :
@@ -291,7 +291,7 @@ end
 
 **实例**
 
-```crvs
+```sc
 let count = 0;
 let index = 0;
 
@@ -317,7 +317,7 @@ end
 
 ### 定义函数
 **函数形式如下**
-```crvs
+```sc
 function func_name( parameter list ):
 	body of the function
 end
@@ -332,7 +332,7 @@ end
 
 
 **实例**
-```crvs
+```sc
 
 // 函数声明
 function add(x,y):
@@ -349,7 +349,7 @@ Cervice允许通过使用关键字interface将不同变量和函数进行包装�
 
 ### 简单的定义和使用
 **接口形式如下**
-```crvs
+```sc
 interface interface_name{
 	interface body
 }
@@ -360,7 +360,7 @@ interface interface_name{
 + 接口内部成员	  接口内部成员只允许存在函数和变量
 
 **实例**
-```crvs
+```sc
 
 // 定义 struct接口
 interface struct{
@@ -379,7 +379,7 @@ value.number = value.add(1,2);		// value.number == 3;
 
 ### 多接口嵌套
 接口内部只能声明变量和函数，但是对于变量的赋值没有限制
-```crvs
+```sc
 interface structA{
 	let number = 1;
 	
@@ -406,7 +406,7 @@ value.number = value.struct.Afunc();	// 调用 structA的Afunc方法 并赋值�
 
 接口可以通过捕获符**<>**来将**函数**或**方法**内的**this**与指定变量进行绑定，且和**this**进行绑定的变量可以为任意变量
 
-```crvs
+```sc
 interface structA{
 	let number = 0;
 	function setNumber(x):
@@ -436,7 +436,7 @@ value2.setNumber(1,2)<value1>;	// value1.number = 3;
 ## 头文件
 
 ### 引用头文件的语法  
-```crvs 
+```sc 
 include file_string;
 ```
 
@@ -446,14 +446,14 @@ include file_string;
 ### 引用头文件的操作  
 头文件在引入时会将要引入的文件代码全部执行一遍  
 如果文件被多次引用，将只会保留第一次引入代码，不执行之后的代码
-```crvs
-include "io";	// 引入io.crvs 头文件标准库
+```sc
+include "io";	// 引入io.sc 头文件标准库
 include "io";	// 无视，不执行
 ```
 
 ### 有条件引用  
 头文件是属于代码的一部分，可以配合条件语句进行选择性引入
-```crvs
+```sc
 let value = 1;
 if(value == 1):
 	include "io";
@@ -468,10 +468,10 @@ end
 
 ### 常用的标准输入输出函数  
 
-**Cervice可以通过引入标准库io.crvs来调用标准输入和标准输出**
+**Cervice可以通过引入标准库io.sc来调用标准输入和标准输出**
 Cervice一般使用print和input来获取标准输入输出，具体的使用如下
 
-```crvs
+```sc
 include "io";
 let io = new StdIo;
 io.print("Hello World");
@@ -480,8 +480,8 @@ io.println(string);
 ```
 
 **实例解析**  
-+ include "io"	引入标准输入输出头文件 io.crvs
-+ let io = new StdIo;	io.crvs内部文件均在StdIo接口中实现
++ include "io"	引入标准输入输出头文件 io.sc
++ let io = new StdIo;	io.sc内部文件均在StdIo接口中实现
 + io.print("Hello World");	调用标准输出并输出字符串 "Hello World"
 + let string = io.input();		从键盘获取标准输入并赋值给string变量
 + io.println(string);		println是print的带换行符版本，print默认不带换行符
@@ -491,14 +491,14 @@ io.println(string);
 
 ## 文件读取
 
-**本章节内容的函数都存在于io.crvs标准库中。**
+**本章节内容的函数都存在于io.sc标准库中。**
 ### 打开文件
 
 可以通过fopen来打开现有或新文件，这个函数会返回一个number类型的文件Id，之后使用返回的Id对该文件进行操作  
-```crvs
+```sc
 function fopen(filename , mode)
 ```
-打开成功返回number类型的非0文件Id，否则返回false，该函数存在于io.crvs
+打开成功返回number类型的非0文件Id，否则返回false，该函数存在于io.sc
 
 **filename**是需要打开的文件名，**mode**表示该文件的访问模式值可以是下列值中的一个  
 
@@ -517,7 +517,7 @@ function fopen(filename , mode)
 
 ### 关闭文件  
 为了关闭文件，需要使用fclose函数。  
-``` crvs 
+``` sc 
 fclose(fileId)
 ```
 
@@ -527,27 +527,27 @@ fclose(fileId)
 
 ### 写入文件
 如果要写入文件，需要使用fwrite函数。
-```crvs 
+```sc 
 fwrite(fileId , Txt , lens)
 ```
 
 + fileId 		通过fopen返回的文件Id
 + Txt	    	要写入的字符内容
 + lens		     要写入的长度
-**lens**可以通过 **io.crvs** 内部的**write_all**变量指定写入剩余所有内容。
+**lens**可以通过 **io.sc** 内部的**write_all**变量指定写入剩余所有内容。
 
 ### 读取文件  
 为了读取文件，需要使用fread函数  
-```crvs
+```sc
 fread(fileId , lens);
 ```
 + fileId	通过fopen返回的文件Id
 + lens		读取的文件长度
 + 
-**lens**可以通过**io.crvs**内部的**read_all**来读取剩余所有内容，或使用**read_line**来读取剩余最近的一行内容。
+**lens**可以通过**io.sc**内部的**read_all**来读取剩余所有内容，或使用**read_line**来读取剩余最近的一行内容。
 
 ### 实例
-```crvs
+```sc
 include "io";
 let io = new StdIo;
 
@@ -560,10 +560,10 @@ io.fclose(fileId);				// 关闭fileId
 
 ## 错误处理
 
-**错误处理函数均在io.crvs标准库中**
+**错误处理函数均在io.sc标准库中**
 ### 设置错误字符串  
 在Cervice中可以通过使用**errset**来设置错误字符串
-```crvs 
+```sc 
 errset(errstring)
 ```
 
@@ -572,13 +572,13 @@ errset(errstring)
 
 ### 获取错误字符串
 如果要获取已设置的错误字符串可以调用**errget**函数
-```crvs 
+```sc 
 errget()
 ```
 如果有错误字符串，将返回字符串并将缓冲区设置为空，否则返回布尔值false
 
 ### 实例  
-```crvs
+```sc
 include "io";
 let io = new StdIo;
 
@@ -591,24 +591,24 @@ let err = errget(); // err = "ErrCode 1";
 **命令行参数是指在运行前通过控制台传给Cervice的命令行参数**  
 
 ### 获取命令行参数
-可以通过调用**os.crvs**标准库中的**argv**函数来获取所有命令行参数  
+可以通过调用**os.sc**标准库中的**argv**函数来获取所有命令行参数  
 以下情况默认传入参数为 ```"1" "2" "3"```
-```crvs
+```sc
 include "os";
 let os = new StdOs;
 
 let args = os.argv();
 ```
 
-+ include "os"			引入标准库**os.crvs**
-+ let os = new StdOs	**os.crvs**标准库所有代码均在**StdOs**接口内
++ include "os"			引入标准库**os.sc**
++ let os = new StdOs	**os.sc**标准库所有代码均在**StdOs**接口内
 + let args = os.argv()		获取所有命令行参数，并返回一个数组类型
 
 更多细节请查看 **StdOs  操作系统** 标准库
 
 # 标准库
 ## StdIo 标准输入/输出
-```crvs
+```sc
 include "io";
 let io = StdIo;
 ```
@@ -659,7 +659,7 @@ fclose(value)			value:number 	->   boolean
 fopen(va1,va2)		va1:string , va2:string	-> 	number|boolean
 
 **内置变量**  
-```crvs
+```sc
 let seek_beg = 0;
 let seek_cur = 1;
 let seek_end = 2;
@@ -671,7 +671,7 @@ let write_all = -1;
 
 
 ## StdOs  操作系统
-```crvs
+```sc
 include "os";
 let os = StdOs;
 ```
@@ -722,7 +722,7 @@ argv()		(void)	-> array
 
 
 ## StdMath 数学库
-```crvs
+```sc
 include "math";
 let math = StdMath;
 ```
@@ -793,7 +793,7 @@ value1:number -> array|null
 
 
 ## StdString 字符串处理库
-```crvs
+```sc
 include "string";
 let s = StdString;
 ```
@@ -902,14 +902,14 @@ str:string ,txt:string ,cnt:number -> array|null
 function rfind_not_N(str,txt,cnt)
 
 **内置变量**  
-```crvs
+```sc
 let str_all = -1;
 ```
 
 
 
 ## StdArray 数组处理库
-```crvs
+```sc
 include "array";
 let array = StdArray;
 ```
@@ -981,7 +981,7 @@ childs(arr)
 
 
 ## StdTime 时间库
-```crvs
+```sc
 include "time";
 let tm = StdTime;
 ```
@@ -1051,7 +1051,7 @@ toDateAsM(millisec);
 
 
 **内置变量**  
-```Crvs
+```sc
 let year = 6;
 let month = 5;
 let day = 4;
@@ -1068,7 +1068,7 @@ let ms = 0;
 
 
 ## StdType 类型库
-```crvs
+```sc
 include "type";
 let tp = StdType;
 ```

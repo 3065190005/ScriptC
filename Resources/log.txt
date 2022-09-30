@@ -284,3 +284,5 @@
 	完成 type 和 time 标准库
 	测试通过(debug -> released -> package)
 	完成md文档 type 和 time 库
+	完成所有基础标准库
+	项目改名为ScriptC

@@ -900,8 +900,8 @@ bool Cervice::Obj::CerInterpreter::visit_IncludeFile(AST* node, autoPtr ret)
 		return true;
 	}
 
-	std::string customPath = ".\\" + file + ".crvs";
-	std::string filePath = G_Res_path + file + ".crvs";
+	std::string customPath = ".\\" + file + ".sc";
+	std::string filePath = G_Res_path + file + ".sc";
 	std::ifstream isExist(filePath);
 	if (!isExist) {
 		isExist.open(customPath);
