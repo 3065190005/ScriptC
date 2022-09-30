@@ -1,0 +1,37 @@
+﻿  E:\VsPro\CerviceScript\STD\CompileDLL\release\config.cfg
+  E:\VsPro\CerviceScript\STD\CompileDLL\release\std_array.dll
+  E:\VsPro\CerviceScript\STD\CompileDLL\release\std_io.dll
+  E:\VsPro\CerviceScript\STD\CompileDLL\release\std_math.dll
+  E:\VsPro\CerviceScript\STD\CompileDLL\release\std_os.dll
+  E:\VsPro\CerviceScript\STD\CompileDLL\release\std_string.dll
+  E:\VsPro\CerviceScript\STD\CompileDLL\release\std_time.dll
+  E:\VsPro\CerviceScript\STD\CompileDLL\release\std_type.dll
+  已复制         8 个文件。
+  已复制         1 个文件。
+  
+  7-Zip 19.00 (x64) : Copyright (c) 1999-2018 Igor Pavlov : 2019-02-21
+  
+  Scanning the drive for archives:
+  1 file, 14665 bytes (15 KiB)
+  
+  Extracting archive: zip.zip
+  --
+  Path = zip.zip
+  Type = zip
+  Physical Size = 14665
+  
+  Everything is Ok
+  
+  Files: 10
+  Size:       85612
+  Compressed: 14665
+  "[+] File Name is "
+  zip
+  请按任意键继续. . . 
+  main.cpp
+  正在生成代码
+  0 of 3441 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  已完成代码的生成
+  Cervice.vcxproj -> E:\VsPro\CerviceScript\Cervice\x64\Release\Cervice.exe

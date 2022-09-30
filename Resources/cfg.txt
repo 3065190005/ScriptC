@@ -1,0 +1,187 @@
+#语言相关细节和规范
+
+## 语言CFG
+
+// 程序入口
+Program : Body EOF
+
+
+// 程序主体
+Body	: InterfaceDeclaration
+		| ExpressionBody
+		| FunDeclaration
+		| FileInclude
+		| (Body | Empty)
+
+
+
+// 文件包含
+FileInclude : KEY_INCLUDE String_const SEMI
+
+// 接口定义
+InterfaceDeclaration	: KEY_INTERFACE InterfaceHeader LBRACE (FunDeclaration | Assignment SEMI)* RBRACE
+
+
+// 接口头
+InterfaceHeader		: VAR_ID (COLON VAR_ID)
+
+
+// 函数定义
+FunDeclaration	: KEY_FUNCTION FunctionHeader COLON ExpressionBody KEY_END 
+				| KEY_FUNCTION KEY_EXPORT FunctionHeader KEY_END
+
+
+// 函数头
+FunctionHeader	: VAR_ID LPARAM (VAR_ID (COMMA VAR_ID)*)* RPARAM
+
+
+// 表达式
+ExpressionBody	: Assignment SEMI
+				| expr	SEMI
+				| ReturnExpr SEMI
+				| ifconditionExpr
+				| whileconditionExpr
+				| forconditionExpr
+				| (ExpressionBody | Empty)
+
+
+// 赋值表达式
+Assignment : KEY_LET Var_Id PlusAssign expr 
+		   | Var_Id (indexExpr)* PlusAssign expr 
+
+
+// if 表达式
+ifconditionExpr : KEY_IF expr COLON ExpressionBody
+					(KEY_ELIF expr COLON ExpressionBody)*
+					(KEY_ELSE COLON ExpressionBody)?
+				  KEY_END
+
+// while 表达式
+whileconditionExpr : KEY_WHILE expr COLON ExpressionBody KEY_END
+
+// for 表达式
+forconditionExpr : KEY_FOR VAR_ID KEY_IN expr COLON ExpressionBody KEY_END
+
+
+// 返回表达式
+ReturnExpr	: KEY_RETURN (expr | empty )
+
+
+// 操作表达式
+expr	: singleKey | logicaloper_b
+
+// 单Key运算符
+singleKey : (InterNew | KEY_BREAK | KEY_CONTINUE)
+
+// 下标
+indexExpr  : (ArrayExpr | InterExpr)+
+
+// 逻辑运算符b
+logicaloper_b : logicaloper_a ((PlusDOR) logicaloper_a)*
+
+// 逻辑运算符a
+logicaloper_a : comparison_b ((PlusAND|PlusXOR|PlusOR|PlusDAND) comparison_b)*
+
+// 比较运算符b
+comparison_b : comparison_a ((PlusEQU|PlusNEQ) comparison_a)*
+
+// 比较运算符a
+comparison_a : shiftoperator ((PlusGTR|PlusGEQ|PlusLSS|PlusLEQ) shiftoperator)*
+
+// 位移操作符
+shiftoperator : dualoperation ((LeftO|RightO) dualoperation)*
+
+// 二元表达式
+dualoperation : term ((ADD|SUB|MOD) term)*
+
+// 乘除
+term	: factor ((MUL|DIV) factor)*
+
+
+// 表达式操作元素
+factor	: Integer_const
+		| String_const
+		| LPARAM logicaloper_b RPARAM
+		| PlusAdd  factor
+		| PlusSub  factor
+		| PlusNot  factor
+		| PlusMat  factor
+		| VAR_ID
+		| Key_True
+		| Key_False
+		| Key_Null
+		| Key_Undef
+		| Function_Id
+		| ArrayExpr
+		(indexExpr)?
+
+// 整形元素
+Integer_const	: int 
+				| float
+
+
+// 函数元素
+Function_Id : VAR_ID LPARAM (expr (COMMA expr)*)* RPARAM (PlusLSS VAR_ID PlusGTR)
+
+
+// 数组元素
+ArrayExpr : LBRACKET (expr (COMMA expr)*)* RBRACKET
+
+// 接口下标
+InterExpr : DOT (VAR_ID | Function_Id);
+
+InterNew : KEY_NEW VAR_ID
+
+// 空
+Empty : null
+
+## 运算符优先级
+
+### Lv1 功能运算符
+[]  数组				√
+()  圆括号			√
+.	对象选择			√
+
+### Lv2 单目运算符
+-	负号				√
++	正号				√
+!	非逻辑			√
+~	按位取反			√
+
+### Lv3 双目运算符
+*	乘运算符			√
+/	除运算符			√
+%	取模运算			√
+
+### Lv4	双目运算符2
++	加法				√
+-	减法				√
+
+### Lv5 双目运算符3
+<<	左移				√
+>>	右移				√
+
+### Lv6 逻辑运算符
+>	大于				√		GTR
+>=	大于等于			√		GEQ
+<	小于				√		LSS
+<=	小于等于			√		LEQ
+
+### Lv7 逻辑运算符
+==	恒等				√		EQU
+!=  不等				√		NEQ
+
+### Lv8 逻辑运算符2
+&	按位与			√		and
+^	按位异或			√		xor
+|	按位或			√		or
+&&	逻辑与			√		dand
+
+### Lv9 逻辑运算符2
+||	逻辑或			√	   dor
+
+### Lv10 赋值运算符
+=	赋值				√
+
+
+

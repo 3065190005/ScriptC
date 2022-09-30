@@ -1,0 +1,15 @@
+﻿  main.cpp
+E:\VsPro\CerviceScript\Cervice\AutoElement\Object.h(141,4): warning C4244: “=”: 从“__int64”转换到“double”，可能丢失数据
+E:\VsPro\CerviceScript\Cervice\AutoElement\Object.h(141,4): warning C4244: “参数”: 从“double”转换到“__int64”，可能丢失数据
+E:\VsPro\CerviceScript\Cervice\AutoElement\Object.h(197,4): warning C4244: “参数”: 从“__int64”转换到“short”，可能丢失数据
+E:\VsPro\CerviceScript\Cervice\AutoElement\Object.h(197,4): warning C4244: “参数”: 从“double”转换到“short”，可能丢失数据
+E:\VsPro\CerviceScript\Cervice\AutoElement\Object.h(226,4): warning C4244: “参数”: 从“__int64”转换到“int”，可能丢失数据
+E:\VsPro\CerviceScript\Cervice\AutoElement\Object.h(226,4): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+E:\VsPro\CerviceScript\Cervice\AutoElement\Object.h(255,4): warning C4244: “=”: 从“double”转换到“__int64”，可能丢失数据
+E:\VsPro\CerviceScript\Cervice\AutoElement\Object.h(255,4): warning C4244: “参数”: 从“__int64”转换到“double”，可能丢失数据
+  正在生成代码
+  1 of 808 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  已完成代码的生成
+  Cervice.vcxproj -> E:\VsPro\CerviceScript\Cervice\Release\Cervice.exe

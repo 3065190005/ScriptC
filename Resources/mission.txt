@@ -1,0 +1,307 @@
+
+
+[1 ,2.2 ,abs(1+2.3,2) ,result , 0];
+
+push 1
+push 2.2
+call abs
+push result param2
+push 0
+push array param2 unknowindex
+
+val[1]
+
+pop "var:1"
+
+(v) value 表示从变量表获取
+(u) unknow 表示从上一个push获取
+
+- CommandCode(Func , param1 , param2 , param3 , param4)
+
+ - CommandCode(Push , param1 , param2)
+
+ - CommandCode(Push , param1 , param2)
+
+ - CommandCode(Add)
+
+ - CommandCode(Leave , param1)
+
+ - CommandCode(Pass)
+
+ - CommandCode(Leave)
+
+ - CommandCode(Push , param1)
+
+ - CommandCode(Pop , param1 , param2)
+
+ - CommandCode(Push , param1)
+
+ - CommandCode(Push , param1)
+
+ - CommandCode(Add)
+
+ - CommandCode(Push , param1)
+
+ - CommandCode(Call , param1 , param2)
+
+ - CommandCode(Push , param1 , param2 , param3)
+
+ - CommandCode(Pop , param1 , param2)
+
+ - CommandCode(Pass)
+
+ - CommandCode(Pass)
+
+ - CommandCode(Pass)
+
+
+let a[4561] = (1+1)[0];
+
+assignment : (let)? var_id (index)* assignPlus rightValue semi
+    rightValue : expr
+        expr :  (number | var_id | arrayVar | function)? (index*)
+            index : (arrayVar | interface)*
+
+
+[1,2,3][0][] = expr index
+[1,2,3]+[4,5,6] = expr expr
+[1,2,3][0] + [4,5,6][0] = expr index expr index
+[1,2,[3,4]][2][0] = expr index index
+function() + [4,5,6] =  expr expr
+function()[0] + [4,5,6][0] = expr index expr index
+(function() + [4,5,6])[0] = expr index
+
+let:ClassName abc = {};
+
+abc.num;
+
+
+(v) 变量
+(u) 站位
+(i) 右值下标
+(s) 左值下标
+
+
+0:(s)  / 下标：类型
+
+
+内存系统重写
+
+string add
+    格式化
+    括号分辨
+
+
+判断语句添加 
+一元操作符 !
+二元比较操作符 > < == <= >= != 
+二元逻辑操作符 && ||
+
+新关键字 false true null(void)
+新关键字 if elif 末尾沿用end
+新判断字节指令 jmp jnz jne ...
+新判断字节指令 popS , pushS
+
+
+interface TestClass{
+    let num = 0;
+    function func() :
+        ...
+        // maybe left value
+        return ptr<num>;
+        // or right value
+        return result;
+    end
+}
+
+
+修改cfg增加Str
+分词string为token
+添加Str节点
+解释Str节点
+转换Str节点为字节码
+
+
+修改 cfg 添加关键字
+true false null undef
+
+-- seman
+
+if a == 1 :
+	b = 1;
+elif a == 2 :
+	b = 2;
+elif a == 3 :
+	b = 3;
+else :
+	b = 0;
+end
+
+-- cfg
+
+KEY_IF expr COLON 
+	ExpressionBody
+(KEY_ELIF expr COLON 
+	ExpressionBody)*
+(KEY_ELSE COLON 
+	ExpressionBody)?
+KEY_END
+
+-- ByteCode
+
+expr
+jmp param1(next pass index)
+    PushS param1(name)
+        ...code
+    PopS
+    jmp param1(end pass index)
+pass
+expr
+jmp param1(next pass index)
+    PushS param1(name)
+            ...code
+    PopS
+    jmp param1(end pass index)
+pass
+expr
+jmp param1(next pass index)
+    PushS param1(name)
+            ...code
+    PopS
+    jmp param1(end pass index)
+pass
+
+新增关键字                                       √
+if elif else                                    √
+新增节点 IfExpr                                  √
+新增 paser ifconditionExpr解析函数               √
+修改 ExpressionBody表达式支持ifconditionExpr解析  √
+语法分析 IfExpr节点                              √
+解释IfExpr节点                      
+新增 操作码 jmp PushS PopS
+Vm对操作码进行运行
+
+
+PushS ~if|~elif|~else
+
+
+// 跳转指令
+jmp param1:相对距离 param2:是否使用条件 param3:从eip绝对跳转
+
+// 退出当前栈
+PopS param3(是否使用递归退出到指定作用域)
+PopS param3:"~while:0" (退出到 ~while作用域并获取第0个绝对值
+
+// 添加新栈并设置
+PushS param1:栈名
+
+// while
+
+while (true) :
+    break;
+end
+
+// while byte code
+
+PushS param1:~while
+Push beg(0):end(1)
+
+pass(beg
+expr
+jmp param2 param3(beg)
+    PushS param1:~loop
+
+    ...codes
+
+    PopS (~loop
+    jmp param3(end)
+pass(end
+
+PopS (~while
+
+
+// break
+PopS param1:~while
+jmp param3(end)
+
+// continue
+
+PopS param1:~while
+jmp param3(beg)
+
+
+// for
+for i in [0,1,2,3]:
+    break;
+end
+
+// cfg
+KEY_FOR VAR_ID KEY_IN expr COLON 
+    ExpressionBody 
+KEY_END
+
+// for change
+if(true):
+    let ~index = 0;
+    let ~arr = [0,1,2,3];
+	let ~arrInd = ~arr:lensVector // byte code imp;
+	while (~arrInd[~index] != null):
+		i = ~arr[~arrInd[~index]];
+
+		// ...code
+	end
+end
+
+// for byteCode
+PushS param1:~while
+
+push 0
+pop ~index;
+
+push expr;
+pop ~arr;
+
+lens ~arr;
+pop ~arrInd
+
+Push beg(0):end(1)
+pass(beg
+
+push ~arrInd[~index]
+push KEY_null;
+neq;
+
+jmp param2 param3(beg)
+PushS param1:~loop
+
+push ~arr[~arrInd[~index]];
+pop i
+
+push ~index;
+push 1;
+Add
+Pop ~index;
+
+...codes
+
+PopS (~loop
+jmp param3(end)
+
+pass(end
+PopS (~while
+
+
+// 导入文件
+include "abc";
+
+KEY_InClude String_const SEMI
+
+// main.cer
+inc abc
+
+// abc.cer
+push esi;filename
+    ...codes
+leave
+
+
