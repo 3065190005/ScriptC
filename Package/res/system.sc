@@ -33,6 +33,7 @@ function export __system__os__bin__(value1) end
 function export __system__os__getenv__(value1) end
 function export __system__os__putenv__(value1,value2) end
 function export __system__os__system__(value1) end
+function export __system__os__sleep__(value1) end
 function export __system__os__argv__() end
 
 // math

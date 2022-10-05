@@ -61,6 +61,11 @@ interface StdOs{
 		return __system__os__system__(code);
 	end
 
+	// sleep code:number
+	function sleep(code):
+		return __system__os__sleep__(code);
+	end
+
 	// argv (void)
 	function argv():
 		return __system__os__argv__();
