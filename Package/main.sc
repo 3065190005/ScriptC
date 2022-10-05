@@ -6,7 +6,8 @@ os.system("cls");
 
 while(true):
 	io.println("Please type student age");
-	let age = io.input();
+	// let age = io.input();
+	let age = "Hello World";
 
 	if(os.number(age) == null):
 		io.println("input is not number please type number only : " + age);
@@ -15,6 +16,7 @@ while(true):
 		return 0;
 	end
 	
-	os.system("pause && cls");
+	os.sleep
+	os.system("cls");
 
 end
