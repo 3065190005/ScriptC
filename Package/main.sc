@@ -16,7 +16,7 @@ while(true):
 		return 0;
 	end
 	
-	os.sleep
+	os.sleep(1);
 	os.system("cls");
 
 end

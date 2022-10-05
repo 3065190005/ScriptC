@@ -716,6 +716,9 @@ putenv(va1,va2)	va1:string , va2:string	-> boolean
 系统命令 : 命令 -> 执行成功返回true 失败返回false
 system(value)	value:string	-> boolean
 
+睡眠 : 时间 -> 执行成功返回睡眠时间，失败返回null
+sleep(value)	value:number  -> number|boolean
+
 获取启动参数 : (void) -> 返回数组
 argv()		(void)	-> array
 
