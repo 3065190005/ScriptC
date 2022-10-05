@@ -911,10 +911,10 @@ LetObject Cervice::Obj::LetObject::operator>(LetObject* node)
 				numberT two = * (doublePtr)othe;
 
 				if (selfST == ObjT::boolean) {
-					one = (numberT) * (longPtr)self;
+					one = (numberT) * (boolPtr)self;
 				}
 				if (otheST == ObjT::boolean) {
-					two = (numberT) * (longPtr)othe;
+					two = (numberT) * (boolPtr)othe;
 				}
 
 				if (one > two) {
@@ -1013,10 +1013,10 @@ LetObject Cervice::Obj::LetObject::operator<(LetObject* node)
 				numberT two = *(doublePtr)othe;
 
 				if (selfST == ObjT::boolean) {
-					one = (numberT) * (longPtr)self;
+					one = (numberT) * (boolPtr)self;
 				}
 				if (otheST == ObjT::boolean) {
-					two = (numberT) * (longPtr)othe;
+					two = (numberT) * (boolPtr)othe;
 				}
 
 				if (one < two) {
@@ -1128,10 +1128,10 @@ LetObject Cervice::Obj::LetObject::operator>=(LetObject* node)
 				numberT two = *(doublePtr)othe;
 
 				if (selfST == ObjT::boolean) {
-					one = (numberT) * (longPtr)self;
+					one = (numberT) * (boolPtr)self;
 				}
 				if (otheST == ObjT::boolean) {
-					two = (numberT) * (longPtr)othe;
+					two = (numberT) * (boolPtr)othe;
 				}
 
 				if (one >= two) {
@@ -1243,10 +1243,10 @@ LetObject Cervice::Obj::LetObject::operator<=(LetObject* node)
 				numberT two = *(doublePtr)othe;
 
 				if (selfST == ObjT::boolean) {
-					one = (numberT) * (longPtr)self;
+					one = (numberT) * (boolPtr)self;
 				}
 				if (otheST == ObjT::boolean) {
-					two = (numberT) * (longPtr)othe;
+					two = (numberT) * (boolPtr)othe;
 				}
 
 				if (one <= two) {
@@ -1357,10 +1357,10 @@ LetObject Cervice::Obj::LetObject::operator!=(LetObject* node)
 				numberT two = *(doublePtr)othe;
 
 				if (selfST == ObjT::boolean) {
-					one = (numberT) * (longPtr)self;
+					one = (numberT) * (boolPtr)self;
 				}
 				if (otheST == ObjT::boolean) {
-					two = (numberT) * (longPtr)othe;
+					two = (numberT) * (boolPtr)othe;
 				}
 
 				if (one != two) {
@@ -1454,10 +1454,10 @@ LetObject Cervice::Obj::LetObject::operator==(LetObject* node)
 				numberT two = *(doublePtr)othe;
 
 				if (selfST == ObjT::boolean) {
-					one = (numberT) * (longPtr)self;
+					one = (numberT) * (boolPtr)self;
 				}
 				if (otheST == ObjT::boolean) {
-					two = (numberT) * (longPtr)othe;
+					two = (numberT) * (boolPtr)othe;
 				}
 
 				if (one == two) {

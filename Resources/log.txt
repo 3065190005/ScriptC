@@ -279,10 +279,14 @@
 	time标准库C层完成，测试通过。
 
 
-2022.9.30
+2022.9.30 (国庆快乐)
 	修复LetObject::getIndexs获取数字下标错误
 	完成 type 和 time 标准库
 	测试通过(debug -> released -> package)
 	完成md文档 type 和 time 库
 	完成所有基础标准库
 	项目改名为ScriptC
+
+
+2022.10.5
+	修复LetObject框架布尔转换数字导致的循环错误问题

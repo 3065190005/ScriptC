@@ -197,25 +197,14 @@ void ProgramerCall() {
 
 void TestCodeCall() {
 	std::string input = R"(
-	include "io";
-	function log(val):
-		let io = new StdIo;
-		io.println(val);
-	end
+include "io";
+include "os";
+let io = new StdIo;
+let os = new StdOs;
 
-	include "type";
-	let tp = new StdType;
-	
-	log(tp.isAlpha("abcAAfg"));
-	log(tp.isAlnum("123456"));
-	log(tp.hasBlank("123 455"));
-	log(tp.isBlank("    "));
-	log(tp.hasCntrl("123\n"));
-	log(tp.isCntrl("\t\n"));
-	log(tp.isLower("abcefg"));
-	log(tp.isUpper("AAFEGSD"));
-
-	return 0;
+while true:
+	io.println("Please type student age");
+end
 )";
 
 	
