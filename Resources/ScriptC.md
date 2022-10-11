@@ -40,7 +40,7 @@ io.println("Hello ScriptC!");
 
 ```console
 Hello World!
-Hello Cerrvice!
+Hello ScriptC!
 ```
 
 
