@@ -1,17 +1,17 @@
-# Cervice
+# ScriptC
 
 ## 基础介绍
 
-脚本语言：Cervice是一门脚本语言，用来嵌入C++或单独存在
-可扩展性：非常通用且简单的扩展机制接口，由C++提供这些功能，Cervice可以使用他们
+脚本语言：ScriptC是一门脚本语言，用来嵌入C++或单独存在
+可扩展性：非常通用且简单的扩展机制接口，由C++提供这些功能，ScriptC可以使用他们
 其他特性：
 	面向过程编程和函数编程
-	弱类型，和js一样，Cervice是一门弱类型语言
-	数组：通过数组，Cervice可以实现哈希表，集合，数组
+	弱类型，和js一样，ScriptC是一门弱类型语言
+	数组：通过数组，ScriptC可以实现哈希表，集合，数组
 	接口：Interface关键字可以很方便的定义各种数据结构
 
 
-## 第一个Cervice程序
+## 第一个ScriptC程序
 
 ```sc
 include "io";
@@ -26,26 +26,26 @@ io.println("Hello World");
 
 
 ### 脚本式编程
-因为Cervice是预先编译好指定字节码然后再执行所以只有脚本式编程。
-我们可以将Cervice程序保存到以sc结尾的文件并执行。
+因为ScriptC是预先编译好指定字节码然后再执行所以只有脚本式编程。
+我们可以将ScriptC程序保存到以sc结尾的文件并执行。
 
 ```sc
 include "io";
 let io = new StdIo;
 io.println("Hello World!");
-io.println("Hello Cervice!");
+io.println("Hello ScriptC!");
 ```
 
 将上面代码保存到sc文件并执行
 
 ```console
 Hello World!
-Hello Cerrvice!
+Hello ScriptC!
 ```
 
 
 ### 注释
-Cervice中只有 单行注释，可以通过使用**两个斜杠**进行单行注释
+ScriptC中只有 单行注释，可以通过使用**两个斜杠**进行单行注释
 ```sc
 // this well be not compile
 ```
@@ -63,7 +63,7 @@ myname50     _temp     Jsbd       a23b9        retVal
 
 ### 关键字
 
-Cervice一共有20个关键字
+ScriptC一共有20个关键字
 
 |  	 	   |       |           |        |         |
 | -------- | ----- | :-------: | ---- | ------- |
@@ -88,9 +88,9 @@ boolean			布尔变量包含两个值 true或false
 number			数字类型 浮点或整形
 string			由一对双引号来表示字符串类型
 array			由中括号包裹起来的数据
-interface		 在Cervice中interface是一个可以用来声明各种变量和函数的集合体
+interface		 在ScriptC中interface是一个可以用来声明各种变量和函数的集合体
 
-*Cervice中**string**是**基本数据类型**，无法通过下标符号**[]**获取单个字符
+*ScriptC中**string**是**基本数据类型**，无法通过下标符号**[]**获取单个字符
 如要获取字符串中某个下标的字符可以使用**at**函数，详细请看**StdString 字符串处理库***
 
 **实例**
@@ -100,7 +100,7 @@ let result1 = null;					// 未声明空间
 let result2 = undef;				// 声明空间但值不可用或没有值
 let result3 = true;					// 布尔类型true
 let result4 = 123456;				// 数字类型 123456
-let result5 = "Hello Cervice"; 		// 字符串类型 "Hello Cervice"
+let result5 = "Hello ScriptC"; 		// 字符串类型 "Hello ScriptC"
 let result6 = [1,"Joy",true];		// 数组类型，其内容为 数字(1),字符串(Joy),布尔(true)
 
 interface struct{
@@ -132,7 +132,7 @@ value = value + 1; // 使用全局变量 value = 2
 ## 运算符
 
 ### 算术运算符
-**下表显示了 Cervice 语言支持的所有算术运算符。假设变量 A 的值为 10，变量 B 的值为 20，则**  
+**下表显示了 ScriptC 语言支持的所有算术运算符。假设变量 A 的值为 10，变量 B 的值为 20，则**  
 
 <table>
 <tbody><tr><th style="width:10%">运算符</th><th style="width:55%;">描述</th><th>实例</th></tr>
@@ -144,7 +144,7 @@ value = value + 1; // 使用全局变量 value = 2
 </tbody></table>
 ### 关系运算符
 
-**下表显示了 Cervice支持的所有关系运算符。假设变量  A  的值为 10，变量 B 的值为 20，则**  
+**下表显示了 ScriptC支持的所有关系运算符。假设变量  A  的值为 10，变量 B 的值为 20，则**  
 
 <table>
 <tbody><tr><th style="width:10%">运算符</th><th style="width:55%;">描述</th><th>实例</th></tr>
@@ -160,7 +160,7 @@ value = value + 1; // 使用全局变量 value = 2
 
 ### 逻辑运算符
 
-**下表显示了Cervice支持的所有关系逻辑运算符。假设变量 A 的值为 1，变量 B 的值为 0，则**  
+**下表显示了ScriptC支持的所有关系逻辑运算符。假设变量 A 的值为 1，变量 B 的值为 0，则**  
 
 <table>
 <tbody><tr><th style="width:10%">运算符</th><th style="width:55%;">描述</th><th>实例</th></tr>
@@ -272,7 +272,7 @@ end
 ## 循环
 
 ### 循环类型
-**Cervice提供了两种循环（条件循环和变量循环）**  
+**ScriptC提供了两种循环（条件循环和变量循环）**  
 <table>
 <tbody><tr><th style="width:30%">循环类型</th><th>描述</th></tr>
 <tr><td><a href="/cprogramming/c-while-loop.html" title="C 中的 while 循环">while...end 循环</a></td><td>当给定条件为真时，重复语句或语句组。它会在执行循环主体之前测试条件。</td></tr>
@@ -323,7 +323,7 @@ function func_name( parameter list ):
 end
 ```
 
-在 Cervice 语言中，函数由一个函数头和一个函数主体组成。下面列出一个函数的所有组成部分：
+在 ScriptC 语言中，函数由一个函数头和一个函数主体组成。下面列出一个函数的所有组成部分：
 + function		 函数声明关键字
 + func_name		 符合命名规则的函数名
 + parameter list	 符合命名规则的参数，不同参数之间使用逗号(,)分割
@@ -345,7 +345,7 @@ let result = add(1,2); // 结果等于3
 ```
 
 ## 接口
-Cervice允许通过使用关键字interface将不同变量和函数进行包装来生成自定义数据类型
+ScriptC允许通过使用关键字interface将不同变量和函数进行包装来生成自定义数据类型
 
 ### 简单的定义和使用
 **接口形式如下**
@@ -468,8 +468,8 @@ end
 
 ### 常用的标准输入输出函数  
 
-**Cervice可以通过引入标准库io.sc来调用标准输入和标准输出**
-Cervice一般使用print和input来获取标准输入输出，具体的使用如下
+**ScriptC可以通过引入标准库io.sc来调用标准输入和标准输出**
+ScriptC一般使用print和input来获取标准输入输出，具体的使用如下
 
 ```sc
 include "io";
@@ -562,7 +562,7 @@ io.fclose(fileId);				// 关闭fileId
 
 **错误处理函数均在io.sc标准库中**
 ### 设置错误字符串  
-在Cervice中可以通过使用**errset**来设置错误字符串
+在ScriptC中可以通过使用**errset**来设置错误字符串
 ```sc 
 errset(errstring)
 ```
@@ -588,7 +588,7 @@ let err = errget(); // err = "ErrCode 1";
 更多细节请查看 **StdIo 标准输入/输出** 标准库
 
 ## 命令行参数
-**命令行参数是指在运行前通过控制台传给Cervice的命令行参数**  
+**命令行参数是指在运行前通过控制台传给ScriptC的命令行参数**  
 
 ### 获取命令行参数
 可以通过调用**os.sc**标准库中的**argv**函数来获取所有命令行参数  
