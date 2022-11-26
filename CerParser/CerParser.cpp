@@ -981,7 +981,7 @@ AST* Cervice::Obj::CerParser::FunctionHeader(bool has_export)
 	takeEat(CerTokType::RPARAM);
 
 	astlog(" - FuncHeader (" << func_name.getCstr() << " " << func_params.size() << ")\n\n");
-	
+	std::reverse(std::begin(func_params), std::end(func_params));
 	FuncHeader* funcH = new FuncHeader(func_name, func_params, has_export);
 	return funcH;
 }

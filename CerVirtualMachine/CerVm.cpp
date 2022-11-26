@@ -351,6 +351,7 @@ void Cervice::Obj::CerVm::VmCall()
 		auto_c ret;
 		auto manager = DllFuncReader::getInstance();
 		funcPtr func = manager->getFuncFromDll(funcName.c_str());
+		std::reverse(std::begin(valueVec), std::end(valueVec));
 		manager->callFunc(func, &valueVec, &ret);
 		dataSf->emplace_back(std::move(ret));
 		return;
