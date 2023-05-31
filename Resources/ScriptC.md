@@ -1107,3 +1107,17 @@ isLower(str);
 检测字符串是否全大写： 是则返回true，否则返回false
 str|string -> boolean;
 isUpper(str);
+
+## StdWindow 窗口库
+```sc
+include "window";
+let win = StdWindow;
+```
+
+隐藏控制台：成功返回true，否则返回false
+void -> boolean;
+hideControl();
+
+显示控制台：成功返回true，否则返回false
+void -> boolean;
+showControl();
