@@ -134,5 +134,5 @@ function export __system__type__isLower__(str) end
 function export __system__type__isUpper__(str) end
 
 // window
-function export__system__fltk_window__hideControl__() end
-function export__system__fltk_window__showControl__() end
+function export __system__fltk_window__hideControl__() end
+function export __system__fltk_window__showControl__() end
