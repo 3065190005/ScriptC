@@ -265,9 +265,6 @@
     <None Include="Resources\arrayTest.sc">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="Resources\Cervice.md">
-      <Filter>资源文件</Filter>
-    </None>
     <None Include="Resources\ioTest.sc">
       <Filter>资源文件</Filter>
     </None>
@@ -317,6 +314,9 @@
       <Filter>资源文件\res</Filter>
     </None>
     <None Include="Resources\windowTest.sc">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="Resources\ScriptC.md">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>

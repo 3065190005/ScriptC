@@ -1,4 +1,4 @@
-	include "os";
+include "os";
 	include "io";
 	include "window";
 
@@ -7,7 +7,6 @@
 	let window = new StdWindow;
 	
 	window.hideControl();
-	// show MsgBox
 	let ret = window.msgBox("Title","txt",1);
 	io.print(ret);
 
@@ -16,6 +15,13 @@
 
 	ret = window.bowserBox();
 	io.print(ret);
+
+	ret = window.htmlBox("title1","<h>123</h>");
+	io.print(ret);
+
+	ret = window.urlBox("title2","www.baidu.com");
+	io.print(ret);
+
 	window.showControl();
 	os.system("pause");
 	return;

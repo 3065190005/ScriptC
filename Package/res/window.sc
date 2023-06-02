@@ -26,4 +26,14 @@ interface StdWindow{
 	function bowserBox():
 		return __system__fltk_window__bowserBox__();
 	end
+
+	// title|str , html|str -> boolean;
+	function htmlBox(title,html):
+		return __system__fltk_window__htmlBox__(title,html);
+	end
+
+	// title|str , url|str -> boolean;
+	function urlBox(title,url):
+		return __system__fltk_window__urlBox__(title,url);
+	end
 }

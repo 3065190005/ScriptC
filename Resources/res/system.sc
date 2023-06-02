@@ -139,3 +139,5 @@ function export __system__fltk_window__showControl__() end
 function export __system__fltk_window__msgBox__(title,txt,type) end
 function export __system__fltk_window__editBox__(title,txt) end
 function export __system__fltk_window__bowserBox__() end
+function export __system__fltk_window__htmlBox__(title,html) end
+function export __system__fltk_window__urlBox__(title,url) end

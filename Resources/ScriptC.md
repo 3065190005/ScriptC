@@ -1121,3 +1121,23 @@ hideControl();
 显示控制台：成功返回true，否则返回false
 void -> boolean;
 showControl();
+
+创建消息框：成功返回按钮id，否则返回false
+title|str, txt|str ,type|number -> number|boolean
+msgBox(title,txt,type)
+
+创建输入框：成功返回输入内容，否则返回false
+title|str, txt|str -> str|boolean
+editBox(title,txt)
+
+创建选择框：成功返回路径，否则返回false
+(void) -> str|boolean
+bowserBox()
+
+创建html窗口：成功返回true，否则返回false
+title|str, html|str -> boolean
+htmlBox(title,html)
+
+创建url窗口：成功返回true，否则返回false
+title|str, url|str -> boolean
+urlBox(title,url)
