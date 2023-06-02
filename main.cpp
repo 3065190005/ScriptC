@@ -83,7 +83,7 @@ int main(int args , char** argv) {
 
 #if defined _DEBUG
 	TestCodeCall();
-#elif defined NDEBUG
+#elif defined NDEBUG && not defined _PACKAGE
 	ProgramerCall();
 #else
 	ScriptRun();
