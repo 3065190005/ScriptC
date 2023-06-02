@@ -68,12 +68,18 @@ int main(int args , char** argv) {
 		return 0;
 	}
 
+	HWND hwnd = GetForegroundWindow();
+	if (hwnd) {
+		ShowWindow(hwnd, SW_SHOW);
+	}
+	
 	args -= 2;
 	argv += 2;
 
 	DllFuncReader* manager = DllFuncReader::getInstance();
 	auto func = manager->getFuncFromDll("__system___setArgv__");
 	manager->callFunc(func, (std::vector<auto_c>*)argv, (auto_c*)&args);
+
 
 #if defined _DEBUG
 	TestCodeCall();
@@ -197,12 +203,21 @@ void ProgramerCall() {
 void TestCodeCall() {
 	std::string input = R"(
 	include "os";
+	include "io";
 	include "window";
+
 	let os = new StdOs;
+	let io = new StdIo;
 	let window = new StdWindow;
-	window.hideControl();
-	os.sleep(5000);
-	window.showControl();
+	
+	let ret = window.msgBox("Title","txt",1);
+	io.print(ret);
+
+	ret = window.editBox("Title","txt");
+	io.print(ret);
+
+	ret = window.bowserBox();
+	io.print(ret);
 	return;
 )";
 

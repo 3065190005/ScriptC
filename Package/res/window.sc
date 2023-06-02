@@ -10,4 +10,20 @@ interface StdWindow{
 	function showControl():
 		return __system__fltk_window__showControl__();
 	end
+
+	// title|str , txt|str, type|number -> boolean|number;
+	function msgBox(title,txt,type):
+		return __system__fltk_window__msgBox__(title,txt,type);
+	end
+
+	// title|str , txt|str -> boolean|str;
+	function editBox(title,txt):
+		return __system__fltk_window__editBox__(title,txt);
+	end
+
+
+	// (void) -> boolean|str;
+	function bowserBox():
+		return __system__fltk_window__bowserBox__();
+	end
 }

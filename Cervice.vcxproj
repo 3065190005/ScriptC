@@ -167,7 +167,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;NOMINMAX;_UNICODE;BOOST_DATE_TIME_NO_LIB;BOOST_REGEX_NO_LIB;ELEMENTS_HOST_UI_LIBRARY_WIN32;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>E:\VsPro\CerviceScript\QuickLib\QuickLib\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -188,7 +188,7 @@ update.bat</Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;NOMINMAX;_UNICODE;BOOST_DATE_TIME_NO_LIB;BOOST_REGEX_NO_LIB;ELEMENTS_HOST_UI_LIBRARY_WIN32;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <Optimization>MaxSpeed</Optimization>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -213,7 +213,7 @@ cd .\AutoElement\
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_PACKAGE;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_PACKAGE;_CONSOLE;WIN32;_WINDOWS;NDEBUG;WIN32_LEAN_AND_MEAN;NOMINMAX;_UNICODE;BOOST_DATE_TIME_NO_LIB;BOOST_REGEX_NO_LIB;ELEMENTS_HOST_UI_LIBRARY_WIN32;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <Optimization>MaxSpeed</Optimization>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -322,10 +322,12 @@ copy /Y .\x64\Package\ScriptC.exe .\Package\</Command>
     <None Include="Resources\res\system.sc" />
     <None Include="Resources\res\time.sc" />
     <None Include="Resources\res\type.sc" />
+    <None Include="Resources\res\window.sc" />
     <None Include="Resources\sources.sc" />
     <None Include="Resources\stringTest.sc" />
     <None Include="Resources\timeTest.sc" />
     <None Include="Resources\typeTest.sc" />
+    <None Include="Resources\windowTest.sc" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\abcdef.txt" />

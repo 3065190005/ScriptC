@@ -1,21 +1,21 @@
-include "io";
-include "os";
-let io = new StdIo;
-let os = new StdOs;
-os.system("cls");
+	include "os";
+	include "io";
+	include "window";
 
-while(true):
-	io.println("Please type student age");
-	let age = io.input();
-
-	if(os.number(age) == null):
-		io.println("input is not number please type number only : " + age);
-	else:
-		io.println("real age is : " + os.number(age) + " , fake age is : " +(os.number(age)+1));
-		return 0;
-	end
+	let os = new StdOs;
+	let io = new StdIo;
+	let window = new StdWindow;
 	
-	os.sleep(1);
-	os.system("cls");
+	window.hideControl();
+	// show MsgBox
+	let ret = window.msgBox("Title","txt",1);
+	io.print(ret);
 
-end
+	ret = window.editBox("Title","txt");
+	io.print(ret);
+
+	ret = window.bowserBox();
+	io.print(ret);
+	window.showControl();
+	os.system("pause");
+	return;

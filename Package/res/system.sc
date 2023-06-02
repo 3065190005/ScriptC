@@ -136,3 +136,6 @@ function export __system__type__isUpper__(str) end
 // window
 function export __system__fltk_window__hideControl__() end
 function export __system__fltk_window__showControl__() end
+function export __system__fltk_window__msgBox__(title,txt,type) end
+function export __system__fltk_window__editBox__(title,txt) end
+function export __system__fltk_window__bowserBox__() end

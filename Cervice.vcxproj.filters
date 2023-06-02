@@ -313,6 +313,12 @@
     <None Include="Resources\res\type.sc">
       <Filter>资源文件\res</Filter>
     </None>
+    <None Include="Resources\res\window.sc">
+      <Filter>资源文件\res</Filter>
+    </None>
+    <None Include="Resources\windowTest.sc">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\abcdef.txt">
