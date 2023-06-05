@@ -302,6 +302,7 @@ copy /Y .\x64\Package\ScriptC.exe .\Package\</Command>
     <None Include="AutoElement\LetObject.tpp" />
     <None Include="CerLexical\CerLexical.tpp" />
     <None Include="Resources\arrayTest.sc" />
+    <None Include="Resources\index.sc" />
     <None Include="Resources\ioTest.sc" />
     <None Include="Resources\libs\config.cfg" />
     <None Include="Resources\libs\std_array.dll" />

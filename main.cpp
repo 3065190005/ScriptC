@@ -219,16 +219,35 @@ void ProgramerCall() {
 void TestCodeCall() {
 	std::string input = R"(
 	// ---package
-	include "index";
 	include "os";
-	let io = new StdIo;
+	include "io";
+	include "window";
+	include "index";
+
 	let os = new StdOs;
-	io.print(html);
+	let io = new StdIo;
+	let win = new StdWindow;
+
+	let rect = [20,15,640,480];
+	let style = 0; 
+	
+	let ret = win.getWebBoxSize();
+	ret = win.setWebBoxSize(rect[0],rect[1],rect[2],rect[3]);
+	io.println(ret);
+
+	ret = win.getWebBoxStyle();
+	io.println(ret);
+	ret = win.setWebBoxStyle(style);
+	io.println(ret);
+
+	ret = win.htmlBox(title,html);
+	io.println(ret);
+
 	os.system("pause");
+	return;
 	// ---
 )";
 
-	
 	std::cout << "Test Code : " << std::endl;
 	AST* astTree = nullptr;
 	auto ta = true;

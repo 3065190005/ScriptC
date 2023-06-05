@@ -319,6 +319,9 @@
     <None Include="Resources\ScriptC.md">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="Resources\index.sc">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\abcdef.txt">

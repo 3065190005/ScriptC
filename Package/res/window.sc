@@ -36,4 +36,25 @@ interface StdWindow{
 	function urlBox(title,url):
 		return __system__fltk_window__urlBox__(title,url);
 	end
+
+	//----------
+	// (void) -> array;
+	function getWebBoxSize():
+		return __system__fltk_window__getWebBoxSize__();
+	end
+
+	// x|number, y|number, width|number, height|number -> boolean;
+	function setWebBoxSize(x,y,width,height):
+		return __system__fltk_window__setWebBoxSize__(x,y,width,height);
+	end
+
+	// (void) -> number;
+	function getWebBoxStyle():
+		return __system__fltk_window__getWebBoxStyle__();
+	end
+
+	// style|number -> boolean;
+	function setWebBoxStyle(style):
+		return __system__fltk_window__setWebBoxStyle__(style);
+	end
 }

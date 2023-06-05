@@ -1146,3 +1146,19 @@ htmlBox(title,html)
 创建url窗口：成功返回true，否则返回false
 title|str, url|str -> boolean
 urlBox(title,url)
+
+setWebStyle   设置窗口样式	: 成功返回true，否则返回false
+style|number -> boolean
+setWebBoxStyle(style)
+
+getWebStyle   获取窗口样式	: 成功返回number，否则返回false
+(void) -> number|boolean
+getWebBoxStyle()
+
+setWebBoxSize   设置窗口位置大小	: 成功返回true，否则返回false
+x|number, y|number, w|number, h|number -> boolean
+setWebBoxSize(x,y,w,h)
+
+getWebBoxSize   获取窗口位置大小	: 成功返回array，否则返回false
+(void) -> array|boolean
+getWebBoxSize()

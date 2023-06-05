@@ -17,6 +17,20 @@
 	ret = window.bowserBox();
 	io.print(ret);
 
+	let rect = [20,15,640,480];
+	let style = 0; 
+	
+	ret = window.getWebBoxSize();
+	ret = window.setWebBoxSize(rect[0],rect[1],rect[2],rect[3]);
+	io.println(ret);
+
+	ret = window.getWebBoxStyle();
+	io.println(ret);
+
+	// ret = window.setWebBoxStyle(style);
+	// io.println(ret);
+
+
 	ret = window.htmlBox(title,html);
 	io.print(ret);
 

@@ -141,3 +141,8 @@ function export __system__fltk_window__editBox__(title,txt) end
 function export __system__fltk_window__bowserBox__() end
 function export __system__fltk_window__htmlBox__(title,html) end
 function export __system__fltk_window__urlBox__(title,url) end
+
+function export __system__fltk_window__getWebBoxSize__() end
+function export __system__fltk_window__setWebBoxSize__(x,y,width,height) end
+function export __system__fltk_window__getWebBoxStyle__() end
+function export __system__fltk_window__setWebBoxStyle__(style) end
