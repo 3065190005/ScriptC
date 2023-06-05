@@ -68,6 +68,22 @@ int main(int args , char** argv) {
 		return 0;
 	}
 
+	std::string ret;
+	char* pValue;
+	size_t len;
+	errno_t err = _dupenv_s(&pValue, &len, "ScriptC");
+	if (err == 0 && pValue) {
+#ifdef _PACKAGE
+		G_Res_path = pValue;
+		G_Res_path += "\\res\\";
+#endif
+		free(pValue);
+	}
+	else {
+		std::cout << "Can not find env \"ScriptC\"";
+		return 0;
+	}
+
 	HWND hwnd = GetForegroundWindow();
 	if (hwnd) {
 		ShowWindow(hwnd, SW_SHOW);
@@ -202,34 +218,13 @@ void ProgramerCall() {
 
 void TestCodeCall() {
 	std::string input = R"(
+	// ---package
+	include "index";
 	include "os";
-	include "io";
-	include "window";
-
-	let os = new StdOs;
 	let io = new StdIo;
-	let window = new StdWindow;
-	
-	window.hideControl();
-	let ret = window.msgBox("Title","txt",1);
-	io.print(ret);
-
-	ret = window.editBox("Title","txt");
-	io.print(ret);
-
-	ret = window.bowserBox();
-	io.print(ret);
-
-	ret = window.htmlBox("title1","<h>123</h>");
-	io.print(ret);
-
-	ret = window.urlBox("title2","www.baidu.com");
-	io.print(ret);
-
-	window.showControl();
+	let os = new StdOs;
+	io.print(html);
 	os.system("pause");
-	return;
-	
 	// ---
 )";
 

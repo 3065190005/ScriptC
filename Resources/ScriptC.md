@@ -13,6 +13,11 @@
 
 ## 第一个ScriptC程序
 
+
+### 环境变量
+**将根目录添加到ScriptC系统环境变量中**
+
+### HelloWorld
 ```sc
 include "io";
 let io = new StdIo;

@@ -1,10 +1,32 @@
 #include "DllFuncReader.h"
 namespace Cervice {
-	namespace Obj {
+    namespace Obj {
+
+        std::string getLibsPath() {
+            std::string ret;
+            char* pValue;
+            size_t len;
+            ret = ".\\libs\\";
+            errno_t err = _dupenv_s(&pValue, &len, "ScriptC");
+            if (err == 0 && pValue) {
+#ifdef _PACKAGE
+                ret = pValue;
+                ret += "\\libs\\";
+#endif
+                free(pValue);
+            }
+            else {
+                std::cout << "Can not find env \"ScriptC\"" << std::endl;
+                throw("Can not find env \"ScriptC\"");
+                exit(0);
+            }
+            
+            return ret;
+        }
 
         DllFuncReader* DllFuncReader::m_instance = nullptr;
 		int DllFuncReader::m_hasInit = 0;
-		std::string DllFuncReader::m_Libs = ".\\libs\\";
+        std::string DllFuncReader::m_Libs = getLibsPath();
 		std::unordered_map<std::string, HINSTANCE> DllFuncReader::m_GlobalHandle;
 		std::unordered_map<std::string, HINSTANCE> DllFuncReader::m_FuncTables;
 

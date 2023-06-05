@@ -295,3 +295,9 @@
 2022.11.26
 	在AST 和 vm-call export func 处增加反序reverse
 	修复 脚本传参顺序反序但外部函数正常的问题
+
+
+2023.6.5
+	增加 window窗口库
+	在inter的visit_IncludeFile函数增加判断语句，修复include顺序错误的问题
+	增加ScriptC环境系统变量

@@ -1,6 +1,7 @@
-include "os";
+	include "os";
 	include "io";
 	include "window";
+	include "index";
 
 	let os = new StdOs;
 	let io = new StdIo;
@@ -16,7 +17,7 @@ include "os";
 	ret = window.bowserBox();
 	io.print(ret);
 
-	ret = window.htmlBox("title1","<h>123</h>");
+	ret = window.htmlBox(title,html);
 	io.print(ret);
 
 	ret = window.urlBox("title2","www.baidu.com");

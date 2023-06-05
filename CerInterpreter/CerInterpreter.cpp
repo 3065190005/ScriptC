@@ -900,7 +900,7 @@ bool Cervice::Obj::CerInterpreter::visit_IncludeFile(AST* node, autoPtr ret)
 		return true;
 	}
 
-	std::string customPath = ".\\" + file + ".sc";
+	std::string customPath = file + ".sc";
 	std::string filePath = G_Res_path + file + ".sc";
 	std::ifstream isExist(filePath);
 	if (!isExist) {
@@ -942,7 +942,17 @@ bool Cervice::Obj::CerInterpreter::visit_IncludeFile(AST* node, autoPtr ret)
 	m_table_temp.insert(interpr->m_table_temp.begin(), interpr->m_table_temp.end());
 	
 	m_include_file.insert({ file,std::move(codeVec) });
-	m_include_file_sequence.insert(m_include_file_sequence.begin(),
+
+	auto offset = m_include_file_sequence.begin();
+
+	for (auto inc = m_include_file_sequence.begin(); inc != m_include_file_sequence.end(); inc++)
+	{
+		if ((*inc) == (prefix + file)) {
+			offset = inc;
+		}
+	}
+
+	m_include_file_sequence.insert(offset,
 		interpr->m_include_file_sequence.begin(),
 		interpr->m_include_file_sequence.end()
 	);
