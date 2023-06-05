@@ -228,20 +228,8 @@ void TestCodeCall() {
 	let io = new StdIo;
 	let win = new StdWindow;
 
-	let rect = [20,15,640,480];
-	let style = 0; 
-	
-	let ret = win.getWebBoxSize();
-	ret = win.setWebBoxSize(rect[0],rect[1],rect[2],rect[3]);
-	io.println(ret);
-
-	ret = win.getWebBoxStyle();
-	io.println(ret);
-	ret = win.setWebBoxStyle(style);
-	io.println(ret);
-
+	let ret = win.setWebBoxStyle(win.nromal);
 	ret = win.htmlBox(title,html);
-	io.println(ret);
 
 	os.system("pause");
 	return;

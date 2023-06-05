@@ -1150,6 +1150,8 @@ urlBox(title,url)
 setWebStyle   设置窗口样式	: 成功返回true，否则返回false
 style|number -> boolean
 setWebBoxStyle(style)
+[详细参考winuser窗口样式](https://learn.microsoft.com/zh-cn/windows/win32/winmsg/window-styles)
+
 
 getWebStyle   获取窗口样式	: 成功返回number，否则返回false
 (void) -> number|boolean
@@ -1159,6 +1161,15 @@ setWebBoxSize   设置窗口位置大小	: 成功返回true，否则返回false
 x|number, y|number, w|number, h|number -> boolean
 setWebBoxSize(x,y,w,h)
 
+
 getWebBoxSize   获取窗口位置大小	: 成功返回array，否则返回false
 (void) -> array|boolean
 getWebBoxSize()
+
+```
+	win.none 无任何控件样式
+	win.title 仅标题窗口样式
+	win.menu 标题和关闭按钮样式
+	win.menupro 标题，关闭，最小化，最大化样式
+	win.normal menupro基础上增加窗口大小控制
+```

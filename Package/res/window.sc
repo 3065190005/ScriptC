@@ -57,4 +57,10 @@ interface StdWindow{
 	function setWebBoxStyle(style):
 		return __system__fltk_window__setWebBoxStyle__(style);
 	end
+
+	let none = 0;
+	let title = 12582912;
+	let menu = 13107200;
+	let menupro = 13303808;
+	let normal = 13565952;
 }
