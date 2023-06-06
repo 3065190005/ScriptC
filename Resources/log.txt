@@ -301,3 +301,6 @@
 	增加 window窗口库
 	在inter的visit_IncludeFile函数增加判断语句，修复include顺序错误的问题
 	增加ScriptC环境系统变量
+
+2023.6.6
+	修复cmd模式include路径错误

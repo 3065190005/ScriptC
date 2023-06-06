@@ -56,18 +56,6 @@ int getCmdParam(int args, char** argv);
 struct CerTokClass::DebugInfo G_Global_Debug_Info;
 
 int main(int args , char** argv) {
-	if (args == 1) {
-		DllFuncReader* manager = DllFuncReader::getInstance();
-		auto func = manager->getFuncFromDll("__system___setArgv__");
-		manager->callFunc(func, (std::vector<auto_c>*)argv, (auto_c*)&args);
-
-		return CmdRunType();
-	}
-
-	if (getCmdParam(args, argv) != 0) {
-		return 0;
-	}
-
 	std::string ret;
 	char* pValue;
 	size_t len;
@@ -81,6 +69,19 @@ int main(int args , char** argv) {
 	}
 	else {
 		std::cout << "Can not find env \"ScriptC\"";
+		return 0;
+	}
+
+
+	if (args == 1) {
+		DllFuncReader* manager = DllFuncReader::getInstance();
+		auto func = manager->getFuncFromDll("__system___setArgv__");
+		manager->callFunc(func, (std::vector<auto_c>*)argv, (auto_c*)&args);
+
+		return CmdRunType();
+	}
+
+	if (getCmdParam(args, argv) != 0) {
 		return 0;
 	}
 
@@ -218,7 +219,7 @@ void ProgramerCall() {
 
 void TestCodeCall() {
 	std::string input = R"(
-	// ---package
+	// ----package
 	include "os";
 	include "io";
 	include "window";
@@ -322,7 +323,7 @@ int getCmdParam(int args, char** argv) {
 
 std::string G_TipsSymbol = "->: ";
 std::string G_consoleTxt = 
-R"(ScriptC £¨Last Update : 2022.9.30 | LetObject : v9_1) [console mode]
+R"(ScriptC £¨Last Update : 2023.6.6 | LetObject : v9_1) [console mode]
 If you want to compile and run the code, type Enter twice.
 
 )";
