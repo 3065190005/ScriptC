@@ -72,7 +72,6 @@ int main(int args , char** argv) {
 		return 0;
 	}
 
-
 	if (args == 1) {
 		DllFuncReader* manager = DllFuncReader::getInstance();
 		auto func = manager->getFuncFromDll("__system___setArgv__");
@@ -219,7 +218,7 @@ void ProgramerCall() {
 
 void TestCodeCall() {
 	std::string input = R"(
-	// ----package
+	// -- package
 	include "os";
 	include "io";
 	include "window";
@@ -230,7 +229,8 @@ void TestCodeCall() {
 	let win = new StdWindow;
 
 	let ret = win.setWebBoxStyle(win.nromal);
-	ret = win.htmlBox(title,html);
+	ret = win.htmlView(title,html);
+	ret = win.urlView(title,"https://www.baidu.com");
 
 	os.system("pause");
 	return;

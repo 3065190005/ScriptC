@@ -11,7 +11,8 @@
     <LocalDebuggerWorkingDirectory>.\Resources</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Package|x64'">
-    <LocalDebuggerCommandArguments>main.sc</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>
+    </LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerWorkingDirectory>.\Package</LocalDebuggerWorkingDirectory>
   </PropertyGroup>

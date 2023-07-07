@@ -304,3 +304,6 @@
 
 2023.6.6
 	修复cmd模式include路径错误
+
+2023.7.7
+	window库添加 htmlView 和 urlView,通过webview2创建窗口

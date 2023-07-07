@@ -322,6 +322,10 @@
     <None Include="Resources\index.sc">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="..\STD\CompileDLL\debug\WebView2Loader.dll">
+      <Filter>资源文件\libs</Filter>
+    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\abcdef.txt">

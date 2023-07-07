@@ -1,86 +1,51 @@
-let result = 123;
-let abcdef = 456;
+	include "os";
+	include "io";
+	include "window";
+	include "index";
 
-result = abcdef % result;
+	let os = new StdOs;
+	let io = new StdIo;
+	let window = new StdWindow;
+	
+	window.hideControl();
+	let ret = window.msgBox("Title","txt",1);
+	io.print(ret);
 
-function getNumB():
-	return 2.5;
-end
+	ret = window.editBox("Title","txt");
+	io.print(ret);
 
-include "io";
+	ret = window.bowserBox();
+	io.print(ret);
 
-let io = new StdIo;
+	let rect = [20,15,640,480];
+	let style = 0; 
+	
+	ret = window.getWebBoxSize();
+	ret = window.setWebBoxSize(rect[0],rect[1],rect[2],rect[3]);
+	io.println(ret);
 
-interface Class {
-	let num = 114514.1919810;
-	let str = "Hello double world";
-	function getNum():
-		return 1.63;
-	end
-	function getNumB():
-		return "Hello Class getFuncB()\n";
-	end
+	ret = window.getWebBoxStyle();
+	io.println(ret);
 
-	function PrintNum():
-		io.print(this.num);
-	end
-}
-
-function getNum():
-	return 1; 
-end 
-
-function test() : 
-	return 0;
-end
-
-let str = "Hello World!";
-let assignValue = 123;
-let space = test();
-let array = getNum();
-array[0] = [0,1,1,2,3,0,7];
+	// ret = window.setWebBoxStyle(style);
+	// io.println(ret);
 
 
-let cls = new Class;
-cls.num[0] = !cls.getNum();
+	ret = window.htmlBox(title,html);
+	io.print(ret);
 
-if (str == "Hello World") :
-	cls.num[0] = 1;
-elif (assignValue == 456) :
-	cls.num[0] = 2;
-else:
-	cls.num[0] = 3;
-end
+	ret = window.urlBox("title2","www.baidu.com");
+	io.print(ret);
 
 
-let whileIndex = 0;
-while (whileIndex < 10):
-	cls.num[0] = cls.num[0] * 2;
-	whileIndex = whileIndex + 1;
-	if(whileIndex < 5):
-		continue;
-	elif(whileIndex >= 5):
-		break;
-	end
-end
-
-let forResu = 0;
-whileIndex = [0,1,2,3,4,5,6,7,8,9];
-for i in whileIndex:
-	forResu = forResu + i;
-end
+	ret = window.htmlView(title,html);
+	io.print(ret);
 
 
-let maps = 0;
-maps[0] = "*********\n";
-maps[1] = "****x****\n";
-maps[2] = "*********\n";
+	ret = window.urlView("title2","www.baidu.com");
+	io.print(ret);
 
-io.print(maps);
 
-cls.num = 11111;
-io.print(cls.PrintNum()<cls>);
-
-// ’‚ «◊¢ Õ
-
-return forResu;
+	window.showControl();
+	os.system("pause");
+	return;

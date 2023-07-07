@@ -37,6 +37,15 @@
 	ret = window.urlBox("title2","www.baidu.com");
 	io.print(ret);
 
+
+	ret = window.htmlView(title,html);
+	io.print(ret);
+
+
+	ret = window.urlView("title2","www.baidu.com");
+	io.print(ret);
+
+
 	window.showControl();
 	os.system("pause");
 	return;

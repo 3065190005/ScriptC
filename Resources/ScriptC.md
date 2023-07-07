@@ -1139,13 +1139,21 @@ editBox(title,txt)
 (void) -> str|boolean
 bowserBox()
 
-创建html窗口：成功返回true，否则返回false
+通过IE内核 创建html窗口：成功返回true，否则返回false
 title|str, html|str -> boolean
 htmlBox(title,html)
 
-创建url窗口：成功返回true，否则返回false
+通过IE内核 创建url窗口：成功返回true，否则返回false
 title|str, url|str -> boolean
 urlBox(title,url)
+
+通过Edge内核 创建html窗口：成功返回true，否则返回false
+title|str, html|str -> boolean
+htmlView(title,html)
+
+通过Edge内核 创建url窗口：成功返回true，否则返回false
+title|str, url|str -> boolean
+urlView(title,url)
 
 setWebStyle   设置窗口样式	: 成功返回true，否则返回false
 style|number -> boolean
