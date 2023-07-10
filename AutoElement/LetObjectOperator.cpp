@@ -410,7 +410,7 @@ LetObject LetObject::operator+( LetObject* node)
 		}
 
 		// 字符与数字相加
-		else if (_this->isLess(otheST, ObjT::string) || _this->isLess(selfST, ObjT::string) &&
+		else if ((_this->isLess(otheST, ObjT::string) || _this->isLess(selfST, ObjT::string)) &&
 			(_this->isLess(otheST, ObjT::array) && _this->isLess(selfST, ObjT::array)))
 		{
 			Block* numB = isLess(selfST, ObjT::string) ? _this->m_block : node->m_block;

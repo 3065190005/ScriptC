@@ -219,20 +219,16 @@ void ProgramerCall() {
 void TestCodeCall() {
 	std::string input = R"(
 	// -- packaged
-	include "os";
-	include "io";
 	include "window";
-	include "index";
-
-	let os = new StdOs;
-	let io = new StdIo;
+	include "io";
 	let win = new StdWindow;
+	let io = new StdIo;	
 
-	let ret = win.setWebBoxStyle(win.nromal);
-	ret = win.htmlView(title,html);
-	ret = win.urlView(title,"https://www.baidu.com");
 
-	os.system("pause");
+	let ret = win.getWebBoxSize();
+	io.println(ret);
+	ret = "123";
+	io.println(ret);
 	return;
 	// ---
 )";
@@ -323,7 +319,7 @@ int getCmdParam(int args, char** argv) {
 
 std::string G_TipsSymbol = "->: ";
 std::string G_consoleTxt = 
-R"(ScriptC £¨Last Update : 2023.6.6 | LetObject : v9_1) [console mode]
+R"(ScriptC £¨Last Update : 2023.7.10 | LetObject : v9_2) [console mode]
 If you want to compile and run the code, type Enter twice.
 
 )";

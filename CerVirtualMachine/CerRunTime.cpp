@@ -23,10 +23,11 @@ void Cervice::Obj::CerRunTime::setVarMapValue(std::string name, auto_c element)
 		m_var_map.insert({ name,std::move(element) });
 	}
 	else {
-		if (inter->second.getType() == LetObject::ObjT::array && inter->second.getAttribute() == 0) {
+		// 2023.7.10 ´íÎó´úÂëÐÞ¸´ let a = [1,2,3] ; a = "123" ³ö´í
+		/*if (inter->second.getType() == LetObject::ObjT::array && inter->second.getAttribute() == 0) {
 			inter->second = (inter->second + element);
-		}else
-			inter->second = element;
+		}else*/
+		inter->second = element;
 	}
 
 }
