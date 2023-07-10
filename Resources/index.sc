@@ -17,9 +17,7 @@ let html = "
 
         <script>
             function myFunction() {
-                var accout = document.getElementById(\"ac\").value;
-                var password = document.getElementById(\"pwd\").value;
-                alert(\"Accout: \"+accout +\"\\nPassword: \"+ password);
+                window.close();
             }
         </script>
     </body>

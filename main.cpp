@@ -218,7 +218,7 @@ void ProgramerCall() {
 
 void TestCodeCall() {
 	std::string input = R"(
-	// -- package
+	// -- packaged
 	include "os";
 	include "io";
 	include "window";

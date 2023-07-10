@@ -1,51 +1,86 @@
-	include "os";
-	include "io";
-	include "window";
-	include "index";
+let result = 123;
+let abcdef = 456;
 
-	let os = new StdOs;
-	let io = new StdIo;
-	let window = new StdWindow;
-	
-	window.hideControl();
-	let ret = window.msgBox("Title","txt",1);
-	io.print(ret);
+result = abcdef % result;
 
-	ret = window.editBox("Title","txt");
-	io.print(ret);
+function getNumB():
+	return 2.5;
+end
 
-	ret = window.bowserBox();
-	io.print(ret);
+include "io";
 
-	let rect = [20,15,640,480];
-	let style = 0; 
-	
-	ret = window.getWebBoxSize();
-	ret = window.setWebBoxSize(rect[0],rect[1],rect[2],rect[3]);
-	io.println(ret);
+let io = new StdIo;
 
-	ret = window.getWebBoxStyle();
-	io.println(ret);
+interface Class {
+	let num = 114514.1919810;
+	let str = "Hello double world";
+	function getNum():
+		return 1.63;
+	end
+	function getNumB():
+		return "Hello Class getFuncB()\n";
+	end
 
-	// ret = window.setWebBoxStyle(style);
-	// io.println(ret);
+	function PrintNum():
+		io.print(this.num);
+	end
+}
 
+function getNum():
+	return 1; 
+end 
 
-	ret = window.htmlBox(title,html);
-	io.print(ret);
+function test() : 
+	return 0;
+end
 
-	ret = window.urlBox("title2","www.baidu.com");
-	io.print(ret);
-
-
-	ret = window.htmlView(title,html);
-	io.print(ret);
-
-
-	ret = window.urlView("title2","www.baidu.com");
-	io.print(ret);
+let str = "Hello World!";
+let assignValue = 123;
+let space = test();
+let array = getNum();
+array[0] = [0,1,1,2,3,0,7];
 
 
-	window.showControl();
-	os.system("pause");
-	return;
+let cls = new Class;
+cls.num[0] = !cls.getNum();
+
+if (str == "Hello World") :
+	cls.num[0] = 1;
+elif (assignValue == 456) :
+	cls.num[0] = 2;
+else:
+	cls.num[0] = 3;
+end
+
+
+let whileIndex = 0;
+while (whileIndex < 10):
+	cls.num[0] = cls.num[0] * 2;
+	whileIndex = whileIndex + 1;
+	if(whileIndex < 5):
+		continue;
+	elif(whileIndex >= 5):
+		break;
+	end
+end
+
+let forResu = 0;
+whileIndex = [0,1,2,3,4,5,6,7,8,9];
+for i in whileIndex:
+	forResu = forResu + i;
+end
+
+
+let maps = 0;
+maps[0] = "*********\n";
+maps[1] = "****x****\n";
+maps[2] = "*********\n";
+
+io.print(maps);
+
+cls.num = 11111;
+io.print(cls.PrintNum()<cls>);
+
+// ’‚ «◊¢ Õ
+
+return forResu;
