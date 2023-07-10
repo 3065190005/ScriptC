@@ -307,3 +307,6 @@
 
 2023.7.7
 	window库添加 htmlView 和 urlView,通过webview2创建窗口
+
+2023.7.10
+	htmlView和urlView 增加处理 window.close() js脚本
