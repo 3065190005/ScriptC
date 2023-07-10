@@ -218,17 +218,12 @@ void ProgramerCall() {
 
 void TestCodeCall() {
 	std::string input = R"(
-	// -- packaged
-	include "window";
+	//--- packaged
 	include "io";
-	let win = new StdWindow;
-	let io = new StdIo;	
-
-
-	let ret = win.getWebBoxSize();
-	io.println(ret);
-	ret = "123";
-	io.println(ret);
+	let io = new StdIo;
+	let ret = 123.1;
+	io.print(ret);
+	
 	return;
 	// ---
 )";
