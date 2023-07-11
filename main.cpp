@@ -219,10 +219,10 @@ void ProgramerCall() {
 void TestCodeCall() {
 	std::string input = R"(
 	//--- packaged
-	include "io";
-	let io = new StdIo;
-	let ret = 123.1;
-	io.print(ret);
+	include "window";
+	include "index";
+	let win = new StdWindow;
+	win.htmlView(title,html);
 	
 	return;
 	// ---
