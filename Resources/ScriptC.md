@@ -615,7 +615,7 @@ let args = os.argv();
 ## StdIo 标准输入/输出
 ```sc
 include "io";
-let io = StdIo;
+let io = new StdIo;
 ```
 
 标准输出 : 变量 -> (void)
@@ -678,7 +678,7 @@ let write_all = -1;
 ## StdOs  操作系统
 ```sc
 include "os";
-let os = StdOs;
+let os = new StdOs;
 ```
 
 终止程序 : (void) -> (void)
@@ -732,7 +732,7 @@ argv()		(void)	-> array
 ## StdMath 数学库
 ```sc
 include "math";
-let math = StdMath;
+let math = new StdMath;
 ```
 
 abs		返回绝对值 : 数字 -> 成功返回数字的绝对值，否则返回null
@@ -919,7 +919,7 @@ let str_all = -1;
 ## StdArray 数组处理库
 ```sc
 include "array";
-let array = StdArray;
+let array = new StdArray;
 ```
 
 返回数组总个数              ：数组 -> 成功返回个数，否则返回null
@@ -991,7 +991,7 @@ childs(arr)
 ## StdTime 时间库
 ```sc
 include "time";
-let tm = StdTime;
+let tm = new StdTime;
 ```
 
 获得时间戳（秒 : （void） -> 返回数字时间戳，否则返回null
@@ -1078,7 +1078,7 @@ let ms = 0;
 ## StdType 类型库
 ```sc
 include "type";
-let tp = StdType;
+let tp = new StdType;
 ```
 
 检测字符串是否纯字母: 是则返回true，否则返回false
@@ -1116,7 +1116,7 @@ isUpper(str);
 ## StdWindow 窗口库
 ```sc
 include "window";
-let win = StdWindow;
+let win = new StdWindow;
 ```
 
 隐藏控制台：成功返回true，否则返回false
@@ -1180,4 +1180,89 @@ getWebBoxSize()
 	win.menu 标题和关闭按钮样式
 	win.menupro 标题，关闭，最小化，最大化样式
 	win.normal menupro基础上增加窗口大小控制
+```
+
+
+
+
+## StdThread 线程库
+```sc
+include "thread";
+let thread = new StdThread;
+```
+
+create 创建基于lua代码的线程 i	：成功返回number ，失败返回null
+path|string  ->  number|null
+create(path)
+
+
+set 设置执行时的全局变量	：成功返回number ，失败返回null
+id|number ,  name|string , param|(boolean,number,string)  ->  number|null
+set(id,name,param)
+
+
+get 结束时获取指定全局变量值	：成功返回number ，失败返回null
+id|number ,  name|string   ->  (boolean,number,string) |null
+get(id,name)
+
+
+run 运行线程		：运行成功返回true ，失败返回null
+id|number -> boolean|null
+run(id)
+
+
+state 获取线程状态		：运行成功返回true ，失败返回null
+id|number -> boolean|null
+state(id)
+
+
+wait 等待线程结束		：运行成功返回true ，失败返回null
+id|number -> boolean|null
+wait(id)
+_**执行join获detach后该函数不可用**_
+
+
+stop 挂起线程		：运行成功返回true ，失败返回null
+id|number -> boolean|null
+stop(id)
+_**执行join获detach后该函数不可用**_
+_**挂起线程注意输出等带锁操作造成死锁  不建议使用**_
+
+
+resume 挂起线程		：运行成功返回true ，失败返回null
+id|number -> boolean|null
+resume(id)
+_**执行join获detach后该函数不可用**_
+_**挂起线程注意输出等带锁操作造成死锁  不建议使用**_
+
+
+kill 挂起线程		：运行成功返回true ，失败返回null
+id|number -> boolean|null
+kill(id)
+_**执行join获detach后该函数不可用**_
+_**挂起线程注意输出等带锁操作造成死锁  不建议使用**_
+
+
+join 连接线程		：运行成功返回true ，失败返回null
+id|number -> boolean|null
+join(id)
+
+
+detach 分离线程		：运行成功返回true ，失败返回null
+id|number -> boolean|null
+detach(id)
+
+
+clear 释放执行完毕的线程子资源		：运行成功返回true ，失败返回null
+id|number -> boolean|null
+clear(id)
+
+
+```
+	// 线程状态
+	thread.s_unknow 未初始化
+	thread.s_start  开始运行
+	thread.s_runing 正在运行
+	thread.s_wait  线程已挂起
+	thread.s_stop  线程已结束
 ```

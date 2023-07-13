@@ -313,3 +313,9 @@
 	修复 赋值后的数组 再赋值字符串 出错的问题
 	相关代码位置：void Cervice::Obj::CerRunTime::setVarMapValue(std::string name, auto_c element)
 	更新 print 函数 不现实多余浮点数 123.0100 -> 123.01
+
+
+2023.7.13 
+	加入基于lua代码的线程库
+	基本测试成功
+	stop resume kill 会造成printf等内核枷锁代码死锁问题，建议少用

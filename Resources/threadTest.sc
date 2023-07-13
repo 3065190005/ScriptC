@@ -34,6 +34,7 @@ include "thread";
 		thread.join(id);
 	elif (type == 4):
 		thread.kill(id);
+		thread.join(id);
 		io.println("kill thread");
 	end
 

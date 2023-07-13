@@ -326,6 +326,15 @@
       <Filter>资源文件\libs</Filter>
     </None>
     <None Include="packages.config" />
+    <None Include="Resources\lua_file.lua">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="Resources\res\thread.sc">
+      <Filter>资源文件\res</Filter>
+    </None>
+    <None Include="Resources\threadTest.sc">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\abcdef.txt">
@@ -340,5 +349,8 @@
     <Text Include="Resources\mission.txt">
       <Filter>资源文件</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
   </ItemGroup>
 </Project>

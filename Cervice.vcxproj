@@ -314,6 +314,7 @@ copy /Y .\x64\Package\ScriptC.exe .\Package\</Command>
     <None Include="Resources\libs\std_string.dll" />
     <None Include="Resources\libs\std_time.dll" />
     <None Include="Resources\libs\std_type.dll" />
+    <None Include="Resources\lua_file.lua" />
     <None Include="Resources\mathTest.sc" />
     <None Include="Resources\osTest.sc" />
     <None Include="Resources\res\array.sc" />
@@ -322,12 +323,14 @@ copy /Y .\x64\Package\ScriptC.exe .\Package\</Command>
     <None Include="Resources\res\os.sc" />
     <None Include="Resources\res\string.sc" />
     <None Include="Resources\res\system.sc" />
+    <None Include="Resources\res\thread.sc" />
     <None Include="Resources\res\time.sc" />
     <None Include="Resources\res\type.sc" />
     <None Include="Resources\res\window.sc" />
     <None Include="Resources\ScriptC.md" />
     <None Include="Resources\sources.sc" />
     <None Include="Resources\stringTest.sc" />
+    <None Include="Resources\threadTest.sc" />
     <None Include="Resources\timeTest.sc" />
     <None Include="Resources\typeTest.sc" />
     <None Include="Resources\windowTest.sc" />
