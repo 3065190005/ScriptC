@@ -295,6 +295,7 @@ copy /Y .\x64\Package\ScriptC.exe .\Package\</Command>
     <ClInclude Include="DllReader\DllFuncReader.h" />
     <ClInclude Include="ErrorHandling\ErrorHandling.h" />
     <ClInclude Include="Global\globalDefine.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\QuickLib\QuickLib\QuickLib\kString\kString.tpp" />
@@ -340,6 +341,12 @@ copy /Y .\x64\Package\ScriptC.exe .\Package\</Command>
     <Text Include="Resources\cfg.txt" />
     <Text Include="Resources\log.txt" />
     <Text Include="Resources\mission.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ScriptC.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\ScriptC.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
