@@ -19,14 +19,8 @@
 
 using namespace Cervice::Obj;
 
-// 静态动态内存大小
-size_t G_memerySetNumber = 0;
-
 // 主源文件代码
 std::string G_SourcesFile;
-
-// 命令行是否已使用内存设置
-bool G_memerySetParam = false;
 
 // 主源文件名
 std::string G_mainFile;
@@ -224,14 +218,11 @@ void TestCodeCall() {
 	let os = new StdOs;
 	let win = new StdWindow;
 
-	let full_style = null;
-	full_style = os.hex("0x01000000");	
-
-	win.setWebBoxStyle(full_style);
 	win.htmlView("title","https://www.baidu.com/");
 	return;
 	// ---
 )";
+
 
 	std::cout << "Test Code : " << std::endl;
 	AST* astTree = nullptr;
