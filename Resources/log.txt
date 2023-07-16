@@ -319,3 +319,7 @@
 	加入基于lua代码的线程库
 	基本测试成功
 	stop resume kill 会造成printf等内核枷锁代码死锁问题，建议少用
+
+
+2023.7.16
+	urlView htmlView 的showWindow函数默认从 SW_SHOWDEFAULT 改为 SW_SHOW

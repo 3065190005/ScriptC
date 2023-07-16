@@ -219,48 +219,16 @@ void ProgramerCall() {
 void TestCodeCall() {
 	std::string input = R"(
 	//---- packaged
-	include "thread";
-	include "io";
-	
-	let io = new StdIo;
-	let thread = new StdThread;
+	include "window";
+	include "os";
+	let os = new StdOs;
+	let win = new StdWindow;
 
-	let id = thread.create("lua_file.lua");
+	let full_style = null;
+	full_style = os.hex("0x01000000");	
 
-	thread.set(id,"C_number",111);
-	thread.set(id,"C_string","aaa");
-	thread.set(id,"C_boolean",true);
-	thread.run(id);
-
-	let type = 4;
-
-	if (type == 1):
-		thread.join(id);
-		let result = thread.get(id,"result_number");
-		io.print(result);
-	elif (type == 2):
-		thread.wait(id);
-		let state = thread.state(id);
-		io.print(thread.detach(id));
-		io.print(state);
-	elif (type == 3):
-		thread.stop(id);
-		let whileIndex = [0,1,2,3,4,5,6,7,8,9];
-		let forResu = 0;
-		for i in whileIndex:
-			forResu = forResu + i;
-		end
-		thread.resume(id);
-		io.println(forResu);
-		thread.join(id);
-	elif (type == 4):
-		thread.kill(id);
-		thread.join(id);
-		io.println("kill thread");
-	end
-
-	thread.clear(id);
-	
+	win.setWebBoxStyle(full_style);
+	win.htmlView("title","https://www.baidu.com/");
 	return;
 	// ---
 )";
@@ -351,7 +319,7 @@ int getCmdParam(int args, char** argv) {
 
 std::string G_TipsSymbol = "->: ";
 std::string G_consoleTxt = 
-R"(ScriptC £¨Last Update : 2023.7.10 | LetObject : v9_2) [console mode]
+R"(ScriptC £¨Last Update : 2023.7.16 | LetObject : v9_2) [console mode]
 If you want to compile and run the code, type Enter twice.
 
 )";
