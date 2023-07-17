@@ -1,4 +1,4 @@
-include "io";
+require "io";
 
 let io = new StdIo;
 

@@ -292,7 +292,7 @@ PopS (~while
 
 
 // 导入文件
-include "abc";
+require "abc";
 
 KEY_InClude String_const SEMI
 

@@ -19,7 +19,7 @@
 
 ### HelloWorld
 ```sc
-include "io";
+require "io";
 let io = new StdIo;
 io.println("Hello World");
 ```
@@ -35,7 +35,7 @@ io.println("Hello World");
 我们可以将ScriptC程序保存到以sc结尾的文件并执行。
 
 ```sc
-include "io";
+require "io";
 let io = new StdIo;
 io.println("Hello World!");
 io.println("Hello ScriptC!");
@@ -75,7 +75,7 @@ ScriptC一共有20个关键字
 | continue | break |    else   | export | return |
 | elif     | end   |   false   | for  | true    |
 | function | if    |    in     | let  | while   |
-| null     | undef | interface | new  | include |
+| null     | undef | interface | new  | require |
 
 
 ### 特殊变量
@@ -442,18 +442,18 @@ value2.setNumber(1,2)<value1>;	// value1.number = 3;
 
 ### 引用头文件的语法  
 ```sc 
-include file_string;
+require file_string;
 ```
 
-+ include  头文件引入关键字
++ require  头文件引入关键字
 + file_string  要引入的文件名字符串
 
 ### 引用头文件的操作  
 头文件在引入时会将要引入的文件代码全部执行一遍  
 如果文件被多次引用，将只会保留第一次引入代码，不执行之后的代码
 ```sc
-include "io";	// 引入io.sc 头文件标准库
-include "io";	// 无视，不执行
+require "io";	// 引入io.sc 头文件标准库
+require "io";	// 无视，不执行
 ```
 
 ### 有条件引用  
@@ -461,9 +461,9 @@ include "io";	// 无视，不执行
 ```sc
 let value = 1;
 if(value == 1):
-	include "io";
+	require "io";
 else:
-	include "os";
+	require "os";
 end
 ```
 
@@ -477,7 +477,7 @@ end
 ScriptC一般使用print和input来获取标准输入输出，具体的使用如下
 
 ```sc
-include "io";
+require "io";
 let io = new StdIo;
 io.print("Hello World");
 let string = io.input();
@@ -485,7 +485,7 @@ io.println(string);
 ```
 
 **实例解析**  
-+ include "io"	引入标准输入输出头文件 io.sc
++ require "io"	引入标准输入输出头文件 io.sc
 + let io = new StdIo;	io.sc内部文件均在StdIo接口中实现
 + io.print("Hello World");	调用标准输出并输出字符串 "Hello World"
 + let string = io.input();		从键盘获取标准输入并赋值给string变量
@@ -553,7 +553,7 @@ fread(fileId , lens);
 
 ### 实例
 ```sc
-include "io";
+require "io";
 let io = new StdIo;
 
 let fileId = io.fopen("student.txt","wb+");	// 使用wb+模式打开 student.txt文件
@@ -584,7 +584,7 @@ errget()
 
 ### 实例  
 ```sc
-include "io";
+require "io";
 let io = new StdIo;
 
 io.errset("ErrCode 1");
@@ -599,13 +599,13 @@ let err = errget(); // err = "ErrCode 1";
 可以通过调用**os.sc**标准库中的**argv**函数来获取所有命令行参数  
 以下情况默认传入参数为 ```"1" "2" "3"```
 ```sc
-include "os";
+require "os";
 let os = new StdOs;
 
 let args = os.argv();
 ```
 
-+ include "os"			引入标准库**os.sc**
++ require "os"			引入标准库**os.sc**
 + let os = new StdOs	**os.sc**标准库所有代码均在**StdOs**接口内
 + let args = os.argv()		获取所有命令行参数，并返回一个数组类型
 
@@ -614,7 +614,7 @@ let args = os.argv();
 # 标准库
 ## StdIo 标准输入/输出
 ```sc
-include "io";
+require "io";
 let io = new StdIo;
 ```
 
@@ -677,7 +677,7 @@ let write_all = -1;
 
 ## StdOs  操作系统
 ```sc
-include "os";
+require "os";
 let os = new StdOs;
 ```
 
@@ -731,7 +731,7 @@ argv()		(void)	-> array
 
 ## StdMath 数学库
 ```sc
-include "math";
+require "math";
 let math = new StdMath;
 ```
 
@@ -802,7 +802,7 @@ value1:number -> array|null
 
 ## StdString 字符串处理库
 ```sc
-include "string";
+require "string";
 let s = StdString;
 ```
 
@@ -918,7 +918,7 @@ let str_all = -1;
 
 ## StdArray 数组处理库
 ```sc
-include "array";
+require "array";
 let array = new StdArray;
 ```
 
@@ -990,7 +990,7 @@ childs(arr)
 
 ## StdTime 时间库
 ```sc
-include "time";
+require "time";
 let tm = new StdTime;
 ```
 
@@ -1077,7 +1077,7 @@ let ms = 0;
 
 ## StdType 类型库
 ```sc
-include "type";
+require "type";
 let tp = new StdType;
 ```
 
@@ -1115,7 +1115,7 @@ isUpper(str);
 
 ## StdWindow 窗口库
 ```sc
-include "window";
+require "window";
 let win = new StdWindow;
 ```
 
@@ -1187,7 +1187,7 @@ getWebBoxSize()
 
 ## StdThread 线程库
 ```sc
-include "thread";
+require "thread";
 let thread = new StdThread;
 ```
 

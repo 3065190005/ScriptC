@@ -324,3 +324,9 @@
 2023.7.16
 	urlView htmlView 的showWindow函数默认从 SW_SHOWDEFAULT 改为 SW_SHOW
 	添加应用图标，将window的标题图标设置为应用图标
+
+
+2023.7.17
+	更改include 关键字为 require
+	修改标准库所有include字段为 require
+	修改md文件 将 include字段改为 require

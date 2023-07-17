@@ -213,8 +213,8 @@ void ProgramerCall() {
 void TestCodeCall() {
 	std::string input = R"(
 	//---- packaged
-	include "window";
-	include "os";
+	require "window";
+	require "os";
 	let os = new StdOs;
 	let win = new StdWindow;
 
@@ -310,7 +310,7 @@ int getCmdParam(int args, char** argv) {
 
 std::string G_TipsSymbol = "->: ";
 std::string G_consoleTxt = 
-R"(ScriptC £¨Last Update : 2023.7.16 | LetObject : v9_2) [console mode]
+R"(ScriptC £¨Last Update : 2023.7.17 | LetObject : v9_2) [console mode]
 If you want to compile and run the code, type Enter twice.
 
 )";

@@ -1,4 +1,4 @@
-include "system";
+require "system";
 
 interface StdIo{
 

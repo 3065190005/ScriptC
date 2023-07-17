@@ -1,7 +1,7 @@
-	include "os";
-	include "io";
-	include "window";
-	include "index";
+	require "os";
+	require "io";
+	require "window";
+	require "index";
 
 	let os = new StdOs;
 	let io = new StdIo;

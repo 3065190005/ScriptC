@@ -1,7 +1,7 @@
-include "math";
+require "math";
 let math = new StdMath;
 
-include "io";
+require "io";
 let io = new StdIo;
 
 let value = -1143.777;

@@ -1,5 +1,5 @@
-include "thread";
-	include "io";
+require "thread";
+	require "io";
 	
 	let io = new StdIo;
 	let thread = new StdThread;
@@ -11,7 +11,7 @@ include "thread";
 	thread.set(id,"C_boolean",true);
 	thread.run(id);
 
-	let type = 4;
+	let type = 2;
 
 	if (type == 1):
 		thread.join(id);

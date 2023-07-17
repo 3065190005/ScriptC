@@ -214,7 +214,7 @@ CerTokType Cervice::Obj::CerLexical<T>::isKeyWord(std::string str)
 		ret = CerTokType::Key_In;
 	else if (str == "export")
 		ret = CerTokType::Key_Export;
-	else if (str == "include")
+	else if (str == "require")
 		ret = CerTokType::Key_InClude;
 
 	return ret;

@@ -1,5 +1,5 @@
-include "io";
-	include "os";
+require "io";
+	require "os";
 	let os = new StdOs;
 	let io = new StdIo;
 

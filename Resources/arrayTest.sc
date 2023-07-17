@@ -1,7 +1,7 @@
-include "io";
+require "io";
 let io = new StdIo;
 
-include "array";
+require "array";
 let array = new StdArray;
 
 let value = 0;
