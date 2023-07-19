@@ -135,6 +135,8 @@ LetObject* LetObject::operator=( LetObject* node)
 		case LetObject::ObjT::undef:
 			break;
 		case LetObject::ObjT::boolean:
+			*(boolPtr)self = *(boolPtr)othe;
+			break;
 		case LetObject::ObjT::number:
 			*(doublePtr)self = *(doublePtr)othe;
 			break;
@@ -311,6 +313,12 @@ LetObject Cervice::Obj::LetObject::operator~()
 		switch (selfS.type)
 		{
 		case LetObject::ObjT::boolean:
+		{
+			long long int result = (long long int)(*(boolPtr)self);
+			result = ~result;
+			(*(doublePtr)ret.m_block->ptr) = (numberT)result;
+		}
+		break;
 		case LetObject::ObjT::number:
 		{
 			long long int result = (long long int)(*(doublePtr)self);
@@ -367,6 +375,12 @@ LetObject LetObject::operator+( LetObject* node)
 			switch (selfS.type)
 			{
 			case LetObject::ObjT::boolean:
+			{
+				ret.create(StaticB);
+				auto result = ret.m_block->ptr;
+				*(doublePtr)result = *(boolPtr)self + *(boolPtr)othe;
+			}
+			break;
 			case LetObject::ObjT::number:
 			{
 				ret.create(StaticB);
@@ -417,8 +431,17 @@ LetObject LetObject::operator+( LetObject* node)
 			Block* strB = isLess(selfST, ObjT::string) ?  node->m_block : _this->m_block;
 			bool whoFirst =  (strB == m_block) ? true : false;
 
+			auto num_type = isLess(selfST, ObjT::string) ? _this->getType() : node->getType();
+
 			std::string numC;
-			numC = std::to_string(*(doublePtr)numB->ptr);
+			numberT number = *(doublePtr)numB->ptr;
+			
+			if (num_type == LetObject::ObjT::boolean)
+			{
+				number = *(boolPtr)numB->ptr;
+			}
+
+			numC = std::to_string(number);
 
 			size_t oneBT, twoBT;
 
@@ -508,6 +531,12 @@ LetObject LetObject::operator-( LetObject* node)
 			switch (selfS.type)
 			{
 			case LetObject::ObjT::boolean:
+			{
+				ret.create(StaticB);
+				auto result = ret.m_block->ptr;
+				*(doublePtr)result = *(boolPtr)self - *(boolPtr)othe;
+			}
+			break;
 			case LetObject::ObjT::number:
 			{
 				ret.create(StaticB);
@@ -571,6 +600,12 @@ LetObject LetObject::operator*( LetObject* node)
 			switch (selfS.type)
 			{
 			case LetObject::ObjT::boolean:
+			{
+				ret.create(StaticB);
+				auto result = ret.m_block->ptr;
+				*(doublePtr)result = *(boolPtr)self * *(boolPtr)othe;
+			}
+			break;
 			case LetObject::ObjT::number:
 			{
 				ret.create(StaticB);
@@ -634,6 +669,13 @@ LetObject LetObject::operator/( LetObject* node)
 			switch (selfS.type)
 			{
 			case LetObject::ObjT::boolean:
+			{
+				ret.create(StaticB);
+				auto result = ret.m_block->ptr;
+				OBJ_IFB_CALL(*(doublePtr)self == 0.0, ret.released());
+				*(doublePtr)result = *(boolPtr)self / *(boolPtr)othe;
+			}
+			break;
 			case LetObject::ObjT::number:
 			{
 				ret.create(StaticB);
@@ -701,6 +743,13 @@ LetObject Cervice::Obj::LetObject::operator%(LetObject* node)
 			switch (selfS.type)
 			{
 			case LetObject::ObjT::boolean:
+			{
+				ret.create(StaticB);
+				auto result = ret.m_block->ptr;
+				OBJ_IFB_CALL(*(doublePtr)self == 0.0, ret.released());
+				*(doublePtr)result = fmodl(*(boolPtr)self, *(boolPtr)othe);
+			}
+			break;
 			case LetObject::ObjT::number:
 			{
 				ret.create(StaticB);
@@ -767,6 +816,15 @@ LetObject Cervice::Obj::LetObject::operator<<(LetObject* node)
 			switch (selfS.type)
 			{
 			case LetObject::ObjT::boolean:
+			{
+				ret.create(StaticB);
+				auto result = ret.m_block->ptr;
+				long long int one = (long long int) * (boolPtr)self;
+				long long int two = (long long int) * (boolPtr)othe;
+				long long int three = one << two;
+				*(doublePtr)result = (numberT)three;
+			}
+			break;
 			case LetObject::ObjT::number:
 			{
 				ret.create(StaticB);
@@ -835,6 +893,15 @@ LetObject Cervice::Obj::LetObject::operator>>(LetObject* node)
 			switch (selfS.type)
 			{
 			case LetObject::ObjT::boolean:
+			{
+				ret.create(StaticB);
+				auto result = ret.m_block->ptr;
+				long long int one = (long long int) * (boolPtr)self;
+				long long int two = (long long int) * (boolPtr)othe;
+				long long int three = one >> two;
+				*(doublePtr)result = (numberT)three;
+			}
+			break;
 			case LetObject::ObjT::number:
 			{
 				ret.create(StaticB);

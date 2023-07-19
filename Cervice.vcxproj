@@ -305,6 +305,8 @@ copy /Y .\x64\Package\ScriptC.exe .\Package\</Command>
     <None Include="CerLexical\CerLexical.tpp" />
     <None Include="packages.config" />
     <None Include="Resources\arrayTest.sc" />
+    <None Include="Resources\client.py" />
+    <None Include="Resources\clientUdp.py" />
     <None Include="Resources\index.sc" />
     <None Include="Resources\ioTest.sc" />
     <None Include="Resources\libs\config.cfg" />
@@ -322,6 +324,7 @@ copy /Y .\x64\Package\ScriptC.exe .\Package\</Command>
     <None Include="Resources\res\io.sc" />
     <None Include="Resources\res\math.sc" />
     <None Include="Resources\res\os.sc" />
+    <None Include="Resources\res\socket.sc" />
     <None Include="Resources\res\string.sc" />
     <None Include="Resources\res\system.sc" />
     <None Include="Resources\res\thread.sc" />
@@ -329,6 +332,8 @@ copy /Y .\x64\Package\ScriptC.exe .\Package\</Command>
     <None Include="Resources\res\type.sc" />
     <None Include="Resources\res\window.sc" />
     <None Include="Resources\ScriptC.md" />
+    <None Include="Resources\server.py" />
+    <None Include="Resources\socketTest.sc" />
     <None Include="Resources\sources.sc" />
     <None Include="Resources\stringTest.sc" />
     <None Include="Resources\threadTest.sc" />

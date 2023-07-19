@@ -330,3 +330,9 @@
 	更改include 关键字为 require
 	修改标准库所有include字段为 require
 	修改md文件 将 include字段改为 require
+
+
+2023.7.19
+	添加Socket库
+	更新AutoMem版本库为v9_3
+	更新htmlBox和urlBox icon为应用程序icon

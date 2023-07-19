@@ -1,42 +1,86 @@
-require "thread";
-	require "io";
-	
-	let io = new StdIo;
-	let thread = new StdThread;
+let result = 123;
+let abcdef = 456;
 
-	let id = thread.create("lua_file.lua");
+result = abcdef % result;
 
-	thread.set(id,"C_number",111);
-	thread.set(id,"C_string","aaa");
-	thread.set(id,"C_boolean",true);
-	thread.run(id);
+function getNumB():
+	return 2.5;
+end
 
-	let type = 2;
+require "io";
 
-	if (type == 1):
-		thread.join(id);
-		let result = thread.get(id,"result_number");
-		io.print(result);
-	elif (type == 2):
-		thread.wait(id);
-		let state = thread.state(id);
-		io.print(thread.detach(id));
-		io.print(state);
-	elif (type == 3):
-		thread.stop(id);
-		let whileIndex = [0,1,2,3,4,5,6,7,8,9];
-		let forResu = 0;
-		for i in whileIndex:
-			forResu = forResu + i;
-		end
-		thread.resume(id);
-		io.println(forResu);
-		thread.join(id);
-	elif (type == 4):
-		thread.kill(id);
-		io.println("kill thread");
+let io = new StdIo;
+
+interface Class {
+	let num = 114514.1919810;
+	let str = "Hello double world";
+	function getNum():
+		return 1.63;
+	end
+	function getNumB():
+		return "Hello Class getFuncB()\n";
 	end
 
-	thread.clear(id);
-	
-	return;
+	function PrintNum():
+		io.print(this.num);
+	end
+}
+
+function getNum():
+	return 1; 
+end 
+
+function test() : 
+	return 0;
+end
+
+let str = "Hello World!";
+let assignValue = 123;
+let space = test();
+let array = getNum();
+array[0] = [0,1,1,2,3,0,7];
+
+
+let cls = new Class;
+cls.num[0] = !cls.getNum();
+
+if (str == "Hello World") :
+	cls.num[0] = 1;
+elif (assignValue == 456) :
+	cls.num[0] = 2;
+else:
+	cls.num[0] = 3;
+end
+
+
+let whileIndex = 0;
+while (whileIndex < 10):
+	cls.num[0] = cls.num[0] * 2;
+	whileIndex = whileIndex + 1;
+	if(whileIndex < 5):
+		continue;
+	elif(whileIndex >= 5):
+		break;
+	end
+end
+
+let forResu = 0;
+whileIndex = [0,1,2,3,4,5,6,7,8,9];
+for i in whileIndex:
+	forResu = forResu + i;
+end
+
+
+let maps = 0;
+maps[0] = "*********\n";
+maps[1] = "****x****\n";
+maps[2] = "*********\n";
+
+io.print(maps);
+
+cls.num = 11111;
+io.print(cls.PrintNum()<cls>);
+
+// ’‚ «◊¢ Õ
+
+return forResu;

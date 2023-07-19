@@ -338,6 +338,21 @@
     <None Include="Resources\threadTest.sc">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="Resources\res\socket.sc">
+      <Filter>资源文件\res</Filter>
+    </None>
+    <None Include="Resources\socketTest.sc">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="Resources\server.py">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="Resources\client.py">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="Resources\clientUdp.py">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\abcdef.txt">

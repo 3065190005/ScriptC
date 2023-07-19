@@ -1266,3 +1266,87 @@ clear(id)
 	thread.s_wait  线程已挂起
 	thread.s_stop  线程已结束
 ```
+
+
+## StdSocket 套接字库
+```sc
+require "socket";
+let socket = new StdSocket;
+```
+
+
+
+create		 创建socket		：成功返回socket id，否则返回错误码id
+family|number, type|number -> boolean|number
+create(family, type) end
+
+
+bind		 绑定socket		：成功返回true ，否则返回错误码id
+socket|number, ip|string, port|number -> boolean|number
+bind(socket, ip, port) end
+
+
+listen		 监听socket		：成功返回true ，否则返回错误码id
+socket|number, count|number -> boolean|number
+listen(socket, count) end
+
+
+accept		 接受socket		：成功返回array数组包含ip sock以及port  ，否则返回错误码id
+socket|number -> array|number
+accept(socket) end
+
+
+connect		 连接socket		：成功返回true ，否则返回错误码id
+socket|number ,ip|string, port|number -> boolean|number
+connect(socket, ip, port) end
+
+
+send		 发送字段Tcp		：成功返回发送长度 ，否则返回错误码id
+socket|number, buf|string, lens|number -> number
+send(socket, buf, lens) end
+
+
+recv		 接受字段Tcp		：成功返回接受字符串 ，否则返回错误码id
+socket|number, lens|number -> number
+recv(socket, lens) end
+
+
+sendto		 发送字段Udp		：成功返回发送长度 ，否则返回错误码id
+socket|number, buf|string, lens|number, ip|string, port|number -> number
+sendto(socket, buf, lens, ip, port) end
+
+
+recvfrom	 接受字段Udp		：成功返回array ，否则返回错误码id
+socket|number, lens|number -> array|number
+recvfrom(socket, lens) end
+
+
+close		 关闭socket 		：成功返回true ，否则返回false
+socket|number -> boolean
+close(socket) end
+
+select 
+
+select		检测一组一维数组socket并返回 	：成功返回二位数组（可能为空） ，否则返回错误码id
+sockets|array, tm|number -> array|number
+select(list, tm) end
+
+
+gethostname	获取主机名 	：成功返回字符串 ，否则返回错误码id
+(void) -> string
+gethostname() end
+
+
+gethostbyname 通过主机名获取ip 	：成功返回数组 ，否则返回错误码id
+host|string -> array|number
+gethostbyname(host) end
+
+```
+	// socket创建family
+	socket.ipv4		创建ipv4
+	socket.ipv6		创建ipv6
+
+	// socket创建type
+	socket.tcp		基于tcp连接
+	socket.udp		基于udp连接
+```
