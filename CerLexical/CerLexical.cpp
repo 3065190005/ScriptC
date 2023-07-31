@@ -3,13 +3,13 @@
 #include "CerLexical.h"
 #include <codecvt>
 
-Cervice::Obj::CerTokClass::CerTokClass(std::string str, TokType type) :
+ScriptC::Obj::CerTokClass::CerTokClass(std::string str, TokType type) :
 	m_tok_cstr(std::move(str)),
 	m_tok_type(type)
 {
 }
 
-Cervice::Obj::CerTokClass::CerTokClass(char cstr, TokType type):
+ScriptC::Obj::CerTokClass::CerTokClass(char cstr, TokType type):
 	m_tok_type(type)
 {
 	std::string a("w");
@@ -18,7 +18,7 @@ Cervice::Obj::CerTokClass::CerTokClass(char cstr, TokType type):
 	m_tok_cstr = std::move(a);
 }
 
-Cervice::Obj::CerTokClass::CerTokClass(std::wstring str, TokType type)
+ScriptC::Obj::CerTokClass::CerTokClass(std::wstring str, TokType type)
 {
 	std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
 	std::string narrowStr = conv.to_bytes(str);
@@ -26,7 +26,7 @@ Cervice::Obj::CerTokClass::CerTokClass(std::wstring str, TokType type)
 	m_tok_cstr = std::move(narrowStr);
 }
 
-Cervice::Obj::CerTokClass::CerTokClass(wchar_t cstr, TokType type)
+ScriptC::Obj::CerTokClass::CerTokClass(wchar_t cstr, TokType type)
 {
 	std::wstring wstr(L"1");
 	wstr[0] = cstr;
@@ -37,22 +37,22 @@ Cervice::Obj::CerTokClass::CerTokClass(wchar_t cstr, TokType type)
 	m_tok_cstr = std::move(narrowStr);
 }
 
-Cervice::Obj::CerTokClass::~CerTokClass()
+ScriptC::Obj::CerTokClass::~CerTokClass()
 {
 }
 
-void Cervice::Obj::CerTokClass::copy(CerTokClass& des, CerTokClass& src)
+void ScriptC::Obj::CerTokClass::copy(CerTokClass& des, CerTokClass& src)
 {
 	des.m_tok_cstr = src.m_tok_cstr;
 	des.m_tok_type = src.m_tok_type;
 }
 
-CerTokType Cervice::Obj::CerTokClass::getType()
+CerTokType ScriptC::Obj::CerTokClass::getType()
 {
 	return this->m_tok_type;
 }
 
-std::string Cervice::Obj::CerTokClass::getTypeName()
+std::string ScriptC::Obj::CerTokClass::getTypeName()
 {
 	switch ((int)m_tok_type)
 	{
@@ -127,22 +127,22 @@ std::string Cervice::Obj::CerTokClass::getTypeName()
 	}
 }
 
-std::string Cervice::Obj::CerTokClass::getCstr()
+std::string ScriptC::Obj::CerTokClass::getCstr()
 {
 	return this->m_tok_cstr;
 }
 
-void Cervice::Obj::CerTokClass::reCStr(std::string name)
+void ScriptC::Obj::CerTokClass::reCStr(std::string name)
 {
 	m_tok_cstr = name;
 }
 
-void Cervice::Obj::CerTokClass::setDebugInfo(DebugInfo info)
+void ScriptC::Obj::CerTokClass::setDebugInfo(DebugInfo info)
 {
 	m_info = info;
 }
 
-Cervice::Obj::CerTokClass::DebugInfo Cervice::Obj::CerTokClass::getDebugInfo()
+ScriptC::Obj::CerTokClass::DebugInfo ScriptC::Obj::CerTokClass::getDebugInfo()
 {
 	return m_info;
 }

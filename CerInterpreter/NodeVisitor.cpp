@@ -7,19 +7,19 @@
 #include "SemanticAnalyzer.h"
 
 
-using namespace Cervice::Obj;
+using namespace ScriptC::Obj;
 
-Cervice::Obj::NodeVisitor::NodeVisitor()
+ScriptC::Obj::NodeVisitor::NodeVisitor()
 {
 	m_errHis = ErrorHandling::getInstance();
 }
 
-Cervice::Obj::NodeVisitor::~NodeVisitor()
+ScriptC::Obj::NodeVisitor::~NodeVisitor()
 {
 }
 
 // 节点，返回值，处理者 -> 编译器
-bool Cervice::Obj::NodeVisitor::visit(AST* node,  autoPtr ret,CerInterpreter* interpreter)
+bool ScriptC::Obj::NodeVisitor::visit(AST* node,  autoPtr ret,CerInterpreter* interpreter)
 {
 	switch (node->getNodeType())
 	{
@@ -113,7 +113,7 @@ bool Cervice::Obj::NodeVisitor::visit(AST* node,  autoPtr ret,CerInterpreter* in
 }
 
 // 节点，返回值，处理者 -> 语义分析
-bool Cervice::Obj::NodeVisitor::visit(AST* node, autoPtr ret, SemanticAnalyzer* semantic)
+bool ScriptC::Obj::NodeVisitor::visit(AST* node, autoPtr ret, SemanticAnalyzer* semantic)
 {
 	switch (node->getNodeType())
 	{

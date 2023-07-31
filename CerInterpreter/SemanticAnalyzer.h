@@ -1,14 +1,16 @@
 #pragma once
-#ifndef _CERVER_SEMANTICANALYZER_
-#define _CERVER_SEMANTICANALYZER_
+#ifndef _SCRIPTC_SEMANTICANALYZER_
+#define _SCRIPTC_SEMANTICANALYZER_
 
 #include <vector>
 #include <list>
 
 #include "NodeVisitor.h"
 
-namespace Cervice {
+namespace ScriptC {
 	namespace Obj {
+
+		using namespace AutoMem::Obj;
 
 		class CommandCode;
 		class NodeVisitor;

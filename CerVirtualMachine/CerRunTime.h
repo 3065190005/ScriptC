@@ -1,12 +1,14 @@
 #pragma once
-#ifndef _CERVER_CERRUNTIME_
-#define _CERVER_CERRUNTIME_
+#ifndef _SCRIPTC_CERRUNTIME_
+#define _SCRIPTC_CERRUNTIME_
 #include <map>
 #include <vector>
 #include <string>
 
-namespace Cervice {
+namespace ScriptC {
 	namespace Obj {
+
+		using namespace AutoMem::Obj;
 
 		class CerRunTime
 		{

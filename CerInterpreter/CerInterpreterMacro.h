@@ -1,6 +1,6 @@
 #pragma once
-#ifndef _CERVER_CERINTERPRETERMACRO_
-#define _CERVER_CERINTERPRETERMACRO_
+#ifndef _SCRIPTC_CERINTERPRETERMACRO_
+#define _SCRIPTC_CERINTERPRETERMACRO_
 #include "..\Global\globalDefine.h"
 #define DebuInterLog true
 

@@ -1,22 +1,22 @@
 #include "..\AutoElement\LetManager.h"
 #include "..\AutoElement\LetObject.h"
 #include "CerRunTime.h"
-using namespace Cervice::Obj;
+using namespace ScriptC::Obj;
 
-Cervice::Obj::CerRunTime::CerRunTime()
+ScriptC::Obj::CerRunTime::CerRunTime()
 {
 }
 
-Cervice::Obj::CerRunTime::~CerRunTime()
+ScriptC::Obj::CerRunTime::~CerRunTime()
 {
 }
 
-std::map<std::string, auto_c>* Cervice::Obj::CerRunTime::getVarMap()
+std::map<std::string, auto_c>* ScriptC::Obj::CerRunTime::getVarMap()
 {
 	return &m_var_map;
 }
 
-void Cervice::Obj::CerRunTime::setVarMapValue(std::string name, auto_c element)
+void ScriptC::Obj::CerRunTime::setVarMapValue(std::string name, auto_c element)
 {
 	auto inter = m_var_map.find(name);
 	if (inter == m_var_map.end()) {
@@ -32,17 +32,17 @@ void Cervice::Obj::CerRunTime::setVarMapValue(std::string name, auto_c element)
 
 }
 
-auto_c Cervice::Obj::CerRunTime::getVarMapValue(std::string name)
+auto_c ScriptC::Obj::CerRunTime::getVarMapValue(std::string name)
 {
 	return m_var_map[name];
 }
 
-autoPtr Cervice::Obj::CerRunTime::getVarMapValuePtr(std::string name)
+autoPtr ScriptC::Obj::CerRunTime::getVarMapValuePtr(std::string name)
 {
 	return &m_var_map[name];
 }
 
-bool Cervice::Obj::CerRunTime::findVarMap(std::string name)
+bool ScriptC::Obj::CerRunTime::findVarMap(std::string name)
 {
 	if (m_var_map.find(name) != m_var_map.end()) {
 		return true;
@@ -50,7 +50,7 @@ bool Cervice::Obj::CerRunTime::findVarMap(std::string name)
 	return false;
 }
 
-void Cervice::Obj::CerRunTime::setFuncMapValue(std::string name, FuncDescription des)
+void ScriptC::Obj::CerRunTime::setFuncMapValue(std::string name, FuncDescription des)
 {
 	auto inter = m_func_map.find(name);
 	if (inter == m_func_map.end()) {
@@ -61,12 +61,12 @@ void Cervice::Obj::CerRunTime::setFuncMapValue(std::string name, FuncDescription
 	}
 }
 
-CerRunTime::FuncDescription Cervice::Obj::CerRunTime::getFuncMapValue(std::string name)
+CerRunTime::FuncDescription ScriptC::Obj::CerRunTime::getFuncMapValue(std::string name)
 {
 	return m_func_map[name];
 }
 
-bool Cervice::Obj::CerRunTime::findFuncMap(std::string name)
+bool ScriptC::Obj::CerRunTime::findFuncMap(std::string name)
 {
 	if (m_func_map.find(name) != m_func_map.end()) {
 		return true;
@@ -74,7 +74,7 @@ bool Cervice::Obj::CerRunTime::findFuncMap(std::string name)
 	return false;
 }
 
-void Cervice::Obj::CerRunTime::setInterMapValue(std::string name, InterProperties proper)
+void ScriptC::Obj::CerRunTime::setInterMapValue(std::string name, InterProperties proper)
 {
 	auto inter = m_inter_map.find(name);
 	if (inter == m_inter_map.end()) {
@@ -85,12 +85,12 @@ void Cervice::Obj::CerRunTime::setInterMapValue(std::string name, InterPropertie
 	}
 }
 
-CerRunTime::InterProperties Cervice::Obj::CerRunTime::getInterMapValue(std::string name)
+CerRunTime::InterProperties ScriptC::Obj::CerRunTime::getInterMapValue(std::string name)
 {
 	return m_inter_map[name];
 }
 
-bool Cervice::Obj::CerRunTime::findInterMap(std::string name)
+bool ScriptC::Obj::CerRunTime::findInterMap(std::string name)
 {
 	if (m_inter_map.find(name) != m_inter_map.end()) {
 		return true;
@@ -98,7 +98,7 @@ bool Cervice::Obj::CerRunTime::findInterMap(std::string name)
 	return false;
 }
 
-void Cervice::Obj::CerRunTime::insetInterVal(std::string cls , std::string name, auto_c var_default)
+void ScriptC::Obj::CerRunTime::insetInterVal(std::string cls , std::string name, auto_c var_default)
 {
 	auto iter = m_inter_map.find(cls);
 	if (iter != m_inter_map.end()) {
@@ -106,7 +106,7 @@ void Cervice::Obj::CerRunTime::insetInterVal(std::string cls , std::string name,
 	}
 }
 
-void Cervice::Obj::CerRunTime::insetInterFunc(std::string name ,std::string func)
+void ScriptC::Obj::CerRunTime::insetInterFunc(std::string name ,std::string func)
 {
 	auto iter = m_inter_map.find(name);
 	if (iter != m_inter_map.end()) {

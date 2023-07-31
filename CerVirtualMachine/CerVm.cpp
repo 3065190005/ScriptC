@@ -12,22 +12,22 @@
 #include "CerVm.h"
 
 #include <sstream>
-using namespace Cervice::Obj;
+using namespace ScriptC::Obj;
 
-std::map<std::string, size_t> Cervice::Obj::CerVm::m_CodeBaseAddress;
+std::map<std::string, size_t> ScriptC::Obj::CerVm::m_CodeBaseAddress;
 
-Cervice::Obj::CerVm::CerVm() :
+ScriptC::Obj::CerVm::CerVm() :
 	m_isinit(false),
 	m_command_codes_index(0),
 	m_current_cmd_code(CodeType::Pass, {})
 {
 }
 
-Cervice::Obj::CerVm::~CerVm()
+ScriptC::Obj::CerVm::~CerVm()
 {
 }
 
-bool Cervice::Obj::CerVm::initVm()
+bool ScriptC::Obj::CerVm::initVm()
 {
 	if (m_isinit)
 		return true;
@@ -37,7 +37,7 @@ bool Cervice::Obj::CerVm::initVm()
 	return true;
 }
 
-void Cervice::Obj::CerVm::Command()
+void ScriptC::Obj::CerVm::Command()
 {
 	switch (m_current_cmd_code.getCodeType())
 	{
@@ -116,28 +116,28 @@ void Cervice::Obj::CerVm::Command()
 	case CommandCode::CommandCodeType::UnarySub:
 		VmUnarySub();
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Inter:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Inter:
 		VmInter();
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Func:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Func:
 		VmFunc();
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Call:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Call:
 		VmCall();
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Leave:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Leave:
 		VmLeave();
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Jmp:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Jmp:
 		VmJmp();
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::PushS:
+	case ScriptC::Obj::CommandCode::CommandCodeType::PushS:
 		VmPushS();
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::PopS:
+	case ScriptC::Obj::CommandCode::CommandCodeType::PopS:
 		VmPopS();
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Lens:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Lens:
 		VmLens();
 		break;
 	case CommandCode::CommandCodeType::Inc:
@@ -148,7 +148,7 @@ void Cervice::Obj::CerVm::Command()
 	}
 }
 
-void Cervice::Obj::CerVm::runTime()
+void ScriptC::Obj::CerVm::runTime()
 {
 	extern std::string G_mainFile;
 	auto_c fileName;
@@ -173,7 +173,7 @@ void Cervice::Obj::CerVm::runTime()
 	m_stacks.PopNewSF();
 }
 
-auto_c Cervice::Obj::CerVm::runTime(std::string result)
+auto_c ScriptC::Obj::CerVm::runTime(std::string result)
 {
 	m_stacks.PushNewSF("!program");
 
@@ -205,7 +205,7 @@ auto_c Cervice::Obj::CerVm::runTime(std::string result)
 	return ret;
 }
 
-void Cervice::Obj::CerVm::VmInter()
+void ScriptC::Obj::CerVm::VmInter()
 {
 	SFPtr sf = m_stacks.GetLastSF();
 	auto runT = sf->getRunTime();
@@ -225,7 +225,7 @@ void Cervice::Obj::CerVm::VmInter()
 	return;
 }
 
-void Cervice::Obj::CerVm::VmFunc()
+void ScriptC::Obj::CerVm::VmFunc()
 {
 	SFPtr sf = m_stacks.GetLastSF();
 	auto runT = sf->getRunTime();
@@ -289,7 +289,7 @@ void Cervice::Obj::CerVm::VmFunc()
 	takeEat(CommandCode::CommandCodeType::Leave);
 }
 
-void Cervice::Obj::CerVm::VmCall()
+void ScriptC::Obj::CerVm::VmCall()
 {
 	SFPtr sf = m_stacks.GetLastSF();
 	auto runT = sf->getRunTime();
@@ -386,7 +386,7 @@ void Cervice::Obj::CerVm::VmCall()
 	return;
 }
 
-void Cervice::Obj::CerVm::VmLeave()
+void ScriptC::Obj::CerVm::VmLeave()
 {
 	/*
 	* leave : param1:value		// 拿出栈头数据作为地址跳转并将推送value到外层栈
@@ -460,7 +460,7 @@ void Cervice::Obj::CerVm::VmLeave()
 	}
 }
 
-void Cervice::Obj::CerVm::VmPush()
+void ScriptC::Obj::CerVm::VmPush()
 {
 	SFPtr sf = m_stacks.GetLastSF();
 	auto runT = sf->getRunTime();
@@ -638,7 +638,7 @@ void Cervice::Obj::CerVm::VmPush()
 	dataSf->emplace_back(obj);
 }
 
-void Cervice::Obj::CerVm::VmJmp()
+void ScriptC::Obj::CerVm::VmJmp()
 {
 	/*
 	* jmp param1:相对距离 param2:是否使用条件 param3:从基地址+eip的绝对跳转
@@ -694,7 +694,7 @@ void Cervice::Obj::CerVm::VmJmp()
 	return;
 }
 
-void Cervice::Obj::CerVm::VmPushS()
+void ScriptC::Obj::CerVm::VmPushS()
 {
 	auto_c ret;
 	auto cmd = m_current_cmd_code;
@@ -704,7 +704,7 @@ void Cervice::Obj::CerVm::VmPushS()
 	return;
 }
 
-void Cervice::Obj::CerVm::VmPopS()
+void ScriptC::Obj::CerVm::VmPopS()
 {
 	/*
 	*	PopS  (退出当前栈
@@ -731,7 +731,7 @@ void Cervice::Obj::CerVm::VmPopS()
 	}
 }
 
-void Cervice::Obj::CerVm::VmLens()
+void ScriptC::Obj::CerVm::VmLens()
 {
 	/*
 	* Lens : 获取栈中最近的元素计算并返回数组到栈中
@@ -766,7 +766,7 @@ void Cervice::Obj::CerVm::VmLens()
 	dataSf->emplace_back(obj);
 }
 
-void Cervice::Obj::CerVm::VmInc()
+void ScriptC::Obj::CerVm::VmInc()
 {
 	/*
 	* Inc param1:fileName  跳转到指定文件并执行一遍
@@ -795,7 +795,7 @@ void Cervice::Obj::CerVm::VmInc()
 	dataSf->insert(dataSf->begin(), std::move(resEipDatas));
 }
 
-auto_c Cervice::Obj::CerVm::VmPop()
+auto_c ScriptC::Obj::CerVm::VmPop()
 {
 	/*
 	* Pop : param1 (var_id) 从栈返回最近的一个值并赋值给var_id
@@ -853,7 +853,7 @@ auto_c Cervice::Obj::CerVm::VmPop()
 	return ret;
 }
 
-auto_c Cervice::Obj::CerVm::VmAdd()
+auto_c ScriptC::Obj::CerVm::VmAdd()
 {
 	SFPtr sf = m_stacks.GetLastSF();
 	auto runT = sf->getRunTime();
@@ -876,7 +876,7 @@ auto_c Cervice::Obj::CerVm::VmAdd()
 	return ret;
 }
 
-auto_c Cervice::Obj::CerVm::VmSub()
+auto_c ScriptC::Obj::CerVm::VmSub()
 {
 	SFPtr sf = m_stacks.GetLastSF();
 	auto runT = sf->getRunTime();
@@ -899,7 +899,7 @@ auto_c Cervice::Obj::CerVm::VmSub()
 	return ret;
 }
 
-auto_c Cervice::Obj::CerVm::VmMul()
+auto_c ScriptC::Obj::CerVm::VmMul()
 {
 	SFPtr sf = m_stacks.GetLastSF();
 	auto runT = sf->getRunTime();
@@ -922,7 +922,7 @@ auto_c Cervice::Obj::CerVm::VmMul()
 	return ret;
 }
 
-auto_c Cervice::Obj::CerVm::VmDiv()
+auto_c ScriptC::Obj::CerVm::VmDiv()
 {
 	SFPtr sf = m_stacks.GetLastSF();
 	auto runT = sf->getRunTime();
@@ -945,7 +945,7 @@ auto_c Cervice::Obj::CerVm::VmDiv()
 	return ret;
 }
 
-auto_c Cervice::Obj::CerVm::VmMod()
+auto_c ScriptC::Obj::CerVm::VmMod()
 {
 	SFPtr sf = m_stacks.GetLastSF();
 	auto runT = sf->getRunTime();
@@ -968,7 +968,7 @@ auto_c Cervice::Obj::CerVm::VmMod()
 	return ret;
 }
 
-auto_c Cervice::Obj::CerVm::VmLeftO()
+auto_c ScriptC::Obj::CerVm::VmLeftO()
 {
 	SFPtr sf = m_stacks.GetLastSF();
 	auto runT = sf->getRunTime();
@@ -991,7 +991,7 @@ auto_c Cervice::Obj::CerVm::VmLeftO()
 	return ret;
 }
 
-auto_c Cervice::Obj::CerVm::VmRightO()
+auto_c ScriptC::Obj::CerVm::VmRightO()
 {
 	SFPtr sf = m_stacks.GetLastSF();
 	auto runT = sf->getRunTime();
@@ -1014,7 +1014,7 @@ auto_c Cervice::Obj::CerVm::VmRightO()
 	return ret;
 }
 
-auto_c Cervice::Obj::CerVm::VmGtr()
+auto_c ScriptC::Obj::CerVm::VmGtr()
 {
 	SFPtr sf = m_stacks.GetLastSF();
 	auto runT = sf->getRunTime();
@@ -1037,7 +1037,7 @@ auto_c Cervice::Obj::CerVm::VmGtr()
 	return ret;
 }
 
-auto_c Cervice::Obj::CerVm::VmGeq()
+auto_c ScriptC::Obj::CerVm::VmGeq()
 {
 	SFPtr sf = m_stacks.GetLastSF();
 	auto runT = sf->getRunTime();
@@ -1060,7 +1060,7 @@ auto_c Cervice::Obj::CerVm::VmGeq()
 	return ret;
 }
 
-auto_c Cervice::Obj::CerVm::VmLss()
+auto_c ScriptC::Obj::CerVm::VmLss()
 {
 	SFPtr sf = m_stacks.GetLastSF();
 	auto runT = sf->getRunTime();
@@ -1083,7 +1083,7 @@ auto_c Cervice::Obj::CerVm::VmLss()
 	return ret;
 }
 
-auto_c Cervice::Obj::CerVm::VmLeq()
+auto_c ScriptC::Obj::CerVm::VmLeq()
 {
 	SFPtr sf = m_stacks.GetLastSF();
 	auto runT = sf->getRunTime();
@@ -1106,7 +1106,7 @@ auto_c Cervice::Obj::CerVm::VmLeq()
 	return ret;
 }
 
-auto_c Cervice::Obj::CerVm::VmEqu()
+auto_c ScriptC::Obj::CerVm::VmEqu()
 {
 	SFPtr sf = m_stacks.GetLastSF();
 	auto runT = sf->getRunTime();
@@ -1129,7 +1129,7 @@ auto_c Cervice::Obj::CerVm::VmEqu()
 	return ret;
 }
 
-auto_c Cervice::Obj::CerVm::VmNeq()
+auto_c ScriptC::Obj::CerVm::VmNeq()
 {
 	SFPtr sf = m_stacks.GetLastSF();
 	auto runT = sf->getRunTime();
@@ -1152,7 +1152,7 @@ auto_c Cervice::Obj::CerVm::VmNeq()
 	return ret;
 }
 
-auto_c Cervice::Obj::CerVm::VmAnd()
+auto_c ScriptC::Obj::CerVm::VmAnd()
 {
 	SFPtr sf = m_stacks.GetLastSF();
 	auto runT = sf->getRunTime();
@@ -1175,7 +1175,7 @@ auto_c Cervice::Obj::CerVm::VmAnd()
 	return ret;
 }
 
-auto_c Cervice::Obj::CerVm::VmXor()
+auto_c ScriptC::Obj::CerVm::VmXor()
 {
 	SFPtr sf = m_stacks.GetLastSF();
 	auto runT = sf->getRunTime();
@@ -1198,7 +1198,7 @@ auto_c Cervice::Obj::CerVm::VmXor()
 	return ret;
 }
 
-auto_c Cervice::Obj::CerVm::VmOr()
+auto_c ScriptC::Obj::CerVm::VmOr()
 {
 	SFPtr sf = m_stacks.GetLastSF();
 	auto runT = sf->getRunTime();
@@ -1221,7 +1221,7 @@ auto_c Cervice::Obj::CerVm::VmOr()
 	return ret;
 }
 
-auto_c Cervice::Obj::CerVm::VmDAnd()
+auto_c ScriptC::Obj::CerVm::VmDAnd()
 {
 	SFPtr sf = m_stacks.GetLastSF();
 	auto runT = sf->getRunTime();
@@ -1244,7 +1244,7 @@ auto_c Cervice::Obj::CerVm::VmDAnd()
 	return ret;
 }
 
-auto_c Cervice::Obj::CerVm::VmDOr()
+auto_c ScriptC::Obj::CerVm::VmDOr()
 {
 	SFPtr sf = m_stacks.GetLastSF();
 	auto runT = sf->getRunTime();
@@ -1267,7 +1267,7 @@ auto_c Cervice::Obj::CerVm::VmDOr()
 	return ret;
 }
 
-auto_c Cervice::Obj::CerVm::VmNot()
+auto_c ScriptC::Obj::CerVm::VmNot()
 {
 	SFPtr sf = m_stacks.GetLastSF();
 	auto runT = sf->getRunTime();
@@ -1288,7 +1288,7 @@ auto_c Cervice::Obj::CerVm::VmNot()
 	return ret;
 }
 
-auto_c Cervice::Obj::CerVm::VmMat()
+auto_c ScriptC::Obj::CerVm::VmMat()
 {
 	SFPtr sf = m_stacks.GetLastSF();
 	auto runT = sf->getRunTime();
@@ -1309,7 +1309,7 @@ auto_c Cervice::Obj::CerVm::VmMat()
 	return ret;
 }
 
-auto_c Cervice::Obj::CerVm::VmUnaryAdd()
+auto_c ScriptC::Obj::CerVm::VmUnaryAdd()
 {
 	SFPtr sf = m_stacks.GetLastSF();
 	auto runT = sf->getRunTime();
@@ -1330,7 +1330,7 @@ auto_c Cervice::Obj::CerVm::VmUnaryAdd()
 	return ret;
 }
 
-auto_c Cervice::Obj::CerVm::VmUnarySub()
+auto_c ScriptC::Obj::CerVm::VmUnarySub()
 {
 	SFPtr sf = m_stacks.GetLastSF();
 	auto runT = sf->getRunTime();
@@ -1351,14 +1351,14 @@ auto_c Cervice::Obj::CerVm::VmUnarySub()
 	return ret;
 }
 
-auto_c Cervice::Obj::CerVm::VmPass()
+auto_c ScriptC::Obj::CerVm::VmPass()
 {
 	auto_c ret;
 	takeEat(CommandCode::CommandCodeType::Pass);
 	return ret;
 }
 
-bool Cervice::Obj::CerVm::takeEat(CommandCode::CommandCodeType type)
+bool ScriptC::Obj::CerVm::takeEat(CommandCode::CommandCodeType type)
 {
 	auto errHis = ErrorHandling::getInstance();
 	errHis->setErrInfo(m_current_cmd_code.getDebugInfo());
@@ -1371,7 +1371,7 @@ bool Cervice::Obj::CerVm::takeEat(CommandCode::CommandCodeType type)
 	return false;
 }
 
-void Cervice::Obj::CerVm::advance()
+void ScriptC::Obj::CerVm::advance()
 {
 	m_current_cmd_code = m_command_codes.at(m_command_codes_index);
 	if (m_command_codes_index < m_command_codes.size()) {
@@ -1380,7 +1380,7 @@ void Cervice::Obj::CerVm::advance()
 }
 
 
-CerVm* Cervice::Obj::CerVm::create(std::vector<CommandCode> codes)
+CerVm* ScriptC::Obj::CerVm::create(std::vector<CommandCode> codes)
 {
 	bool init = false;
 	CerVm* vm = new CerVm();
@@ -1398,12 +1398,12 @@ CerVm* Cervice::Obj::CerVm::create(std::vector<CommandCode> codes)
 	return vm;
 }
 
-void Cervice::Obj::CerVm::setBaseAddress(std::string str)
+void ScriptC::Obj::CerVm::setBaseAddress(std::string str)
 {
 	m_BaseAddress = str;
 }
 
-size_t Cervice::Obj::CerVm::getBaseAddress()
+size_t ScriptC::Obj::CerVm::getBaseAddress()
 {
 	return m_CodeBaseAddress[m_BaseAddress];
 }

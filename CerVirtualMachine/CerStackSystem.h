@@ -1,12 +1,14 @@
 #pragma once
-#ifndef _CERVER_CERSTACKSYSTEM_
-#define _CERVER_CERSTACKSYSTEM_
+#ifndef _SCRIPTC_CERSTACKSYSTEM_
+#define _SCRIPTC_CERSTACKSYSTEM_
 
 #include <vector>
 #include "CerRunTime.h"
 
-namespace Cervice {
+namespace ScriptC {
 	namespace Obj {
+
+		using namespace AutoMem::Obj;
 
 		class CerRunTime;
 		class CerStackFrame;

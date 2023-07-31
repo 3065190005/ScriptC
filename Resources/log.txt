@@ -311,7 +311,7 @@
 2023.7.10
 	htmlView和urlView 增加处理 window.close() js脚本
 	修复 赋值后的数组 再赋值字符串 出错的问题
-	相关代码位置：void Cervice::Obj::CerRunTime::setVarMapValue(std::string name, auto_c element)
+	相关代码位置：void ScriptC::Obj::CerRunTime::setVarMapValue(std::string name, auto_c element)
 	更新 print 函数 不现实多余浮点数 123.0100 -> 123.01
 
 
@@ -336,3 +336,7 @@
 	添加Socket库
 	更新AutoMem版本库为v9_3
 	更新htmlBox和urlBox icon为应用程序icon
+
+2023.7.31
+	更新变量库，应用库，工具库的命名控件
+	将printAuto_c合并到变量库LetTools类中

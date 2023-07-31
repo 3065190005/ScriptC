@@ -1,11 +1,11 @@
 #pragma once
-#ifndef _CERVER_SYMBOLCLASS_
-#define _CERVER_SYMBOLCLASS_
+#ifndef _SCRIPTC_SYMBOLCLASS_
+#define _SCRIPTC_SYMBOLCLASS_
 
 #include <iostream>
 #include <vector>
 
-namespace Cervice {
+namespace ScriptC {
 	namespace Obj {
 
 		class SymbolClass;

@@ -1,12 +1,14 @@
 #pragma once
-#ifndef _CERVER_NODEVISITOR_
-#define _CERVER_NODEVISITOR_
+#ifndef _SCRIPTC_NODEVISITOR_
+#define _SCRIPTC_NODEVISITOR_
 
 #include "QuickLib/quicklib.h"
 #include "..\AutoElement\LetManager.h"
 
-namespace Cervice {
+namespace ScriptC {
 	namespace Obj {
+
+		using namespace AutoMem::Obj;
 
 		class AST;
 		class Object;

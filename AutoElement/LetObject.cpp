@@ -1,7 +1,7 @@
 #include "LetManager.h"
 #include "LetObject.h"
 
-namespace Cervice {
+namespace AutoMem {
 	namespace Obj {
 
 		LetObject::LetObject(LetObject&& mov) :
@@ -156,5 +156,49 @@ namespace Cervice {
 			return node == targ;
 		}
 
+	}
+}
+
+void AutoMem::Obj::LetTools::print(auto_c& value)
+{
+	if (value.getType() == LetObject::ObjT::array) {
+		for (auto& i : value.getStrArray()) {
+			if (i.second.getType() == LetObject::ObjT::array) {
+				print(i.second);
+			}
+			else if (i.second.getType() == LetObject::ObjT::number) {
+				std::cout << LetObject::cast<long double>(i.second);
+			}
+			else if (i.second.getType() == LetObject::ObjT::boolean) {
+				std::cout << std::boolalpha << LetObject::cast<bool>(i.second);
+			}
+			else {
+				std::cout << LetObject::cast<std::string>(i.second);
+			}
+		}
+
+		for (auto& i : value.getNumArray()) {
+			if (i.second.getType() == LetObject::ObjT::array) {
+				print(i.second);
+			}
+			else if (i.second.getType() == LetObject::ObjT::boolean) {
+				std::cout << std::boolalpha << i.first << " " << LetObject::cast<bool>(i.second);
+			}
+			else if (i.second.getType() == LetObject::ObjT::number) {
+				std::cout << LetObject::cast<long double>(i.second);
+			}
+			else {
+				std::cout << LetObject::cast<std::string>(i.second);
+			}
+		}
+	}
+	else if (value.getType() == LetObject::ObjT::number) {
+		std::cout << LetObject::cast<long double>(value);
+	}
+	else if (value.getType() == LetObject::ObjT::string) {
+		std::cout << LetObject::cast<std::string>(value);
+	}
+	else if (value.getType() == LetObject::ObjT::boolean) {
+		std::cout << std::boolalpha << LetObject::cast<bool>(value);
 	}
 }

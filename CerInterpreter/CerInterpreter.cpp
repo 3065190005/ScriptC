@@ -9,7 +9,7 @@
 #include "CerInterpreterMacro.h"
 #include <sstream>
 
-Cervice::Obj::CerInterpreter::CerInterpreter() :
+ScriptC::Obj::CerInterpreter::CerInterpreter() :
 	m_rootAts(nullptr),
 	m_vm_code({})
 {
@@ -18,11 +18,11 @@ Cervice::Obj::CerInterpreter::CerInterpreter() :
 	}
 }
 
-Cervice::Obj::CerInterpreter::~CerInterpreter()
+ScriptC::Obj::CerInterpreter::~CerInterpreter()
 {
 }
 
-CerInterpreter* Cervice::Obj::CerInterpreter::create(AST* tree)
+CerInterpreter* ScriptC::Obj::CerInterpreter::create(AST* tree)
 {
 	CerInterpreter* ret = new CerInterpreter();
 	ret->m_rootAts = tree;
@@ -35,7 +35,7 @@ CerInterpreter* Cervice::Obj::CerInterpreter::create(AST* tree)
 	return ret;
 }
 
-std::vector<CommandCode>& Cervice::Obj::CerInterpreter::CompileCode(autoPtr ret, AST* rootAts,bool isMerge)
+std::vector<CommandCode>& ScriptC::Obj::CerInterpreter::CompileCode(autoPtr ret, AST* rootAts,bool isMerge)
 {
 	interlog("CerInterPreterCompileCode: >>>\n");
 
@@ -54,7 +54,7 @@ std::vector<CommandCode>& Cervice::Obj::CerInterpreter::CompileCode(autoPtr ret,
 	return m_vm_code;
 }
 
-void Cervice::Obj::CerInterpreter::fileAddressSet()
+void ScriptC::Obj::CerInterpreter::fileAddressSet()
 {
 	numberT size = m_vm_code.size();
 	for (auto& i : m_include_file_sequence) {
@@ -64,7 +64,7 @@ void Cervice::Obj::CerInterpreter::fileAddressSet()
 	}
 }
 
-bool Cervice::Obj::CerInterpreter::visit_indexExprOp(AST* node, autoPtr ret)
+bool ScriptC::Obj::CerInterpreter::visit_indexExprOp(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::indexExprOp) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -80,7 +80,7 @@ bool Cervice::Obj::CerInterpreter::visit_indexExprOp(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::CerInterpreter::visit_exprOp(AST* node, autoPtr ret)
+bool ScriptC::Obj::CerInterpreter::visit_exprOp(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::exprOp) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -97,7 +97,7 @@ bool Cervice::Obj::CerInterpreter::visit_exprOp(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::CerInterpreter::visit_BinOp(AST* node, autoPtr ret)
+bool ScriptC::Obj::CerInterpreter::visit_BinOp(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::BinOp) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -186,7 +186,7 @@ bool Cervice::Obj::CerInterpreter::visit_BinOp(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::CerInterpreter::visit_IfExpr(AST* node, autoPtr ret)
+bool ScriptC::Obj::CerInterpreter::visit_IfExpr(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::IfExpr) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -321,7 +321,7 @@ bool Cervice::Obj::CerInterpreter::visit_IfExpr(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::CerInterpreter::visit_WhileExpr(AST* node, autoPtr ret)
+bool ScriptC::Obj::CerInterpreter::visit_WhileExpr(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::WhileExpr) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -402,7 +402,7 @@ bool Cervice::Obj::CerInterpreter::visit_WhileExpr(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::CerInterpreter::visit_ForExpr(AST* node, autoPtr ret)
+bool ScriptC::Obj::CerInterpreter::visit_ForExpr(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::ForExpr) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -634,7 +634,7 @@ bool Cervice::Obj::CerInterpreter::visit_ForExpr(AST* node, autoPtr ret)
 	*/
 }
 
-bool Cervice::Obj::CerInterpreter::visit_UnaryOp(AST* node, autoPtr ret)
+bool ScriptC::Obj::CerInterpreter::visit_UnaryOp(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::UnaryOp) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -670,7 +670,7 @@ bool Cervice::Obj::CerInterpreter::visit_UnaryOp(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::CerInterpreter::visit_Num(AST* node, autoPtr ret)
+bool ScriptC::Obj::CerInterpreter::visit_Num(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::Num) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -750,7 +750,7 @@ bool Cervice::Obj::CerInterpreter::visit_Num(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::CerInterpreter::visit_Str(AST* node, autoPtr ret)
+bool ScriptC::Obj::CerInterpreter::visit_Str(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::Str) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -768,7 +768,7 @@ bool Cervice::Obj::CerInterpreter::visit_Str(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::CerInterpreter::visit_Var(AST* node, autoPtr ret)
+bool ScriptC::Obj::CerInterpreter::visit_Var(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::Var) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -802,7 +802,7 @@ bool Cervice::Obj::CerInterpreter::visit_Var(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::CerInterpreter::visit_BreakOp(AST* node, autoPtr ret)
+bool ScriptC::Obj::CerInterpreter::visit_BreakOp(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::BreakOp) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -828,7 +828,7 @@ bool Cervice::Obj::CerInterpreter::visit_BreakOp(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::CerInterpreter::visit_ContinueOp(AST* node, autoPtr ret)
+bool ScriptC::Obj::CerInterpreter::visit_ContinueOp(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::ContinueOp) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -854,7 +854,7 @@ bool Cervice::Obj::CerInterpreter::visit_ContinueOp(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::CerInterpreter::visit_InterNew(AST* node, autoPtr ret)
+bool ScriptC::Obj::CerInterpreter::visit_InterNew(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::InterNew) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -884,7 +884,7 @@ bool Cervice::Obj::CerInterpreter::visit_InterNew(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::CerInterpreter::visit_IncludeFile(AST* node, autoPtr ret)
+bool ScriptC::Obj::CerInterpreter::visit_IncludeFile(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::IncludeFile) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -964,7 +964,7 @@ bool Cervice::Obj::CerInterpreter::visit_IncludeFile(AST* node, autoPtr ret)
 
 }
 
-bool Cervice::Obj::CerInterpreter::visit_ArrayVar(AST* node, autoPtr ret)
+bool ScriptC::Obj::CerInterpreter::visit_ArrayVar(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::ArrayVar) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -1057,7 +1057,7 @@ bool Cervice::Obj::CerInterpreter::visit_ArrayVar(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::CerInterpreter::visit_InterExprOp(AST* node, autoPtr ret)
+bool ScriptC::Obj::CerInterpreter::visit_InterExprOp(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::InterExprOp) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -1100,7 +1100,7 @@ bool Cervice::Obj::CerInterpreter::visit_InterExprOp(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::CerInterpreter::visit_AssignOp(AST* node, autoPtr ret)
+bool ScriptC::Obj::CerInterpreter::visit_AssignOp(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::AssignOp) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -1152,7 +1152,7 @@ bool Cervice::Obj::CerInterpreter::visit_AssignOp(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::CerInterpreter::visit_ReturnOp(AST* node, autoPtr ret)
+bool ScriptC::Obj::CerInterpreter::visit_ReturnOp(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::ReturnAst) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -1175,7 +1175,7 @@ bool Cervice::Obj::CerInterpreter::visit_ReturnOp(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::CerInterpreter::visit_FunDeclaration(AST* node, autoPtr ret)
+bool ScriptC::Obj::CerInterpreter::visit_FunDeclaration(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::FuncDelOp) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -1221,7 +1221,7 @@ bool Cervice::Obj::CerInterpreter::visit_FunDeclaration(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::CerInterpreter::visit_FunctionHeader(AST* node, autoPtr ret)
+bool ScriptC::Obj::CerInterpreter::visit_FunctionHeader(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::FuncHeader) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -1266,7 +1266,7 @@ bool Cervice::Obj::CerInterpreter::visit_FunctionHeader(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::CerInterpreter::visit_FunctionCall(AST* node, autoPtr ret)
+bool ScriptC::Obj::CerInterpreter::visit_FunctionCall(AST* node, autoPtr ret)
 {
 
 	if (node->getNodeType() != AstNodeType::FuncCall) {
@@ -1304,7 +1304,7 @@ bool Cervice::Obj::CerInterpreter::visit_FunctionCall(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::CerInterpreter::visit_InterDeclaration(AST* node, autoPtr ret)
+bool ScriptC::Obj::CerInterpreter::visit_InterDeclaration(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::InterfaceDecOp) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -1321,7 +1321,7 @@ bool Cervice::Obj::CerInterpreter::visit_InterDeclaration(AST* node, autoPtr ret
 	return true;
 }
 
-bool Cervice::Obj::CerInterpreter::visit_InterfaceHeader(AST* node, autoPtr ret)
+bool ScriptC::Obj::CerInterpreter::visit_InterfaceHeader(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::InterfaceHeaderOp) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -1346,7 +1346,7 @@ bool Cervice::Obj::CerInterpreter::visit_InterfaceHeader(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::CerInterpreter::visit_Body(AST* node, autoPtr ret)
+bool ScriptC::Obj::CerInterpreter::visit_Body(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::BodyAst) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -1360,7 +1360,7 @@ bool Cervice::Obj::CerInterpreter::visit_Body(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::CerInterpreter::visit_Program(AST* node, autoPtr ret)
+bool ScriptC::Obj::CerInterpreter::visit_Program(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::ProgramAst)
 		m_errHis->throwErr(EType::Interpreter,"getNode need ProgramAst");
@@ -1405,7 +1405,7 @@ bool Cervice::Obj::CerInterpreter::visit_Program(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::CerInterpreter::visit_Empty(AST* node, autoPtr ret)
+bool ScriptC::Obj::CerInterpreter::visit_Empty(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::EmptyAst) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -1420,7 +1420,7 @@ bool Cervice::Obj::CerInterpreter::visit_Empty(AST* node, autoPtr ret)
 	return true;
 }
 
-void Cervice::Obj::CerInterpreter::PushCode(CommandCode code)
+void ScriptC::Obj::CerInterpreter::PushCode(CommandCode code)
 {
 	code.setDebugInfo(m_errHis->getErrorInfo());
 	m_vm_code.push_back(code);
@@ -1431,7 +1431,7 @@ void Cervice::Obj::CerInterpreter::PushCode(CommandCode code)
 	//interlog(")\n\n");
 }
 
-AST::AstType Cervice::Obj::CerInterpreter::analysExprOp(AST* node)
+AST::AstType ScriptC::Obj::CerInterpreter::analysExprOp(AST* node)
 {
 	if (node->getNodeType() == AST::AstType::exprOp) {
 		exprOp* result = dynamic_cast<exprOp*>(node);
@@ -1440,7 +1440,7 @@ AST::AstType Cervice::Obj::CerInterpreter::analysExprOp(AST* node)
 	return node->getNodeType();
 }
 
-void Cervice::Obj::CerInterpreter::printCode()
+void ScriptC::Obj::CerInterpreter::printCode()
 {
 	for (auto code = m_vm_code.begin(); code != m_vm_code.end(); code++) {
 		interlog(" - CommandCode(" + code->getCodeTypeStr());
@@ -1451,7 +1451,7 @@ void Cervice::Obj::CerInterpreter::printCode()
 	}
 }
 
-std::map<std::string, int> Cervice::Obj::CerInterpreter::getTables()
+std::map<std::string, int> ScriptC::Obj::CerInterpreter::getTables()
 {
 	return m_table_temp;
 }

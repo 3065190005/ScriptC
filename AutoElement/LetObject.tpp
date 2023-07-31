@@ -19,7 +19,7 @@ while((node->Attribute & (int)NatureType::ptr) == true)\
 
 #define _this _this
 
-using namespace Cervice::Obj;
+using namespace AutoMem::Obj;
 
 template<typename castT>
 inline castT LetObject::cast(LetObject&node)

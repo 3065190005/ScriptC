@@ -2,149 +2,149 @@
 #include "..\AutoElement\LetObject.h"
 #include "CommandCode.h"
 
-using namespace Cervice::Obj;
+using namespace ScriptC::Obj;
 
-Cervice::Obj::CommandCode::CommandCode(CommandCodeType type, std::map<std::string, auto_c> params):
+ScriptC::Obj::CommandCode::CommandCode(CommandCodeType type, std::map<std::string, auto_c> params):
 	m_type(type),
 	m_params(params)
 {
 
 }
 
-Cervice::Obj::CommandCode::~CommandCode()
+ScriptC::Obj::CommandCode::~CommandCode()
 {
 }
 
-CommandCode::CommandCodeType Cervice::Obj::CommandCode::getCodeType()
+CommandCode::CommandCodeType ScriptC::Obj::CommandCode::getCodeType()
 {
 	return m_type;
 }
 
-void Cervice::Obj::CommandCode::insertCodeParams(std::string name, auto_c value)
+void ScriptC::Obj::CommandCode::insertCodeParams(std::string name, auto_c value)
 {
 	m_params.insert({ name,std::move(value) });
 }
 
-std::map<std::string, auto_c>* Cervice::Obj::CommandCode::getCodeParams()
+std::map<std::string, auto_c>* ScriptC::Obj::CommandCode::getCodeParams()
 {
 	return &m_params;
 }
 
-void Cervice::Obj::CommandCode::setDebugInfo(CerTokClass::DebugInfo info)
+void ScriptC::Obj::CommandCode::setDebugInfo(CerTokClass::DebugInfo info)
 {
 	m_info = info;
 }
 
-CerTokClass::DebugInfo Cervice::Obj::CommandCode::getDebugInfo()
+CerTokClass::DebugInfo ScriptC::Obj::CommandCode::getDebugInfo()
 {
 	return m_info;
 }
 
-std::string Cervice::Obj::CommandCode::getCodeTypeStr()
+std::string ScriptC::Obj::CommandCode::getCodeTypeStr()
 {
 	std::string ret;
 	switch (m_type)
 	{
-	case Cervice::Obj::CommandCode::CommandCodeType::Pop:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Pop:
 		ret = "Pop";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Inter:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Inter:
 		ret = "Inter";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Func:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Func:
 		ret = "Func";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Call:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Call:
 		ret = "Call";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Jmp:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Jmp:
 		ret = "Jmp";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::PopS:
+	case ScriptC::Obj::CommandCode::CommandCodeType::PopS:
 		ret = "Pops";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::PushS:
+	case ScriptC::Obj::CommandCode::CommandCodeType::PushS:
 		ret = "PushS";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Lens:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Lens:
 		ret = "Lens";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Leave:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Leave:
 		ret = "Leave";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::UnaryAdd:
+	case ScriptC::Obj::CommandCode::CommandCodeType::UnaryAdd:
 		ret = "UnaryAdd";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::UnarySub:
+	case ScriptC::Obj::CommandCode::CommandCodeType::UnarySub:
 		ret = "UnarySub";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Pass:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Pass:
 		ret = "Pass";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Push:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Push:
 		ret = "Push";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Add:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Add:
 		ret = "Add";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Sub:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Sub:
 		ret = "Sub";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Mul:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Mul:
 		ret = "Mul";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Div:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Div:
 		ret = "Div";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Mod:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Mod:
 		ret = "Mod";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Mat:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Mat:
 		ret = "Mat";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Not:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Not:
 		ret = "Not";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::LeftO:
+	case ScriptC::Obj::CommandCode::CommandCodeType::LeftO:
 		ret = "LeftOperator";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::RightO:
+	case ScriptC::Obj::CommandCode::CommandCodeType::RightO:
 		ret = "RightOperator";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Gtr:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Gtr:
 		ret = "GtrOperator";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Geq:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Geq:
 		ret = "GeqOperator";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Lss:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Lss:
 		ret = "LssOperator";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Leq:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Leq:
 		ret = "LeqOperator";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Equ:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Equ:
 		ret = "EquOperator";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Neq:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Neq:
 		ret = "NeqOperator";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::And:
+	case ScriptC::Obj::CommandCode::CommandCodeType::And:
 		ret = "AndOperator";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Xor:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Xor:
 		ret = "XorOperator";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Or:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Or:
 		ret = "orOperator";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::DAnd:
+	case ScriptC::Obj::CommandCode::CommandCodeType::DAnd:
 		ret = "DAndOperator";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::DOr:
+	case ScriptC::Obj::CommandCode::CommandCodeType::DOr:
 		ret = "DOrOperator";
 		break;
-	case Cervice::Obj::CommandCode::CommandCodeType::Inc:
+	case ScriptC::Obj::CommandCode::CommandCodeType::Inc:
 		ret = "Inc";
 		break;
 	default:

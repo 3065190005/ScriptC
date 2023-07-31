@@ -5,9 +5,9 @@
 #include "CerStackFrame.h"
 #include "CerStackSystem.h"
 
-using namespace Cervice::Obj;
+using namespace ScriptC::Obj;
 
-SFPtr Cervice::Obj::CerStackSystem::GetLastSF()
+SFPtr ScriptC::Obj::CerStackSystem::GetLastSF()
 {
 	SFPtr ret = m_stacks.begin();
 	if (ret != m_stacks.end()) {
@@ -16,19 +16,19 @@ SFPtr Cervice::Obj::CerStackSystem::GetLastSF()
 	return ret;
 }
 
-SFPtr Cervice::Obj::CerStackSystem::PushNewSF(std::string name)
+SFPtr ScriptC::Obj::CerStackSystem::PushNewSF(std::string name)
 {
 	m_stacks.emplace_back(CerStackFrame(name));
 	return GetLastSF();
 }
 
-SFPtr Cervice::Obj::CerStackSystem::PopNewSF()
+SFPtr ScriptC::Obj::CerStackSystem::PopNewSF()
 {
 	m_stacks.pop_back();
 	return GetLastSF();
 }
 
-void Cervice::Obj::CerStackSystem::setVarMapValue(std::string name, auto_c element, bool recursion)
+void ScriptC::Obj::CerStackSystem::setVarMapValue(std::string name, auto_c element, bool recursion)
 {
 	int state = 0;
 
@@ -69,7 +69,7 @@ void Cervice::Obj::CerStackSystem::setVarMapValue(std::string name, auto_c eleme
 	GetLastSF()->getRunTime()->setVarMapValue(name, std::move(element));
 }
 
-auto_c Cervice::Obj::CerStackSystem::getVarMapValue(std::string name, bool recursion)
+auto_c ScriptC::Obj::CerStackSystem::getVarMapValue(std::string name, bool recursion)
 {
 	int state = 0;
 
@@ -108,7 +108,7 @@ auto_c Cervice::Obj::CerStackSystem::getVarMapValue(std::string name, bool recur
 	return auto_c(false, false);
 }
 
-autoPtr Cervice::Obj::CerStackSystem::getVarMapValuePtr(std::string name, bool recursion)
+autoPtr ScriptC::Obj::CerStackSystem::getVarMapValuePtr(std::string name, bool recursion)
 {
 	int state = 0;
 
@@ -148,7 +148,7 @@ autoPtr Cervice::Obj::CerStackSystem::getVarMapValuePtr(std::string name, bool r
 	return nullptr;
 }
 
-struct CerRunTime::InterProperties Cervice::Obj::CerStackSystem::getInterMapValue(std::string name, bool recursion)
+struct CerRunTime::InterProperties ScriptC::Obj::CerStackSystem::getInterMapValue(std::string name, bool recursion)
 {
 	if (recursion == false) {
 		return GetLastSF()->getRunTime()->getInterMapValue(name);
@@ -163,7 +163,7 @@ struct CerRunTime::InterProperties Cervice::Obj::CerStackSystem::getInterMapValu
 	return {};
 }
 
-CerRunTime::FuncDescription Cervice::Obj::CerStackSystem::getFuncMapAddress(std::string name)
+CerRunTime::FuncDescription ScriptC::Obj::CerStackSystem::getFuncMapAddress(std::string name)
 {
 	for (auto i = m_stacks.rbegin(); i != m_stacks.rend(); i++) {
 		if (i->getRunTime()->findFuncMap(name)) {

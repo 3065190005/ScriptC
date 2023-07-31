@@ -1,14 +1,16 @@
 #pragma once
-#ifndef _CERVER_COMMANDCODE_
-#define _CERVER_COMMANDCODE_
+#ifndef _SCRIPTC_COMMANDCODE_
+#define _SCRIPTC_COMMANDCODE_
 
 #include <iostream> 
 #include <map>
 #include "..\AutoElement\LetObject.h"
 #include "..\CerLexical\CerLexical.h"
 
-namespace Cervice {
+namespace ScriptC {
 	namespace Obj {
+
+		using namespace AutoMem::Obj;
 
 		/**************
 		* class CommandCode

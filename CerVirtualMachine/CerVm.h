@@ -1,9 +1,11 @@
 #pragma once
-#ifndef _CERVER_CERVM_
-#define _CERVER_CERVM_
+#ifndef _SCRIPTC_CERVM_
+#define _SCRIPTC_CERVM_
 
-namespace Cervice {
+namespace ScriptC {
 	namespace Obj {
+
+		using namespace AutoMem::Obj;
 
 		class CommandCode;
 		class CerStackSystem;

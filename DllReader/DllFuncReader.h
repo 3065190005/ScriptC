@@ -1,6 +1,6 @@
 #pragma once
-#ifndef _CERVER_DLL_DLLFUNCREADER_
-#define _CERVER_DLL_DLLFUNCREADER_
+#ifndef _SCRIPTC_DLL_DLLFUNCREADER_
+#define _SCRIPTC_DLL_DLLFUNCREADER_
 
 #include <iostream>
 #include <Windows.h>
@@ -10,8 +10,10 @@
 #include "../AutoElement/LetManager.h"
 #include "../AutoElement/LetObject.h"
 
-namespace Cervice {
+namespace ScriptC {
 	namespace Obj {
+		
+		using namespace AutoMem::Obj;
 
 		using funcPtr = void (*)(void*, void*);
 

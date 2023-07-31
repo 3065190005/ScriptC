@@ -1,6 +1,6 @@
 #pragma once
-#ifndef _CERVER_LETARRAYMOTION__
-#define _CERVER_LETARRAYMOTION__
+#ifndef _AUTOMEM_LETARRAYMOTION__
+#define _AUTOMEM_LETARRAYMOTION__
 
 #include "LetManager.h"
 #include "LetObject.h"
@@ -8,13 +8,13 @@
 #include <optional>
 #include <variant>
 
-namespace Cervice {
+namespace AutoMem {
 	namespace Obj {
 
-		/**********
+		/****************************
 		* 数组操作类
 		* 仅支持原数组变量，不识别指针
-		***********/
+		*****************************/
 		class LetArrayMotion
 		{
 		public:

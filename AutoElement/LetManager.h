@@ -1,13 +1,17 @@
 #pragma once
-#ifndef _CERVER_LETMANAGER__
-#define _CERVER_LETMANAGER__
+#ifndef _AUTOMEM_LETMANAGER__
+#define _AUTOMEM_LETMANAGER__
 
 #include "letMacro.h"
 #include <list>
 
-namespace Cervice {
+namespace AutoMem {
 	namespace Obj {
 
+		/*************************
+		* LetManager
+		* 管理类 管理变量块的分配使用
+		*************************/
 		class LetManager
 		{
 		public:

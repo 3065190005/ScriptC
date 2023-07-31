@@ -7,17 +7,17 @@
 extern struct CerTokClass::DebugInfo G_Global_Debug_Info;
 
 
-Cervice::Obj::CerParser::CerParser(CerLexical<char>* lexical) :
+ScriptC::Obj::CerParser::CerParser(CerLexical<char>* lexical) :
 	m_lexical(lexical)
 {
 }
 
-Cervice::Obj::CerParser::~CerParser()
+ScriptC::Obj::CerParser::~CerParser()
 {
 
 }
 
-CerParser* Cervice::Obj::CerParser::create(CerLexical<char>* lex)
+CerParser* ScriptC::Obj::CerParser::create(CerLexical<char>* lex)
 {
 	CerParser* ret = new CerParser(lex);
 	if (lex == nullptr || ret == nullptr) {
@@ -28,7 +28,7 @@ CerParser* Cervice::Obj::CerParser::create(CerLexical<char>* lex)
 	return ret;
 }
 
-AST* Cervice::Obj::CerParser::expr()
+AST* ScriptC::Obj::CerParser::expr()
 {
 	/*
 	*	expr: singleKey | logicaloper_b
@@ -53,7 +53,7 @@ AST* Cervice::Obj::CerParser::expr()
 	return result;
 }
 
-AST* Cervice::Obj::CerParser::ifconditionExpr()
+AST* ScriptC::Obj::CerParser::ifconditionExpr()
 {
 	/*
 	* ifconditionExpr : KEY_IF expr COLON ExpressionBody
@@ -100,7 +100,7 @@ AST* Cervice::Obj::CerParser::ifconditionExpr()
 	return result;
 }
 
-AST* Cervice::Obj::CerParser::whileconditionExpr() {
+AST* ScriptC::Obj::CerParser::whileconditionExpr() {
 	/*
 	* whileconditionExpr: KEY_WHILE expr COLON ExpressionBody KEY_END
 	*/
@@ -121,7 +121,7 @@ AST* Cervice::Obj::CerParser::whileconditionExpr() {
 }
 
 
-AST* Cervice::Obj::CerParser::forconditionExpr() {
+AST* ScriptC::Obj::CerParser::forconditionExpr() {
 	/*
 	* forconditionExpr : KEY_FOR VAR_ID KEY_IN expr COLON ExpressionBody KEY_END
 	*/
@@ -147,7 +147,7 @@ AST* Cervice::Obj::CerParser::forconditionExpr() {
 }
 
 
-AST* Cervice::Obj::CerParser::indexExpr(bool left)
+AST* ScriptC::Obj::CerParser::indexExpr(bool left)
 {
 	/*
 	*	indexExpr  : (ArrayExpr | InterExpr)+
@@ -189,7 +189,7 @@ AST* Cervice::Obj::CerParser::indexExpr(bool left)
 
 
 
-AST* Cervice::Obj::CerParser::logicaloper_b()
+AST* ScriptC::Obj::CerParser::logicaloper_b()
 {
 	/*
 	* logicaloper_b : logicaloper_a ((PlusDOR) logicaloper_a)*
@@ -220,7 +220,7 @@ AST* Cervice::Obj::CerParser::logicaloper_b()
 }
 
 
-AST* Cervice::Obj::CerParser::logicaloper_a()
+AST* ScriptC::Obj::CerParser::logicaloper_a()
 {
 	/*
 	* logicaloper_a : comparison_b ((PlusAND|PlusXOR|PlusOR|PlusDAND) comparison_b)*
@@ -270,7 +270,7 @@ AST* Cervice::Obj::CerParser::logicaloper_a()
 	return result;
 }
 
-AST* Cervice::Obj::CerParser::singleKey()
+AST* ScriptC::Obj::CerParser::singleKey()
 {
 	/*
 	* singleKey : (InterNew | KEY_BREAK | KEY_CONTINUE)
@@ -313,7 +313,7 @@ AST* Cervice::Obj::CerParser::singleKey()
 
 
 
-AST* Cervice::Obj::CerParser::comparison_b()
+AST* ScriptC::Obj::CerParser::comparison_b()
 {
 	/*
 	* comparison_b : comparison_a ((PlusEQU|PlusNEQ) comparison_a)*
@@ -349,7 +349,7 @@ AST* Cervice::Obj::CerParser::comparison_b()
 
 }
 
-AST* Cervice::Obj::CerParser::comparison_a()
+AST* ScriptC::Obj::CerParser::comparison_a()
 {
 	/*
 	 * comparison_a : shiftoperator ((PlusGTR|PlusGEQ|PlusLSS|PlusLEQ) shiftoperator)*
@@ -399,7 +399,7 @@ AST* Cervice::Obj::CerParser::comparison_a()
 	return result;
 }
 
-AST* Cervice::Obj::CerParser::shiftoperator()
+AST* ScriptC::Obj::CerParser::shiftoperator()
 {
 	/*
 	 * shiftoperator: dualoperation((LeftO | RightO) dualoperation)*
@@ -434,7 +434,7 @@ AST* Cervice::Obj::CerParser::shiftoperator()
 	return result;
 }
 
-AST* Cervice::Obj::CerParser::dualoperation()
+AST* ScriptC::Obj::CerParser::dualoperation()
 {
 	/*
 	* dualoperation : term ((ADD|SUB|MOD) term)*
@@ -474,7 +474,7 @@ AST* Cervice::Obj::CerParser::dualoperation()
 	return result;
 }
 
-AST* Cervice::Obj::CerParser::term()
+AST* ScriptC::Obj::CerParser::term()
 {
 	/*
 	* term : factor ((MUL|DIV) factor)*
@@ -508,7 +508,7 @@ AST* Cervice::Obj::CerParser::term()
 	return result;
 }
 
-AST* Cervice::Obj::CerParser::factor()
+AST* ScriptC::Obj::CerParser::factor()
 {
 	/*
 	*	factor	:
@@ -627,7 +627,7 @@ AST* Cervice::Obj::CerParser::factor()
 	}
 }
 
-AST* Cervice::Obj::CerParser::Assignment()
+AST* ScriptC::Obj::CerParser::Assignment()
 {
 	/*
 	*	Assignment : KEY_LET Var_Id PlusAssign expr 
@@ -658,7 +658,7 @@ AST* Cervice::Obj::CerParser::Assignment()
 	return ret;
 }
 
-AST* Cervice::Obj::CerParser::Body()
+AST* ScriptC::Obj::CerParser::Body()
 {
 	/*
 		Body	: InterfaceDeclaration
@@ -708,7 +708,7 @@ AST* Cervice::Obj::CerParser::Body()
 	return ret;
 }
 
-std::vector<AST*> Cervice::Obj::CerParser::ExpressionBody()
+std::vector<AST*> ScriptC::Obj::CerParser::ExpressionBody()
 {
 	/*
 	*ExpressionBody	: Assignment SEMI
@@ -834,7 +834,7 @@ std::vector<AST*> Cervice::Obj::CerParser::ExpressionBody()
 
 
 
-AST* Cervice::Obj::CerParser::FunDeclaration()
+AST* ScriptC::Obj::CerParser::FunDeclaration()
 {
    /*
 	* FunDeclaration: KEY_FUNCTION FunctionHeader COLON ExpressionBody KEY_END
@@ -870,7 +870,7 @@ AST* Cervice::Obj::CerParser::FunDeclaration()
 	return ret;
 }
 
-AST* Cervice::Obj::CerParser::InterfaceDeclaration()
+AST* ScriptC::Obj::CerParser::InterfaceDeclaration()
 {
 	/*
 	* InterfaceDeclaration	: KEY_INTERFACE InterfaceHeader LBRACE (FunDeclaration | Assignment SEMI)* RBRACE
@@ -919,7 +919,7 @@ AST* Cervice::Obj::CerParser::InterfaceDeclaration()
 	return interdec;
 }
 
-AST* Cervice::Obj::CerParser::InterfaceHeader() {
+AST* ScriptC::Obj::CerParser::InterfaceHeader() {
 	/*
 	* InterfaceHeader		: VAR_ID (COLON VAR_ID)
 	*/
@@ -943,7 +943,7 @@ AST* Cervice::Obj::CerParser::InterfaceHeader() {
 	return ret;
 }
 
-AST* Cervice::Obj::CerParser::FunctionHeader(bool has_export)
+AST* ScriptC::Obj::CerParser::FunctionHeader(bool has_export)
 {
 	/*
 	* FuncHeader: VAR_ID LPARAM(VAR_ID(COMMA VAR_ID)*)* RPARAM
@@ -986,7 +986,7 @@ AST* Cervice::Obj::CerParser::FunctionHeader(bool has_export)
 	return funcH;
 }
 
-AST* Cervice::Obj::CerParser::Program()
+AST* ScriptC::Obj::CerParser::Program()
 {
 	/*
 	* Program : Body Eof
@@ -999,7 +999,7 @@ AST* Cervice::Obj::CerParser::Program()
 	return ret;
 }
 
-AST* Cervice::Obj::CerParser::Function_Id()
+AST* ScriptC::Obj::CerParser::Function_Id()
 {
 	/*
 	*  Function_Id : VAR_ID LPARAM (expr (COMMA expr)*)* RPARAM (PlusLSS VAR_ID PlusGTR)
@@ -1047,7 +1047,7 @@ AST* Cervice::Obj::CerParser::Function_Id()
 	return funcC;
 }
 
-AST* Cervice::Obj::CerParser::ArrayExpression()
+AST* ScriptC::Obj::CerParser::ArrayExpression()
 {
 	/*
 	* ArrayExpression: LBRACKET(expr(COMMA expr)*)* RBRACKET
@@ -1085,7 +1085,7 @@ AST* Cervice::Obj::CerParser::ArrayExpression()
 	return result;
 }
 
-AST* Cervice::Obj::CerParser::InterfaceExpression() 
+AST* ScriptC::Obj::CerParser::InterfaceExpression() 
 {
 	/*
 	 *	InterExpr: DOT(VAR_ID | Function_Id);
@@ -1108,7 +1108,7 @@ AST* Cervice::Obj::CerParser::InterfaceExpression()
 	return new InterExprOp(result);
 }
 
-bool Cervice::Obj::CerParser::isExprBegin()
+bool ScriptC::Obj::CerParser::isExprBegin()
 {
 	auto tok = m_lexical->getCurrentToken();
 	auto peek_tok = m_lexical->peekNextToken();
@@ -1158,7 +1158,7 @@ bool Cervice::Obj::CerParser::isExprBegin()
 	return false;
 }
 
-bool Cervice::Obj::CerParser::isAssignBegin()
+bool ScriptC::Obj::CerParser::isAssignBegin()
 {
 	bool ret = false;
 	auto tok = m_lexical->getCurrentToken();
@@ -1182,7 +1182,7 @@ bool Cervice::Obj::CerParser::isAssignBegin()
 	return ret;
 }
 
-AST* Cervice::Obj::CerParser::Integer_const()
+AST* ScriptC::Obj::CerParser::Integer_const()
 {
 	/*
 	* Integer_const	: int 
@@ -1206,7 +1206,7 @@ AST* Cervice::Obj::CerParser::Integer_const()
 	return result;
 }
 
-AST* Cervice::Obj::CerParser::String_const()
+AST* ScriptC::Obj::CerParser::String_const()
 {
 	/*
 	* String 
@@ -1220,7 +1220,7 @@ AST* Cervice::Obj::CerParser::String_const()
 	return new Str(ctok);
 }
 
-AST* Cervice::Obj::CerParser::Empty()
+AST* ScriptC::Obj::CerParser::Empty()
 {
 	/*
 	* Empty : null
@@ -1230,7 +1230,7 @@ AST* Cervice::Obj::CerParser::Empty()
 	return pass;
 }
 
-AST* Cervice::Obj::CerParser::parser()
+AST* ScriptC::Obj::CerParser::parser()
 {
 	astlog("AST Print >>>\n");
 
@@ -1238,7 +1238,7 @@ AST* Cervice::Obj::CerParser::parser()
 	return ret;
 }
 
-AST* Cervice::Obj::CerParser::ReturnExpr()
+AST* ScriptC::Obj::CerParser::ReturnExpr()
 {
 	AST* return_expr = nullptr;
 	takeEat(CerTokType::Key_Return);
@@ -1257,7 +1257,7 @@ AST* Cervice::Obj::CerParser::ReturnExpr()
 	return ret;
 }
 
-AST* Cervice::Obj::CerParser::FileInclude()
+AST* ScriptC::Obj::CerParser::FileInclude()
 {
 	/*
 	*	FileInclude: KEY_INCLUDE String_const SEMI
@@ -1272,7 +1272,7 @@ AST* Cervice::Obj::CerParser::FileInclude()
 	return include_file;
 }
 
-void Cervice::Obj::CerParser::takeEat(CerTokType type)
+void ScriptC::Obj::CerParser::takeEat(CerTokType type)
 {
 	auto errHis = ErrorHandling::getInstance();
 	auto tok = this->m_lexical->getCurrentToken();

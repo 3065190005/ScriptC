@@ -1,19 +1,19 @@
 #include "ErrorHandling.h"
 
-Cervice::Obj::ErrorHandling* 
-Cervice::Obj::ErrorHandling::m_errorHandling = nullptr;
+ScriptC::Obj::ErrorHandling* 
+ScriptC::Obj::ErrorHandling::m_errorHandling = nullptr;
 
-Cervice::Obj::ErrorHandling* Cervice::Obj::ErrorHandling::getInstance()
+ScriptC::Obj::ErrorHandling* ScriptC::Obj::ErrorHandling::getInstance()
 {
 	if (!m_errorHandling) {
-		static Cervice::Obj::ErrorHandling::_errorHGc gc;
-		m_errorHandling = new Cervice::Obj::ErrorHandling();
+		static ScriptC::Obj::ErrorHandling::_errorHGc gc;
+		m_errorHandling = new ScriptC::Obj::ErrorHandling();
 	}
 
 	return m_errorHandling;
 }
 
-Cervice::Obj::ErrorHandling::ErrorHandling()
+ScriptC::Obj::ErrorHandling::ErrorHandling()
 {
 	m_type_str = { 
 		"None",
@@ -24,33 +24,33 @@ Cervice::Obj::ErrorHandling::ErrorHandling()
 		"Vm" };
 }
 
-Cervice::Obj::ErrorHandling::~ErrorHandling()
+ScriptC::Obj::ErrorHandling::~ErrorHandling()
 {
 }
 
-void Cervice::Obj::ErrorHandling::throwErr(ErrorHandling::errorType etype, std::string info)
+void ScriptC::Obj::ErrorHandling::throwErr(ErrorHandling::errorType etype, std::string info)
 {
 	std::string type = m_type_str[(int)etype];
 	std::string thr = type +" : "+ info;
 	throw(thr);
 }
 
-void Cervice::Obj::ErrorHandling::setErrInfo(CerTokClass::DebugInfo info)
+void ScriptC::Obj::ErrorHandling::setErrInfo(CerTokClass::DebugInfo info)
 {
 	m_debug = info;
 }
 
-CerTokClass::DebugInfo Cervice::Obj::ErrorHandling::getErrorInfo()
+CerTokClass::DebugInfo ScriptC::Obj::ErrorHandling::getErrorInfo()
 {
 	return m_debug;
 }
 
-Cervice::Obj::ErrorHandling::_errorHGc::_errorHGc()
+ScriptC::Obj::ErrorHandling::_errorHGc::_errorHGc()
 {
 
 }
 
-Cervice::Obj::ErrorHandling::_errorHGc::~_errorHGc()
+ScriptC::Obj::ErrorHandling::_errorHGc::~_errorHGc()
 {
 	if (ErrorHandling::m_errorHandling) {
 		delete m_errorHandling;

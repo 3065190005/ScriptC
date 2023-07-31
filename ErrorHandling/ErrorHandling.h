@@ -1,14 +1,15 @@
 #pragma once
-#ifndef _CERVER_ERRORHANDING_
-#define _CERVER_ERRORHANDING_
+#ifndef _SCRIPTC_ERRORHANDING_
+#define _SCRIPTC_ERRORHANDING_
 
 #include <string>
 #include <vector>
 
 #include "..\CerLexical\CerLexical.h"
 
-namespace Cervice {
+namespace ScriptC {
 	namespace Obj {
+
 		class ErrorHandling
 		{
 		public:

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef _CERVER_CERINTERPRETER_
-#define _CERVER_CERINTERPRETER_
+#ifndef _SCRIPTC_CERINTERPRETER_
+#define _SCRIPTC_CERINTERPRETER_
 
 #include "CommandCode.h"
 #include "..\CerParser\AST.h"
@@ -8,8 +8,10 @@
 #include <map>
 #include <vector>
 
-namespace Cervice {
+namespace ScriptC {
 	namespace Obj {
+
+		using namespace AutoMem::Obj;
 		
 		class CommandCode;
 		class NodeVisitor;

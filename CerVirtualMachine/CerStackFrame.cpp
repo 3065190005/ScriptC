@@ -3,29 +3,29 @@
 #include "CerRunTime.h"
 #include "CerCalcStack.h"
 #include "CerStackFrame.h"
-using namespace Cervice::Obj;
+using namespace ScriptC::Obj;
 
-Cervice::Obj::CerStackFrame::CerStackFrame(std::string name)
+ScriptC::Obj::CerStackFrame::CerStackFrame(std::string name)
 {
 	m_stackFrame_name = name;
 }
 
-CerCalcStack* Cervice::Obj::CerStackFrame::getCalcStack()
+CerCalcStack* ScriptC::Obj::CerStackFrame::getCalcStack()
 {
 	return &m_calcStack;
 }
 
-std::list<auto_c>* Cervice::Obj::CerStackFrame::getDataStack()
+std::list<auto_c>* ScriptC::Obj::CerStackFrame::getDataStack()
 {
 	return &m_data_stack;
 }
 
-CerRunTime* Cervice::Obj::CerStackFrame::getRunTime()
+CerRunTime* ScriptC::Obj::CerStackFrame::getRunTime()
 {
 	return &m_run_time;
 }
 
-std::string Cervice::Obj::CerStackFrame::getStackFrameName()
+std::string ScriptC::Obj::CerStackFrame::getStackFrameName()
 {
 	return m_stackFrame_name;
 }

@@ -1,11 +1,13 @@
 #pragma once
-#ifndef _CERVER_CERSTACKFRAME_
-#define _CERVER_CERSTACKFRAME_
+#ifndef _SCRIPTC_CERSTACKFRAME_
+#define _SCRIPTC_CERSTACKFRAME_
 
 #include <list>
 
-namespace Cervice {
+namespace ScriptC {
 	namespace Obj {
+
+		using namespace AutoMem::Obj;
 
 		class CerStackFrame;
 		class CerCalcStack;

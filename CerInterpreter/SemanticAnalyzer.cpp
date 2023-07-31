@@ -9,12 +9,12 @@
 #include "SymbolClass.h"
 #include "SemanticAnalyzer.h"
 
-using namespace Cervice::Obj;
+using namespace ScriptC::Obj;
 
 SymbolTable SemanticAnalyzer::m_global_symbol_table(nullptr,"!console",0);
 std::list<std::string> SemanticAnalyzer::m_global_file_table;
 
-Cervice::Obj::SemanticAnalyzer::SemanticAnalyzer() : 
+ScriptC::Obj::SemanticAnalyzer::SemanticAnalyzer() : 
 	m_hasMain(true),
 	m_rootAts(nullptr),
 	m_symbol_table(&m_global_symbol_table)
@@ -23,11 +23,11 @@ Cervice::Obj::SemanticAnalyzer::SemanticAnalyzer() :
 		m_global_symbol_table.pushSymbol(SymbolClass("_FILE_NAME_", SymbolClass("let")));
 }
 
-Cervice::Obj::SemanticAnalyzer::~SemanticAnalyzer()
+ScriptC::Obj::SemanticAnalyzer::~SemanticAnalyzer()
 {
 }
 
-SemanticAnalyzer* Cervice::Obj::SemanticAnalyzer::create(AST* tree)
+SemanticAnalyzer* ScriptC::Obj::SemanticAnalyzer::create(AST* tree)
 {
 	SemanticAnalyzer* ret = new SemanticAnalyzer();
 	ret->m_rootAts = tree;
@@ -40,7 +40,7 @@ SemanticAnalyzer* Cervice::Obj::SemanticAnalyzer::create(AST* tree)
 	return ret;
 }
 
-bool Cervice::Obj::SemanticAnalyzer::scanner(auto_c* ret, AST* rootAts)
+bool ScriptC::Obj::SemanticAnalyzer::scanner(auto_c* ret, AST* rootAts)
 {
 	AST* root = rootAts;
 	if (root == nullptr) {
@@ -50,7 +50,7 @@ bool Cervice::Obj::SemanticAnalyzer::scanner(auto_c* ret, AST* rootAts)
 	return visit(root, ret, this);
 }
 
-bool Cervice::Obj::SemanticAnalyzer::visit_indexExprOp(AST* node, autoPtr ret)
+bool ScriptC::Obj::SemanticAnalyzer::visit_indexExprOp(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::indexExprOp) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -71,7 +71,7 @@ bool Cervice::Obj::SemanticAnalyzer::visit_indexExprOp(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::SemanticAnalyzer::visit_exprOp(AST* node, autoPtr ret)
+bool ScriptC::Obj::SemanticAnalyzer::visit_exprOp(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::exprOp) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -88,7 +88,7 @@ bool Cervice::Obj::SemanticAnalyzer::visit_exprOp(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::SemanticAnalyzer::visit_BinOp(AST* node, autoPtr ret)
+bool ScriptC::Obj::SemanticAnalyzer::visit_BinOp(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::BinOp) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -101,7 +101,7 @@ bool Cervice::Obj::SemanticAnalyzer::visit_BinOp(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::SemanticAnalyzer::visit_IfExpr(AST* node, autoPtr ret)
+bool ScriptC::Obj::SemanticAnalyzer::visit_IfExpr(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::IfExpr) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -146,7 +146,7 @@ bool Cervice::Obj::SemanticAnalyzer::visit_IfExpr(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::SemanticAnalyzer::visit_WhileExpr(AST* node, autoPtr ret)
+bool ScriptC::Obj::SemanticAnalyzer::visit_WhileExpr(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::WhileExpr) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -173,7 +173,7 @@ bool Cervice::Obj::SemanticAnalyzer::visit_WhileExpr(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::SemanticAnalyzer::visit_ForExpr(AST* node, autoPtr ret)
+bool ScriptC::Obj::SemanticAnalyzer::visit_ForExpr(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::ForExpr) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -202,7 +202,7 @@ bool Cervice::Obj::SemanticAnalyzer::visit_ForExpr(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::SemanticAnalyzer::visit_UnaryOp(AST* node, autoPtr ret)
+bool ScriptC::Obj::SemanticAnalyzer::visit_UnaryOp(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::UnaryOp) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -214,17 +214,17 @@ bool Cervice::Obj::SemanticAnalyzer::visit_UnaryOp(AST* node, autoPtr ret)
 
 }
 
-bool Cervice::Obj::SemanticAnalyzer::visit_Num(AST* node, autoPtr ret)
+bool ScriptC::Obj::SemanticAnalyzer::visit_Num(AST* node, autoPtr ret)
 {
 	return true;
 }
 
-bool Cervice::Obj::SemanticAnalyzer::visit_Str(AST* node, autoPtr ret)
+bool ScriptC::Obj::SemanticAnalyzer::visit_Str(AST* node, autoPtr ret)
 {
 	return true;
 }
 
-bool Cervice::Obj::SemanticAnalyzer::visit_Var(AST* node, autoPtr ret)
+bool ScriptC::Obj::SemanticAnalyzer::visit_Var(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::Var) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -255,7 +255,7 @@ bool Cervice::Obj::SemanticAnalyzer::visit_Var(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::SemanticAnalyzer::visit_BreakOp(AST* node, autoPtr ret)
+bool ScriptC::Obj::SemanticAnalyzer::visit_BreakOp(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::BreakOp) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -282,7 +282,7 @@ bool Cervice::Obj::SemanticAnalyzer::visit_BreakOp(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::SemanticAnalyzer::visit_ContinueOp(AST* node, autoPtr ret)
+bool ScriptC::Obj::SemanticAnalyzer::visit_ContinueOp(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::ContinueOp) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -309,7 +309,7 @@ bool Cervice::Obj::SemanticAnalyzer::visit_ContinueOp(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::SemanticAnalyzer::visit_InterNew(AST* node, autoPtr ret)
+bool ScriptC::Obj::SemanticAnalyzer::visit_InterNew(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::InterNew) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -340,7 +340,7 @@ bool Cervice::Obj::SemanticAnalyzer::visit_InterNew(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::SemanticAnalyzer::visit_IncludeFile(AST* node, autoPtr ret)
+bool ScriptC::Obj::SemanticAnalyzer::visit_IncludeFile(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::IncludeFile) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -392,7 +392,7 @@ bool Cervice::Obj::SemanticAnalyzer::visit_IncludeFile(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::SemanticAnalyzer::visit_ArrayVar(AST* node, autoPtr ret)
+bool ScriptC::Obj::SemanticAnalyzer::visit_ArrayVar(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::ArrayVar) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -407,7 +407,7 @@ bool Cervice::Obj::SemanticAnalyzer::visit_ArrayVar(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::SemanticAnalyzer::visit_InterExprOp(AST* node, autoPtr ret)
+bool ScriptC::Obj::SemanticAnalyzer::visit_InterExprOp(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::InterExprOp) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -427,7 +427,7 @@ bool Cervice::Obj::SemanticAnalyzer::visit_InterExprOp(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::SemanticAnalyzer::visit_AssignOp(AST* node, autoPtr ret)
+bool ScriptC::Obj::SemanticAnalyzer::visit_AssignOp(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::AssignOp) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -481,7 +481,7 @@ bool Cervice::Obj::SemanticAnalyzer::visit_AssignOp(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::SemanticAnalyzer::visit_ReturnOp(AST* node, autoPtr ret)
+bool ScriptC::Obj::SemanticAnalyzer::visit_ReturnOp(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::ReturnAst) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -493,7 +493,7 @@ bool Cervice::Obj::SemanticAnalyzer::visit_ReturnOp(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::SemanticAnalyzer::visit_FunDeclaration(AST* node, autoPtr ret)
+bool ScriptC::Obj::SemanticAnalyzer::visit_FunDeclaration(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::FuncDelOp) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -530,7 +530,7 @@ bool Cervice::Obj::SemanticAnalyzer::visit_FunDeclaration(AST* node, autoPtr ret
 	return true;
 }
 
-bool Cervice::Obj::SemanticAnalyzer::visit_FunctionHeader(AST* node, autoPtr ret)
+bool ScriptC::Obj::SemanticAnalyzer::visit_FunctionHeader(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::FuncHeader) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -567,7 +567,7 @@ bool Cervice::Obj::SemanticAnalyzer::visit_FunctionHeader(AST* node, autoPtr ret
 	return true;
 }
 
-bool Cervice::Obj::SemanticAnalyzer::visit_FunctionCall(AST* node, autoPtr ret)
+bool ScriptC::Obj::SemanticAnalyzer::visit_FunctionCall(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::FuncCall) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -598,7 +598,7 @@ bool Cervice::Obj::SemanticAnalyzer::visit_FunctionCall(AST* node, autoPtr ret)
 
 }
 
-bool Cervice::Obj::SemanticAnalyzer::visit_InterDeclaration(AST* node, autoPtr ret)
+bool ScriptC::Obj::SemanticAnalyzer::visit_InterDeclaration(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::InterfaceDecOp) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -630,7 +630,7 @@ bool Cervice::Obj::SemanticAnalyzer::visit_InterDeclaration(AST* node, autoPtr r
 	return true;
 }
 
-bool Cervice::Obj::SemanticAnalyzer::visit_InterfaceHeader(AST* node, autoPtr ret)
+bool ScriptC::Obj::SemanticAnalyzer::visit_InterfaceHeader(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::InterfaceHeaderOp) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -658,7 +658,7 @@ bool Cervice::Obj::SemanticAnalyzer::visit_InterfaceHeader(AST* node, autoPtr re
 
 }
 
-bool Cervice::Obj::SemanticAnalyzer::visit_Body(AST* node, autoPtr ret)
+bool ScriptC::Obj::SemanticAnalyzer::visit_Body(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::BodyAst) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -673,7 +673,7 @@ bool Cervice::Obj::SemanticAnalyzer::visit_Body(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::SemanticAnalyzer::visit_Program(AST* node, autoPtr ret)
+bool ScriptC::Obj::SemanticAnalyzer::visit_Program(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::ProgramAst) {
 		m_errHis->setErrInfo(node->getDebugInfo());
@@ -695,7 +695,7 @@ bool Cervice::Obj::SemanticAnalyzer::visit_Program(AST* node, autoPtr ret)
 	return true;
 }
 
-bool Cervice::Obj::SemanticAnalyzer::visit_Empty(AST* node, autoPtr ret)
+bool ScriptC::Obj::SemanticAnalyzer::visit_Empty(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::EmptyAst) {
 		m_errHis->setErrInfo(node->getDebugInfo());

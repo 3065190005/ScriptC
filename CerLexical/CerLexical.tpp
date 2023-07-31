@@ -3,10 +3,10 @@
 #include "CerLexical.h"
 #include "..\ErrorHandling\ErrorHandling.h"
 #include "CerLexicalMacro.h"
-using namespace Cervice::Obj;
+using namespace ScriptC::Obj;
 
 template<typename T>
-CerLexical<T>* Cervice::Obj::CerLexical<T>::create(std::basic_string<T> code,std::string filename)
+CerLexical<T>* ScriptC::Obj::CerLexical<T>::create(std::basic_string<T> code,std::string filename)
 {
 	code = kstring::StringReplace(code, "\r\n", "\n");
 	toklog("Sources Txt >>>\n");
@@ -28,7 +28,7 @@ retGoto:
 }
 
 template<typename T>
-Cervice::Obj::CerLexical<T>::CerLexical(std::basic_string<T> code):
+ScriptC::Obj::CerLexical<T>::CerLexical(std::basic_string<T> code):
 	m_current_tok("",CerTokType::None)
 {
 	m_sources_index = 0;
@@ -37,12 +37,12 @@ Cervice::Obj::CerLexical<T>::CerLexical(std::basic_string<T> code):
 }
 
 template<typename T>
-Cervice::Obj::CerLexical<T>::~CerLexical()
+ScriptC::Obj::CerLexical<T>::~CerLexical()
 {
 }
 
 template<typename T>
-void Cervice::Obj::CerLexical<T>::JumpExegesis()
+void ScriptC::Obj::CerLexical<T>::JumpExegesis()
 {
 	do {
 		T byte_char = m_sources_txt.at(m_sources_index);
@@ -59,7 +59,7 @@ void Cervice::Obj::CerLexical<T>::JumpExegesis()
 }
 
 template<typename T>
-bool Cervice::Obj::CerLexical<T>::isNumber(T byte)
+bool ScriptC::Obj::CerLexical<T>::isNumber(T byte)
 {
 	bool wide_char = false;
 	std::string name(typeid(byte).name());
@@ -74,7 +74,7 @@ bool Cervice::Obj::CerLexical<T>::isNumber(T byte)
 }
 
 template<typename T>
-bool Cervice::Obj::CerLexical<T>::isCharacter(T byte)
+bool ScriptC::Obj::CerLexical<T>::isCharacter(T byte)
 {
 	if ((byte >= 'a' && byte <= 'z') ||
 		(byte >= L'a' && byte <= L'z'))
@@ -88,7 +88,7 @@ bool Cervice::Obj::CerLexical<T>::isCharacter(T byte)
 }
 
 template<typename T>
-bool Cervice::Obj::CerLexical<T>::isJumpChar(T byte)
+bool ScriptC::Obj::CerLexical<T>::isJumpChar(T byte)
 {
 	if (isRowJump(byte)||
 		isColumnJump(byte))
@@ -98,7 +98,7 @@ bool Cervice::Obj::CerLexical<T>::isJumpChar(T byte)
 }
 
 template<typename T>
-bool Cervice::Obj::CerLexical<T>::isRowJump(T byte)
+bool ScriptC::Obj::CerLexical<T>::isRowJump(T byte)
 {
 	if (byte == '\t' ||
 		byte == ' ')
@@ -112,7 +112,7 @@ bool Cervice::Obj::CerLexical<T>::isRowJump(T byte)
 }
 
 template<typename T>
-bool Cervice::Obj::CerLexical<T>::isColumnJump(T byte)
+bool ScriptC::Obj::CerLexical<T>::isColumnJump(T byte)
 {
 	if (byte == '\r' ||
 		byte == '\n')
@@ -126,7 +126,7 @@ bool Cervice::Obj::CerLexical<T>::isColumnJump(T byte)
 }
 
 template<typename T>
-bool Cervice::Obj::CerLexical<T>::isDoubleChar(T byte1,T byte2)
+bool ScriptC::Obj::CerLexical<T>::isDoubleChar(T byte1,T byte2)
 {
 	auto index = m_sources_index;
 	if (m_sources_index+1 >= m_sources_txt.size())
@@ -161,7 +161,7 @@ bool Cervice::Obj::CerLexical<T>::isDoubleChar(T byte1,T byte2)
 }
 
 template<typename T>
-void Cervice::Obj::CerLexical<T>::pushToks(CerTokClass tok)
+void ScriptC::Obj::CerLexical<T>::pushToks(CerTokClass tok)
 {
 	tok.setDebugInfo({ m_row,m_column ,tok.getCstr(),m_file_name });
 	printTokInfo(tok.getDebugInfo());
@@ -173,7 +173,7 @@ void Cervice::Obj::CerLexical<T>::pushToks(CerTokClass tok)
 }
 
 template<typename T>
-CerTokType Cervice::Obj::CerLexical<T>::isKeyWord(std::string str)
+CerTokType ScriptC::Obj::CerLexical<T>::isKeyWord(std::string str)
 {
 	CerTokType ret = CerTokType::Var_Id;
 	if (str == "let")
@@ -221,7 +221,7 @@ CerTokType Cervice::Obj::CerLexical<T>::isKeyWord(std::string str)
 }
 
 template<typename T>
-std::basic_string<T> Cervice::Obj::CerLexical<T>::getIntegerConst(bool &isfloat)
+std::basic_string<T> ScriptC::Obj::CerLexical<T>::getIntegerConst(bool &isfloat)
 {
 	short isdot = 0;
 	std::basic_string<T> ret;
@@ -261,7 +261,7 @@ std::basic_string<T> Cervice::Obj::CerLexical<T>::getIntegerConst(bool &isfloat)
 }
 
 template<typename T>
-std::basic_string<T> Cervice::Obj::CerLexical<T>::getVarIdConst()
+std::basic_string<T> ScriptC::Obj::CerLexical<T>::getVarIdConst()
 {
 	std::basic_string<T> ret;
 	do {
@@ -296,7 +296,7 @@ std::basic_string<T> Cervice::Obj::CerLexical<T>::getVarIdConst()
 }
 
 template<typename T>
-std::basic_string<T> Cervice::Obj::CerLexical<T>::getStrConst()
+std::basic_string<T> ScriptC::Obj::CerLexical<T>::getStrConst()
 {
 	std::map<char, char> formant = {
 		{'a','\a'},
@@ -365,7 +365,7 @@ std::basic_string<T> Cervice::Obj::CerLexical<T>::getStrConst()
 }
 
 template<typename T>
-bool Cervice::Obj::CerLexical<T>::initTokenVector()
+bool ScriptC::Obj::CerLexical<T>::initTokenVector()
 {
 	toklog("TokenPrint >>>\n");
 	T sour_byte;
@@ -544,7 +544,7 @@ bool Cervice::Obj::CerLexical<T>::initTokenVector()
 }
 
 template<typename T>
-bool Cervice::Obj::CerLexical<T>::advance(int jump)
+bool ScriptC::Obj::CerLexical<T>::advance(int jump)
 {
 	if (m_tokens_index < m_tokens_vec.size()) {
 		m_tokens_index++;
@@ -555,14 +555,14 @@ bool Cervice::Obj::CerLexical<T>::advance(int jump)
 }
 
 template<typename T>
-void Cervice::Obj::CerLexical<T>::resourcesIndexAdvance(int i)
+void ScriptC::Obj::CerLexical<T>::resourcesIndexAdvance(int i)
 {
 	m_sources_index += i;
 	m_row += i;
 }
 
 template<typename T>
-void Cervice::Obj::CerLexical<T>::printTokInfo(CerTokClass::DebugInfo info)
+void ScriptC::Obj::CerLexical<T>::printTokInfo(CerTokClass::DebugInfo info)
 {
 	toklog("[i]bugInfo info("); toklog(info.file);
 	toklog(" , "); toklog(info.character);
@@ -572,7 +572,7 @@ void Cervice::Obj::CerLexical<T>::printTokInfo(CerTokClass::DebugInfo info)
 }
 
 template<typename T>
-CerTokClass Cervice::Obj::CerLexical<T>::getNextToken()
+CerTokClass ScriptC::Obj::CerLexical<T>::getNextToken()
 {
 	if (m_tokens_index == m_tokens_vec.size()) {
 		return CerTokClass("", CerTokType::Eof);
@@ -587,7 +587,7 @@ CerTokClass Cervice::Obj::CerLexical<T>::getNextToken()
 }
 
 template<typename T>
-CerTokClass Cervice::Obj::CerLexical<T>::peekNextToken(int step)
+CerTokClass ScriptC::Obj::CerLexical<T>::peekNextToken(int step)
 {
 	if (m_tokens_index+step >= m_tokens_vec.size()) {
 		return CerTokClass("", CerTokType::Eof);
@@ -596,19 +596,19 @@ CerTokClass Cervice::Obj::CerLexical<T>::peekNextToken(int step)
 }
 
 template<typename T>
-CerTokClass& Cervice::Obj::CerLexical<T>::getCurrentToken()
+CerTokClass& ScriptC::Obj::CerLexical<T>::getCurrentToken()
 {
 	return m_current_tok;
 }
 
 template<typename T>
-void Cervice::Obj::CerLexical<T>::setFileName(std::string file)
+void ScriptC::Obj::CerLexical<T>::setFileName(std::string file)
 {
 	m_file_name = file;
 }
 
 template<typename T>
-std::string Cervice::Obj::CerLexical<T>::getFileName()
+std::string ScriptC::Obj::CerLexical<T>::getFileName()
 {
 	return m_file_name;
 }

@@ -1,11 +1,12 @@
 #pragma once
-#ifndef _CERVER_CERPARSER_
-#define _CERVER_CERPARSER_
+#ifndef _SCRIPTC_CERPARSER_
+#define _SCRIPTC_CERPARSER_
 
 #include <vector>
 
-namespace Cervice {
+namespace ScriptC {
 	namespace Obj {
+
 		template<typename T>
 		class CerLexical;
 		class CerTokClass;

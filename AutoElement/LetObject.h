@@ -1,6 +1,6 @@
 #pragma once
-#ifndef _CERVER_LETOBJECT__
-#define _CERVER_LETOBJECT__
+#ifndef _AUTOMEM_LETOBJECT__
+#define _AUTOMEM_LETOBJECT__
 
 #include "letMacro.h"
 #include <string>
@@ -10,7 +10,7 @@
 #include <type_traits>
 #include <iostream>
 
-namespace Cervice {
+namespace AutoMem {
 	namespace Obj {
 
 		namespace {
@@ -30,6 +30,10 @@ namespace Cervice {
 
 		class BlockArray;
 
+		/*************************
+		* LetObject
+		* 变量类 用户使用变量原子
+		*************************/
 		class LetObject
 		{
 		public: // 类型定义
@@ -251,6 +255,20 @@ namespace Cervice {
 
 		using auto_c = LetObject;
 		using autoPtr = auto_c*;
+
+		/*************************
+		* LetTools
+		* 工具类 变量相关工具
+		*************************/
+		class LetTools
+		{
+		public:
+			LetTools() {};
+			~LetTools() {};
+
+		public:
+			void print(auto_c& value);
+		};
 
 #include "LetObject.tpp"
 

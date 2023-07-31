@@ -4,22 +4,22 @@
 #include "..\CerInterpreter\CommandCode.h"
 #include "CerCalcStack.h"
 
-using namespace Cervice::Obj;
+using namespace ScriptC::Obj;
 
-Cervice::Obj::CerCalcStack::CerCalcStack()
+ScriptC::Obj::CerCalcStack::CerCalcStack()
 {
 }
 
-Cervice::Obj::CerCalcStack::~CerCalcStack()
+ScriptC::Obj::CerCalcStack::~CerCalcStack()
 {
 }
 
-void Cervice::Obj::CerCalcStack::push_opera(auto_c obj)
+void ScriptC::Obj::CerCalcStack::push_opera(auto_c obj)
 {
     m_stack.emplace_back(obj);
 }
 
-auto_c Cervice::Obj::CerCalcStack::pop_opera()
+auto_c ScriptC::Obj::CerCalcStack::pop_opera()
 {
     auto_c ret;
     ret = m_stack.back();
@@ -27,7 +27,7 @@ auto_c Cervice::Obj::CerCalcStack::pop_opera()
     return ret;
 }
 
-void Cervice::Obj::CerCalcStack::calc_opera(CodeType type)
+void ScriptC::Obj::CerCalcStack::calc_opera(CodeType type)
 {
 
     switch (type)
@@ -63,7 +63,7 @@ void Cervice::Obj::CerCalcStack::calc_opera(CodeType type)
     }
 }
 
-void Cervice::Obj::CerCalcStack::BinOpCalc(CodeType type)
+void ScriptC::Obj::CerCalcStack::BinOpCalc(CodeType type)
 {
     auto_c left, right, result;
     left = m_stack.back();
@@ -132,7 +132,7 @@ void Cervice::Obj::CerCalcStack::BinOpCalc(CodeType type)
     m_stack.emplace_back(result);
 }
 
-void Cervice::Obj::CerCalcStack::UnaryCalc(CodeType type)
+void ScriptC::Obj::CerCalcStack::UnaryCalc(CodeType type)
 {
     auto_c left, result, unary;
     left = m_stack.back();
@@ -173,7 +173,7 @@ void Cervice::Obj::CerCalcStack::UnaryCalc(CodeType type)
     m_stack.emplace_back(result);
 }
 
-CerCalcStack* Cervice::Obj::CerCalcStack::create()
+CerCalcStack* ScriptC::Obj::CerCalcStack::create()
 {
     CerCalcStack* ret = nullptr;
     ret = new CerCalcStack();

@@ -4,7 +4,7 @@
 #include <functional>
 #include <algorithm>
 
-using namespace Cervice::Obj;
+using namespace AutoMem::Obj;
 
 #define thisPtr \
 LetObject* _this = this;\
@@ -224,7 +224,7 @@ LetObject LetObject::operator+( LetObject& node)
 	return operator+(&node);
 }
 
-LetObject Cervice::Obj::LetObject::operator!()
+LetObject AutoMem::Obj::LetObject::operator!()
 {
 	LetObject ret(false, false);
 	ret << false;
@@ -293,7 +293,7 @@ LetObject Cervice::Obj::LetObject::operator!()
 	return std::move(ret);
 }
 
-LetObject Cervice::Obj::LetObject::operator~()
+LetObject AutoMem::Obj::LetObject::operator~()
 {
 	LetObject ret(false, false);
 	ret << 0;
@@ -700,18 +700,18 @@ LetObject LetObject::operator/( LetObject* node)
 
 // %
 
-LetObject Cervice::Obj::LetObject::operator%(LetObject&&node)
+LetObject AutoMem::Obj::LetObject::operator%(LetObject&&node)
 {
 	return operator%(&node);
 }
 
-LetObject Cervice::Obj::LetObject::operator%(LetObject& node)
+LetObject AutoMem::Obj::LetObject::operator%(LetObject& node)
 {
 	return operator%(&node);
 }
 
 
-LetObject Cervice::Obj::LetObject::operator%(LetObject* node)
+LetObject AutoMem::Obj::LetObject::operator%(LetObject* node)
 {
 	thisPtr;
 	nodePtr;
@@ -774,17 +774,17 @@ LetObject Cervice::Obj::LetObject::operator%(LetObject* node)
 
 // <<
 
-LetObject Cervice::Obj::LetObject::operator<<(LetObject&& node)
+LetObject AutoMem::Obj::LetObject::operator<<(LetObject&& node)
 {
 	return operator<<(&node);
 }
 
-LetObject Cervice::Obj::LetObject::operator<<(LetObject& node)
+LetObject AutoMem::Obj::LetObject::operator<<(LetObject& node)
 {
 	return operator<<(&node);
 }
 
-LetObject Cervice::Obj::LetObject::operator<<(LetObject* node)
+LetObject AutoMem::Obj::LetObject::operator<<(LetObject* node)
 {
 	thisPtr;
 	nodePtr;
@@ -851,17 +851,17 @@ LetObject Cervice::Obj::LetObject::operator<<(LetObject* node)
 
 // >>
 
-LetObject Cervice::Obj::LetObject::operator>>(LetObject&& node)
+LetObject AutoMem::Obj::LetObject::operator>>(LetObject&& node)
 {
 	return operator>>(&node);
 }
 
-LetObject Cervice::Obj::LetObject::operator>>(LetObject& node)
+LetObject AutoMem::Obj::LetObject::operator>>(LetObject& node)
 {
 	return operator>>(&node);
 }
 
-LetObject Cervice::Obj::LetObject::operator>>(LetObject* node)
+LetObject AutoMem::Obj::LetObject::operator>>(LetObject* node)
 {
 	thisPtr;
 	nodePtr;
@@ -928,17 +928,17 @@ LetObject Cervice::Obj::LetObject::operator>>(LetObject* node)
 
 // >
 
-LetObject Cervice::Obj::LetObject::operator>(LetObject&& node)
+LetObject AutoMem::Obj::LetObject::operator>(LetObject&& node)
 {
 	return operator>(&node);
 }
 
-LetObject Cervice::Obj::LetObject::operator>(LetObject& node)
+LetObject AutoMem::Obj::LetObject::operator>(LetObject& node)
 {
 	return operator>(&node);
 }
 
-LetObject Cervice::Obj::LetObject::operator>(LetObject* node)
+LetObject AutoMem::Obj::LetObject::operator>(LetObject* node)
 {
 	thisPtr;
 	nodePtr;
@@ -1030,17 +1030,17 @@ LetObject Cervice::Obj::LetObject::operator>(LetObject* node)
 
 // <
 
-LetObject Cervice::Obj::LetObject::operator<(LetObject&& node)
+LetObject AutoMem::Obj::LetObject::operator<(LetObject&& node)
 {
 	return operator<(&node);
 }
 
-LetObject Cervice::Obj::LetObject::operator<(LetObject& node)
+LetObject AutoMem::Obj::LetObject::operator<(LetObject& node)
 {
 	return operator<(&node);
 }
 
-LetObject Cervice::Obj::LetObject::operator<(LetObject* node)
+LetObject AutoMem::Obj::LetObject::operator<(LetObject* node)
 {
 	thisPtr;
 	nodePtr;
@@ -1132,17 +1132,17 @@ LetObject Cervice::Obj::LetObject::operator<(LetObject* node)
 
 // >=
 
-LetObject Cervice::Obj::LetObject::operator>=(LetObject&& node)
+LetObject AutoMem::Obj::LetObject::operator>=(LetObject&& node)
 {
 	return operator>=(&node);
 }
 
-LetObject Cervice::Obj::LetObject::operator>=(LetObject& node)
+LetObject AutoMem::Obj::LetObject::operator>=(LetObject& node)
 {
 	return operator>=(&node);
 }
 
-LetObject Cervice::Obj::LetObject::operator>=(LetObject* node)
+LetObject AutoMem::Obj::LetObject::operator>=(LetObject* node)
 {
 	thisPtr;
 	nodePtr;
@@ -1247,17 +1247,17 @@ LetObject Cervice::Obj::LetObject::operator>=(LetObject* node)
 
 // <=
 
-LetObject Cervice::Obj::LetObject::operator<=(LetObject&& node)
+LetObject AutoMem::Obj::LetObject::operator<=(LetObject&& node)
 {
 	return operator<=(&node);
 }
 
-LetObject Cervice::Obj::LetObject::operator<=(LetObject& node)
+LetObject AutoMem::Obj::LetObject::operator<=(LetObject& node)
 {
 	return operator<=(&node);
 }
 
-LetObject Cervice::Obj::LetObject::operator<=(LetObject* node)
+LetObject AutoMem::Obj::LetObject::operator<=(LetObject* node)
 {
 	thisPtr;
 	nodePtr;
@@ -1362,17 +1362,17 @@ LetObject Cervice::Obj::LetObject::operator<=(LetObject* node)
 
 // !=
 
-LetObject Cervice::Obj::LetObject::operator!=(LetObject&& node)
+LetObject AutoMem::Obj::LetObject::operator!=(LetObject&& node)
 {
 	return operator!=(&node);
 }
 
-LetObject Cervice::Obj::LetObject::operator!=(LetObject& node)
+LetObject AutoMem::Obj::LetObject::operator!=(LetObject& node)
 {
 	return operator!=(&node);
 }
 
-LetObject Cervice::Obj::LetObject::operator!=(LetObject* node)
+LetObject AutoMem::Obj::LetObject::operator!=(LetObject* node)
 {
 	thisPtr;
 	nodePtr;
@@ -1458,17 +1458,17 @@ LetObject Cervice::Obj::LetObject::operator!=(LetObject* node)
 
 // ==
 
-LetObject Cervice::Obj::LetObject::operator==(LetObject&& node)
+LetObject AutoMem::Obj::LetObject::operator==(LetObject&& node)
 {
 	return operator==(&node);
 }
 
-LetObject Cervice::Obj::LetObject::operator==(LetObject& node)
+LetObject AutoMem::Obj::LetObject::operator==(LetObject& node)
 {
 	return operator==(&node);
 }
 
-LetObject Cervice::Obj::LetObject::operator==(LetObject* node)
+LetObject AutoMem::Obj::LetObject::operator==(LetObject* node)
 {
 	thisPtr;
 	nodePtr;
@@ -1555,18 +1555,18 @@ LetObject Cervice::Obj::LetObject::operator==(LetObject* node)
 
 // &
 
-LetObject Cervice::Obj::LetObject::operator&(LetObject&& node)
+LetObject AutoMem::Obj::LetObject::operator&(LetObject&& node)
 {
 	return operator&(&node);
 }
 
-LetObject Cervice::Obj::LetObject::operator&(LetObject& node)
+LetObject AutoMem::Obj::LetObject::operator&(LetObject& node)
 {
 	return operator&(&node);
 }
 
 
-LetObject Cervice::Obj::LetObject::operator&(LetObject* node)
+LetObject AutoMem::Obj::LetObject::operator&(LetObject* node)
 {
 	thisPtr;
 	nodePtr;
@@ -1635,17 +1635,17 @@ LetObject Cervice::Obj::LetObject::operator&(LetObject* node)
 
 // ^
 
-LetObject Cervice::Obj::LetObject::operator^(LetObject&& node)
+LetObject AutoMem::Obj::LetObject::operator^(LetObject&& node)
 {
 	return operator^(&node);
 }
 
-LetObject Cervice::Obj::LetObject::operator^(LetObject& node)
+LetObject AutoMem::Obj::LetObject::operator^(LetObject& node)
 {
 	return operator^(&node);
 }
 
-LetObject Cervice::Obj::LetObject::operator^(LetObject* node)
+LetObject AutoMem::Obj::LetObject::operator^(LetObject* node)
 {
 	thisPtr;
 	nodePtr;
@@ -1714,17 +1714,17 @@ LetObject Cervice::Obj::LetObject::operator^(LetObject* node)
 
 // |
 
-LetObject Cervice::Obj::LetObject::operator|(LetObject&& node)
+LetObject AutoMem::Obj::LetObject::operator|(LetObject&& node)
 {
 	return operator|(&node);
 }
 
-LetObject Cervice::Obj::LetObject::operator|(LetObject& node)
+LetObject AutoMem::Obj::LetObject::operator|(LetObject& node)
 {
 	return operator|(&node);
 }
 
-LetObject Cervice::Obj::LetObject::operator|(LetObject* node)
+LetObject AutoMem::Obj::LetObject::operator|(LetObject* node)
 {
 	thisPtr;
 	nodePtr;
@@ -1793,17 +1793,17 @@ LetObject Cervice::Obj::LetObject::operator|(LetObject* node)
 
 // &&
 
-LetObject Cervice::Obj::LetObject::operator&&(LetObject&& node)
+LetObject AutoMem::Obj::LetObject::operator&&(LetObject&& node)
 {
 	return operator&&(&node);
 }
 
-LetObject Cervice::Obj::LetObject::operator&&(LetObject& node)
+LetObject AutoMem::Obj::LetObject::operator&&(LetObject& node)
 {
 	return operator&&(&node);
 }
 
-LetObject Cervice::Obj::LetObject::operator&&(LetObject* node)
+LetObject AutoMem::Obj::LetObject::operator&&(LetObject* node)
 {
 	thisPtr;
 	nodePtr;
@@ -1919,17 +1919,17 @@ LetObject Cervice::Obj::LetObject::operator&&(LetObject* node)
 
 // &&
 
-LetObject Cervice::Obj::LetObject::operator||(LetObject&& node)
+LetObject AutoMem::Obj::LetObject::operator||(LetObject&& node)
 {
 	return operator||(&node);
 }
 
-LetObject Cervice::Obj::LetObject::operator||(LetObject& node)
+LetObject AutoMem::Obj::LetObject::operator||(LetObject& node)
 {
 	return operator||(&node);
 }
 
-LetObject Cervice::Obj::LetObject::operator||(LetObject* node)
+LetObject AutoMem::Obj::LetObject::operator||(LetObject* node)
 {
 	thisPtr;
 	nodePtr;

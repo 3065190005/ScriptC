@@ -1,6 +1,6 @@
 #pragma once
-#ifndef _CERVER_CERLEXICALMACRO_
-#define _CERVER_CERLEXICALMACRO_
+#ifndef _SCRIPTC_CERLEXICALMACRO_
+#define _SCRIPTC_CERLEXICALMACRO_
 #include "..\Global\globalDefine.h"
 
 #define DebugTokenLog true

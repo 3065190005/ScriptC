@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <ctime>
 
-using namespace Cervice::Obj;
+using namespace AutoMem::Obj;
 
 LetManager* LetManager::m_instance = nullptr;
 std::list<Block*>::iterator LetManager::void_ptr;
@@ -234,7 +234,7 @@ LetManager::Gc::~Gc()
 	}
 }
 
-bool Cervice::Obj::LetManager::joinMemery()
+bool AutoMem::Obj::LetManager::joinMemery()
 {
 
 	size_t blocks_step = MANAGER_MEMERYS_SPACE_STEP;

@@ -1,10 +1,12 @@
 #pragma once
-#ifndef _CERVER_CERCALCSTACK_
-#define _CERVER_CERCALCSTACK_
+#ifndef _SCRIPTC_CERCALCSTACK_
+#define _SCRIPTC_CERCALCSTACK_
 #include <vector>
 
-namespace Cervice {
+namespace ScriptC {
 	namespace Obj {
+
+		using namespace AutoMem::Obj;
 
 		class CerTokClass;
 		class CommandCode;

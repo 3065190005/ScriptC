@@ -1,5 +1,5 @@
 #include "SymbolClass.h"
-using namespace Cervice::Obj;
+using namespace ScriptC::Obj;
 
 /***************************
 * class SymbolClass
@@ -7,7 +7,7 @@ using namespace Cervice::Obj;
 ***************************/
 
 // »ù´¡·ûºÅ
-Cervice::Obj::SymbolClass::SymbolClass(std::string name)
+ScriptC::Obj::SymbolClass::SymbolClass(std::string name)
 {
 	m_symbol_name = name;
 	m_symbol_type = SymbolType::None;
@@ -22,7 +22,7 @@ Cervice::Obj::SymbolClass::SymbolClass(std::string name)
 
 
 // ±äÁ¿·ûºÅ
-Cervice::Obj::SymbolClass::SymbolClass(std::string name, SymbolClass type)
+ScriptC::Obj::SymbolClass::SymbolClass(std::string name, SymbolClass type)
 {
 	m_symbol_name = name;
 	m_symbol_type = SymbolType::None;
@@ -38,14 +38,14 @@ Cervice::Obj::SymbolClass::SymbolClass(std::string name, SymbolClass type)
 		throw("can not take var symbol with " + name);
 }
 
-std::vector<std::string> Cervice::Obj::SymbolClass::getParams()
+std::vector<std::string> ScriptC::Obj::SymbolClass::getParams()
 {
 	return m_symbol_params;
 }
 
 
 // º¯Êý·ûºÅ
-Cervice::Obj::SymbolClass::SymbolClass(std::string func_name, std::vector<std::string> params)
+ScriptC::Obj::SymbolClass::SymbolClass(std::string func_name, std::vector<std::string> params)
 {
 	m_symbol_name = func_name;
 	m_symbol_type = SymbolType::FuncSymbol;
@@ -56,7 +56,7 @@ Cervice::Obj::SymbolClass::SymbolClass(std::string func_name, std::vector<std::s
 }
 
 // º¯Êý·ûºÅ
-Cervice::Obj::SymbolClass::SymbolClass(std::string inter_name, std::string inter_parent)
+ScriptC::Obj::SymbolClass::SymbolClass(std::string inter_name, std::string inter_parent)
 {
 	m_symbol_name = inter_name;
 	m_symbol_type = SymbolType::InterSymbol;
@@ -66,12 +66,12 @@ Cervice::Obj::SymbolClass::SymbolClass(std::string inter_name, std::string inter
 		throw("can not take function symbol with " + inter_name);
 }
 
-SymbolType Cervice::Obj::SymbolClass::getType()
+SymbolType ScriptC::Obj::SymbolClass::getType()
 {
 	return m_symbol_type;
 }
 
-std::string Cervice::Obj::SymbolClass::getName()
+std::string ScriptC::Obj::SymbolClass::getName()
 {
 	return m_symbol_name;
 }
@@ -82,7 +82,7 @@ std::string Cervice::Obj::SymbolClass::getName()
 * ·ûºÅÀà,»ù´¡·ûºÅ£¬±äÁ¿·ûºÅ
 ***************************/
 
-Cervice::Obj::SymbolTable::SymbolTable(SymbolTable * parent , std::string symbol_name , size_t level) :
+ScriptC::Obj::SymbolTable::SymbolTable(SymbolTable * parent , std::string symbol_name , size_t level) :
 	m_parent(parent),
 	m_symtab_name(symbol_name),
 	m_symbol_level(level)
@@ -90,12 +90,12 @@ Cervice::Obj::SymbolTable::SymbolTable(SymbolTable * parent , std::string symbol
 	m_tables.push_back(SymbolClass("let"));
 }
 
-Cervice::Obj::SymbolTable::~SymbolTable()
+ScriptC::Obj::SymbolTable::~SymbolTable()
 {
 	m_parent = nullptr;
 }
 
-SymbolTable::SymbolfindArea Cervice::Obj::SymbolTable::findSymbol(std::string name, SymbolType type, bool recursion)
+SymbolTable::SymbolfindArea ScriptC::Obj::SymbolTable::findSymbol(std::string name, SymbolType type, bool recursion)
 {
 	for (auto& i : m_tables) {
 		if (i.getName() == name && i.getType() == type) {
@@ -112,12 +112,12 @@ SymbolTable::SymbolfindArea Cervice::Obj::SymbolTable::findSymbol(std::string na
 	return SymbolfindArea::noFind;
 }
 
-void Cervice::Obj::SymbolTable::pushSymbol(SymbolClass symbol)
+void ScriptC::Obj::SymbolTable::pushSymbol(SymbolClass symbol)
 {
 	m_tables.push_back(symbol);
 }
 
-SymbolClass Cervice::Obj::SymbolTable::getFuncSymbol(std::string name, bool recursion)
+SymbolClass ScriptC::Obj::SymbolTable::getFuncSymbol(std::string name, bool recursion)
 {
 	for (auto& i : m_tables) {
 		if (i.getName() == name && i.getType() == SymbolType::FuncSymbol) {
@@ -134,21 +134,21 @@ SymbolClass Cervice::Obj::SymbolTable::getFuncSymbol(std::string name, bool recu
 	return ret;
 }
 
-void Cervice::Obj::SymbolTable::setParent(SymbolTable* parent) {
+void ScriptC::Obj::SymbolTable::setParent(SymbolTable* parent) {
 	m_parent = parent;
 }
 
-size_t Cervice::Obj::SymbolTable::getLevel()
+size_t ScriptC::Obj::SymbolTable::getLevel()
 {
 	return m_symbol_level;
 }
 
-SymbolTable* Cervice::Obj::SymbolTable::getParent()
+SymbolTable* ScriptC::Obj::SymbolTable::getParent()
 {
 	return m_parent;
 }
 
-std::string Cervice::Obj::SymbolTable::getName()
+std::string ScriptC::Obj::SymbolTable::getName()
 {
 	return m_symtab_name;
 }

@@ -1,13 +1,13 @@
 #pragma once
-#ifndef _CERLEXICAL_CERVER_
-#define _CERLEXICAL_CERVER_
+#ifndef _CERLEXICAL_SCRIPTC_
+#define _CERLEXICAL_SCRIPTC_
 
 #include <iostream>
 #include <vector>
 
 #include "QuickLib/quicklib.h"
 
-namespace Cervice {
+namespace ScriptC {
 	namespace Obj {
 		class ErrorHandling;
 

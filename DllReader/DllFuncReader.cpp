@@ -1,5 +1,5 @@
 #include "DllFuncReader.h"
-namespace Cervice {
+namespace ScriptC {
     namespace Obj {
 
         std::string getLibsPath() {

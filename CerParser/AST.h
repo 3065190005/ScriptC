@@ -1,13 +1,13 @@
 #pragma once
-#ifndef _CERVER_ASTTREE_
-#define _CERVER_ASTTREE_
+#ifndef _SCRIPTC_ASTTREE_
+#define _SCRIPTC_ASTTREE_
 
 #include <map>
 
 #include "..\ErrorHandling\ErrorHandling.h"
 #include "..\CerLexical\CerLexical.h"
 
-namespace Cervice {
+namespace ScriptC {
 	namespace Obj {
 
 		class AST;

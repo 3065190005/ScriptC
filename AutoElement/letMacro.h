@@ -1,6 +1,6 @@
 #pragma once
-#ifndef __CERVER_LETMARCRO__
-#define __CERVER_LETMARCRO__
+#ifndef __AUTOMEM_LETMARCRO__
+#define __AUTOMEM_LETMARCRO__
 
 // manager
 #define MANAGER_BLOCKS_COUNT_MAX 4096	 // 最大内存块数量
@@ -8,7 +8,7 @@
 #define MANAGER_DYNAMIC_BYTE_SIZE 32	 // 动态块最小字节数
 #define MANAGER_MEMERYS_SPACE_STEP 1024	 // 每次扩充步长
 
-namespace Cervice {
+namespace AutoMem {
 	namespace Obj {
 		enum class NatureType {
 			none = 0 << 0,

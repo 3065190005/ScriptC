@@ -17,7 +17,7 @@
 #include "CerVirtualMachine/CerStackSystem.h"
 #include "CerVirtualMachine/CerVm.h"
 
-using namespace Cervice::Obj;
+using namespace ScriptC::Obj;
 
 // 主源文件代码
 std::string G_SourcesFile;

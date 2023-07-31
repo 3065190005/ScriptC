@@ -1,7 +1,7 @@
 #include "LetArrayMotion.h"
 #include <algorithm>
 
-namespace Cervice {
+namespace AutoMem {
 	namespace Obj {
 		numberT LetArrayMotion::ArrayCmp(LetObject* cmp1, LetObject* cmp2)
 		{
@@ -803,7 +803,7 @@ namespace Cervice {
 			return true;
 		}
 
-		LetObject Cervice::Obj::LetArrayMotion::ArrayRange(numberT min, numberT max)
+		LetObject AutoMem::Obj::LetArrayMotion::ArrayRange(numberT min, numberT max)
 		{
 			LetObject ret;
 
@@ -814,7 +814,7 @@ namespace Cervice {
 			return ret;
 		}
 
-		LetObject Cervice::Obj::LetArrayMotion::ArrayChilds(LetObject* var)
+		LetObject AutoMem::Obj::LetArrayMotion::ArrayChilds(LetObject* var)
 		{
 			LetObject ret;
 			if (var->getType() != LetObject::ObjT::array) {
