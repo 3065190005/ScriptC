@@ -51,20 +51,20 @@ struct CerTokClass::DebugInfo G_Global_Debug_Info;
 
 int main(int args , char** argv) {
 	std::string ret;
+#ifdef _PACKAGE
 	char* pValue;
 	size_t len;
 	errno_t err = _dupenv_s(&pValue, &len, "ScriptC");
 	if (err == 0 && pValue) {
-#ifdef _PACKAGE
 		G_Res_path = pValue;
 		G_Res_path += "\\res\\";
-#endif
 		free(pValue);
 	}
 	else {
 		std::cout << "Can not find env \"ScriptC\"";
 		return 0;
 	}
+#endif
 
 	if (args == 1) {
 		DllFuncReader* manager = DllFuncReader::getInstance();

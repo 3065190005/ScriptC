@@ -7,12 +7,11 @@ namespace ScriptC {
             char* pValue;
             size_t len;
             ret = ".\\libs\\";
+#ifdef _PACKAGE
             errno_t err = _dupenv_s(&pValue, &len, "ScriptC");
             if (err == 0 && pValue) {
-#ifdef _PACKAGE
                 ret = pValue;
                 ret += "\\libs\\";
-#endif
                 free(pValue);
             }
             else {
@@ -20,7 +19,7 @@ namespace ScriptC {
                 throw("Can not find env \"ScriptC\"");
                 exit(0);
             }
-            
+#endif
             return ret;
         }
 
