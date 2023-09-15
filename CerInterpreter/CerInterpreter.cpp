@@ -1442,10 +1442,12 @@ AST::AstType ScriptC::Obj::CerInterpreter::analysExprOp(AST* node)
 
 void ScriptC::Obj::CerInterpreter::printCode()
 {
+	AutoMem::Obj::LetTools tools;
 	for (auto code = m_vm_code.begin(); code != m_vm_code.end(); code++) {
 		interlog(" - CommandCode(" + code->getCodeTypeStr());
 		for (auto& i : *(code->getCodeParams())) {
-			interlog(" , " + i.first);
+			interlog(" , " + i.first + ":");
+			tools.print(i.second);
 		}
 		interlog(")\n\n");
 	}
