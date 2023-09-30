@@ -17,6 +17,13 @@
 #include "CerVirtualMachine/CerStackSystem.h"
 #include "CerVirtualMachine/CerVm.h"
 
+std::string G_TipsSymbol = "->: ";
+std::string G_consoleTxt =
+R"(ScriptC （Last Update : 2023.9.30 | LetObject : v9_3) [console mode]
+If you want to compile and run the code, type Enter twice.
+
+)";
+
 using namespace ScriptC::Obj;
 
 // 主源文件代码
@@ -222,9 +229,49 @@ void TestCodeCall() {
 
 	std::string input = R"(
 	//-- debug
-	let num = 0;
-	num = num + 1;
-	return num;
+	require "io";
+
+	let io = new StdIo;
+
+	interface Person
+	{
+		let age = 0;
+		let sex = null;
+	}
+
+
+	interface Class 
+	{
+		function call0():
+			let ret = new Person;
+			io.println("Person init");
+			return ret;
+		end
+		function call1(age,sex):
+			let ret = new Person;
+			ret.age = age;
+			ret.sex = sex;
+			io.println("Person init");
+			return ret;
+		end
+
+		function put():
+			io.println(this);
+		end
+	}
+
+	let Class = new Class;
+
+
+	function main():
+		let person = Class.call0();
+		person.age = 18;
+		person.sex = "boy";
+		Class.put()<person>;
+	end
+
+
+	main();
 	// ---
 )";
 
@@ -312,13 +359,6 @@ int getCmdParam(int args, char** argv) {
 
 	return 0;
 }
-
-std::string G_TipsSymbol = "->: ";
-std::string G_consoleTxt = 
-R"(ScriptC （Last Update : 2023.7.19 | LetObject : v9_3) [console mode]
-If you want to compile and run the code, type Enter twice.
-
-)";
 
 int CmdRunType()
 {

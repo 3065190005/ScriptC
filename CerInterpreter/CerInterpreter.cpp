@@ -1447,7 +1447,9 @@ void ScriptC::Obj::CerInterpreter::printCode()
 		interlog(" - CommandCode(" + code->getCodeTypeStr());
 		for (auto& i : *(code->getCodeParams())) {
 			interlog(" , " + i.first + ":");
+#if DebuInterLog && GlobalDebugOpend
 			tools.print(i.second);
+#endif
 		}
 		interlog(")\n\n");
 	}

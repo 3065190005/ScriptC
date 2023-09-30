@@ -418,6 +418,15 @@ bool ScriptC::Obj::SemanticAnalyzer::visit_InterExprOp(AST* node, autoPtr ret)
 	AST* person = array_ast->getPerson();
 	if (person->getNodeType() == AST::AstType::FuncCall) {
 		FuncCall* func = dynamic_cast<FuncCall*>(person);
+
+		// fixed 不检查捕获 变量 是否存在的bug
+		std::string thisName = func->getthisName();
+		auto finder = m_symbol_table->findSymbol(thisName, SymbolType::VarSymbol, true);
+		if (finder == symbArea::noFind && !thisName.empty()) {
+			m_errHis->setErrInfo(func->getDebugInfo());
+			m_errHis->throwErr(EType::SemanticAnalyzer, "symbom " + thisName + " is not define");
+		}
+
 		auto param = func->getParams();
 		for (auto& i : param) {
 			visit(i, ret, this);
@@ -578,6 +587,7 @@ bool ScriptC::Obj::SemanticAnalyzer::visit_FunctionCall(AST* node, autoPtr ret)
 
 	auto funParams = funcd->getParams();
 	auto funcClass = m_symbol_table->getFuncSymbol(funcd->getFuncName(), true);
+	auto thisName = funcd->getthisName();
 
 	if (funcClass.getName() == "let") {
 		m_errHis->setErrInfo(funcd->getDebugInfo());
@@ -589,6 +599,12 @@ bool ScriptC::Obj::SemanticAnalyzer::visit_FunctionCall(AST* node, autoPtr ret)
 		m_errHis->throwErr(EType::SemanticAnalyzer,"can not take func params");
 	}
 
+	// fixed 不检查捕获 变量 是否存在的bug
+	auto finder = m_symbol_table->findSymbol(thisName, SymbolType::VarSymbol, true);
+	if (finder == symbArea::noFind && !thisName.empty()) {
+		m_errHis->setErrInfo(funcd->getDebugInfo());
+		m_errHis->throwErr(EType::SemanticAnalyzer, "symbom " + thisName + " is not define");
+	}
 
 	for (auto& varName : funParams) {
 		visit(varName, ret, this);
