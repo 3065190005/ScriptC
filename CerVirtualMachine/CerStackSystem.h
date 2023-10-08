@@ -21,6 +21,7 @@ namespace ScriptC {
 			SFPtr GetLastSF();					// 获取最近的栈帧迭代器
 			SFPtr PushNewSF(std::string name);	// 添加一个栈帧 返回新加的迭代器
 			SFPtr PopNewSF();					// 删除一个栈帧 返回父迭代器
+			SFPtr GetBaseSF();					// 获得第一个栈迭代器
 
 			void setVarMapValue(std::string name, auto_c element,bool recursion);
 			auto_c getVarMapValue(std::string name , bool recursion);

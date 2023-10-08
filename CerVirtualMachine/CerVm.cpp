@@ -9,6 +9,7 @@
 #include "CerRunTime.h"
 #include "CerStackFrame.h"
 #include "CerStackSystem.h"
+#include "CerVmMacro.h"
 #include "CerVm.h"
 
 #include <sstream>
@@ -39,6 +40,13 @@ bool ScriptC::Obj::CerVm::initVm()
 
 void ScriptC::Obj::CerVm::Command()
 {
+	// gc callback
+	if (GcCallBack())
+		return;
+
+	// debug print
+	printRunCode();
+
 	switch (m_current_cmd_code.getCodeType())
 	{
 	case CommandCode::CommandCodeType::Pass:
@@ -150,6 +158,8 @@ void ScriptC::Obj::CerVm::Command()
 
 void ScriptC::Obj::CerVm::runTime()
 {
+	vmlog("\n\nVmRunTime: >>>\n");
+
 	extern std::string G_mainFile;
 	auto_c fileName;
 	fileName << G_mainFile;
@@ -168,41 +178,9 @@ void ScriptC::Obj::CerVm::runTime()
 	do
 	{
 		Command();
-	} while (m_command_codes_index < m_command_codes.size());
+	} while (!isRunOver());
 
 	m_stacks.PopNewSF();
-}
-
-auto_c ScriptC::Obj::CerVm::runTime(std::string result)
-{
-	m_stacks.PushNewSF("!program");
-
-	if (m_command_codes.size() == 0 || !m_isinit) {
-		return auto_c();
-	}
-
-	m_command_codes_index = 0;
-	m_current_cmd_code = m_command_codes.at(m_command_codes_index);
-	m_command_codes_index = 1;
-
-	do
-	{
-		Command();
-	} while (m_command_codes_index < m_command_codes.size());
-
-	SFPtr sf = m_stacks.GetLastSF();
-	auto dataSf = sf->getDataStack();
-	auto_c ret;
-
-	if (sf->getStackFrameName() != "!program") {
-		ret = dataSf->back();
-	}
-
-	dataSf->pop_back();
-
-	m_stacks.PopNewSF();
-
-	return ret;
 }
 
 void ScriptC::Obj::CerVm::VmInter()
@@ -278,6 +256,7 @@ void ScriptC::Obj::CerVm::VmFunc()
 	if ((*cmd.getCodeParams()).find("param3") != (*cmd.getCodeParams()).end()) {
 		des.hasExport = true;
 	}
+
 	runT->setFuncMapValue(funcName, des);
 
 	if (des.hasExport == true) {
@@ -409,7 +388,7 @@ void ScriptC::Obj::CerVm::VmLeave()
 	// 删除所有 if while for 堆栈
 	while (m_stacks.GetLastSF()->getStackFrameName()[0] == '~')
 	{
-		m_stacks.PopNewSF();
+		CodePopNewSf();
 	}
 
 	sf = m_stacks.GetLastSF();
@@ -442,7 +421,7 @@ void ScriptC::Obj::CerVm::VmLeave()
 
 
 	if (popStack) {
-		m_stacks.PopNewSF();
+		CodePopNewSf();
 	}
 
 	advance();
@@ -624,6 +603,7 @@ void ScriptC::Obj::CerVm::VmPush()
 					auto interTemplate = m_stacks.getInterMapValue(var_name, true);
 					pushValue["_class_name"] << interTemplate.name;
 					pushValue["_class_parent"] << interTemplate.parent;
+					pushValue["_class_auto_gc_called"] << "false";
 					for (auto& i : interTemplate.var_people) {
 						pushValue[i.first] = i.second;
 					}
@@ -720,13 +700,13 @@ void ScriptC::Obj::CerVm::VmPopS()
 	takeEat(CommandCode::CommandCodeType::PopS);
 
 	if (ret.getType() != LetObject::ObjT::string) {
-		m_stacks.PopNewSF();
+		CodePopNewSf();
 	}
 	else {
 		std::string tarName;
 		ret >> tarName;
 		while (m_stacks.GetLastSF()->getStackFrameName() != tarName) {
-			m_stacks.PopNewSF();
+			CodePopNewSf();
 		}
 	}
 }
@@ -1356,6 +1336,236 @@ auto_c ScriptC::Obj::CerVm::VmPass()
 	auto_c ret;
 	takeEat(CommandCode::CommandCodeType::Pass);
 	return ret;
+}
+
+void ScriptC::Obj::CerVm::CodeCallFunc(std::string _funcName, std::vector<auto_c> _param, std::string _thisName)
+{
+#if DebuvmLog && GlobalDebugOpend
+	AutoMem::Obj::LetTools tools;
+	std::cout << m_command_codes_index;
+	vmlog(" - [*] CodeCallFunc( " + _funcName + " , " + _thisName + " , ");
+	for (auto& i : _param) {
+		tools.print(i);
+	}
+	vmlog(") /* push new stack */\n\n");
+#endif
+
+
+	SFPtr sf = m_stacks.GetLastSF();
+	auto runT = sf->getRunTime();
+	auto dataSf = sf->getDataStack();
+
+	// auto cmd = m_current_cmd_code;
+	// takeEat(CommandCode::CommandCodeType::Call);
+
+	auto_c this_var;
+	auto_c paramSize;
+	std::string funcName = _funcName;
+
+	paramSize << (numberT)_param.size();
+
+	if (!_thisName.empty())
+	{
+		LetObject::reference(&this_var, m_stacks.getVarMapValuePtr(_thisName, true));
+	}
+
+	numberT paramSizeT;
+	paramSize >> paramSizeT;
+
+	std::vector<auto_c> valueVec;
+
+	for (size_t i = 0; i < paramSizeT; i++) {
+		valueVec.emplace_back(_param.back());
+		_param.pop_back();
+	}
+
+	auto funcMap = m_stacks.getFuncMapAddress(funcName);
+	if (funcMap.addRess == 0) {
+		auto errHis = ErrorHandling::getInstance();
+		errHis->throwErr(EType::Vm, "value is not person with function");
+	}
+
+	if (funcMap.params.size() != valueVec.size()) {
+		auto errHis = ErrorHandling::getInstance();
+		errHis->throwErr(EType::Vm, "params count error with function");
+	}
+
+	if (funcMap.hasExport) {
+		auto_c ret;
+		auto manager = DllFuncReader::getInstance();
+		funcPtr func = manager->getFuncFromDll(funcName.c_str());
+		std::reverse(std::begin(valueVec), std::end(valueVec));
+		manager->callFunc(func, &valueVec, &ret);
+		dataSf->emplace_back(std::move(ret));
+		return;
+	}
+
+	numberT leavePtr = m_command_codes_index;
+	leavePtr--;
+
+	auto_c leaveSip;
+	leaveSip << leavePtr;
+
+
+	m_stacks.PushNewSF(funcName);
+
+	sf = m_stacks.GetLastSF();
+	runT = sf->getRunTime();
+	dataSf = sf->getDataStack();
+
+
+	runT->setVarMapValue("this", std::move(this_var));
+
+	for (size_t index = 0; index < funcMap.paramLen; index++) {
+		runT->setVarMapValue(funcMap.params.at(index), valueVec.at(index));
+	}
+
+	dataSf->emplace_back(leaveSip);
+	m_command_codes_index = funcMap.addRess;
+	advance();
+	return;
+}
+
+void ScriptC::Obj::CerVm::CodePopNewSf()
+{
+	m_stacks.PopNewSF();
+}
+
+void ScriptC::Obj::CerVm::printRunCode()
+{
+#if DebuvmLog && GlobalDebugOpend
+	AutoMem::Obj::LetTools tools;
+	std::cout << m_command_codes_index;
+	vmlog(" - VmRunCode(" + m_current_cmd_code.getCodeTypeStr());
+	for (auto& i : *(m_current_cmd_code.getCodeParams())) {
+		vmlog(" , " + i.first + ":");
+
+		tools.print(i.second);
+	}
+	vmlog(")\n\n");
+#endif
+}
+
+bool ScriptC::Obj::CerVm::isRunOver()
+{
+	bool index = false;
+	index = !(m_command_codes_index < m_command_codes.size());
+	return index;
+}
+
+bool ScriptC::Obj::CerVm::CmpCodeType(CommandCode::CommandCodeType type1, CommandCode::CommandCodeType type2)
+{
+	return (type1 == type2);
+}
+
+bool ScriptC::Obj::CerVm::CmpCurrentType(CommandCode::CommandCodeType type)
+{
+	if (isRunOver())
+		return false;
+
+	auto cur_type = m_current_cmd_code.getCodeType();
+	return cur_type == type;
+}
+
+ScriptC::Obj::CerVm::VectorStr ScriptC::Obj::CerVm::isCallGc()
+{
+	SFPtr sf = m_stacks.GetLastSF();
+	auto runT = sf->getRunTime();
+	auto dataSf = sf->getDataStack();
+
+	VectorStr ret;
+
+	auto var_list = runT->getVarMap();
+	for (auto it = var_list->begin(); it != var_list->end(); it++)
+	{
+		if (it->first != "this")
+		{
+			if (it->second.getAttribute() == (int)NatureType::cls)
+			{
+				std::string auto_gc_called;
+				it->second["_class_auto_gc_called"] >> auto_gc_called;
+				if(auto_gc_called == "false")
+					ret.push_back(it->first);
+			}
+		}
+	}
+
+	return ret;
+}
+
+ScriptC::Obj::CerVm::VectorStr ScriptC::Obj::CerVm::isCallGcR()
+{
+	SFPtr sf = m_stacks.GetLastSF();
+	VectorStr ret = isCallGc();
+
+	if (sf->getStackFrameName()[0] == '~' && ret.empty())
+	{
+		CodePopNewSf();
+		return isCallGcR();
+	}
+
+	return ret;
+}
+
+bool ScriptC::Obj::CerVm::GcCallBack()
+{
+	VectorStr var_list;
+	if (!isRunOver())
+	{
+		// 获取当前栈所有接口变量名
+		if (CmpCurrentType(CommandCode::CommandCodeType::PopS))
+			var_list = isCallGc();
+
+		// 获取当前栈所顾及的所有结构变量名
+		if (CmpCurrentType(CommandCode::CommandCodeType::Leave))
+			var_list = isCallGcR();
+	}
+	
+	SFPtr sf = m_stacks.GetLastSF();
+	auto runT = sf->getRunTime();
+	auto dataSf = sf->getDataStack();
+
+
+	std::string var_name;
+	std::string func_name;
+
+	// 循环获取当前所有变量
+	while (true)
+	{
+		// 未获得到接口变量
+		if (var_list.empty())
+			return false;
+
+		// 获取变量名
+		var_name = *var_list.begin();
+
+		// 获取变量指针
+		auto_c var;
+		var = runT->getVarMapValue(var_name);
+
+		// 获取析构函数名
+		func_name = LetObject::cast<std::string>(var["_class_name"]) + ":_gc";
+
+		// 清除变量标志
+		auto var_map = runT->getVarMap();
+		if (var_map != nullptr)
+		{
+			auto iter = var_map->find(var_name);
+			iter->second["_class_auto_gc_called"] << "true";
+		}
+
+		// 未找到相关析构函数
+		auto func_des = m_stacks.getFuncMapAddress(func_name);
+		if (func_des.addRess != 0)
+			break;
+
+		var_list.erase(var_list.begin());
+	}
+
+	// 调用相关_gc函数
+	CodeCallFunc(func_name, {}, std::move(var_name));
+	
+	return true;
 }
 
 bool ScriptC::Obj::CerVm::takeEat(CommandCode::CommandCodeType type)

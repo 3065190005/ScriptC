@@ -18,6 +18,9 @@ namespace ScriptC {
 		class CerVm
 		{
 		public:
+			using VectorStr = std::vector<std::string>;
+
+		public:
 			CerVm();
 			~CerVm();
 
@@ -25,7 +28,6 @@ namespace ScriptC {
 			bool initVm();
 			void Command();
 			void runTime();
-			auto_c runTime(std::string result);
 		
 		public:
 			void VmInter();
@@ -62,6 +64,19 @@ namespace ScriptC {
 			auto_c VmUnaryAdd();
 			auto_c VmUnarySub();
 			auto_c VmPass();
+
+		public:
+			void CodeCallFunc(std::string _funcName, std::vector<auto_c> _params, std::string _thisName);
+			void CodePopNewSf();
+
+		public:
+			void printRunCode();		// 打印当前代码 debug
+			bool isRunOver();			// 代码是否执行完毕
+			bool CmpCodeType(CommandCode::CommandCodeType type1 , CommandCode::CommandCodeType type2);	// 两个字节码类型是否匹配
+			bool CmpCurrentType(CommandCode::CommandCodeType type);				// 匹配当前该执行的字节码是否为 type
+			VectorStr isCallGc();		// 返回当前栈的所有 接口变量名 (不包含this)
+			VectorStr isCallGcR();		// 返回当前栈所涵盖的所有 接口变量名 (不包含this)
+			bool GcCallBack();			// 是否调用接口的析构函数
 
 		public:
 			bool takeEat(CommandCode::CommandCodeType type);

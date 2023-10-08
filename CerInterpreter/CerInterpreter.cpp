@@ -37,7 +37,7 @@ CerInterpreter* ScriptC::Obj::CerInterpreter::create(AST* tree)
 
 std::vector<CommandCode>& ScriptC::Obj::CerInterpreter::CompileCode(autoPtr ret, AST* rootAts,bool isMerge)
 {
-	interlog("CerInterPreterCompileCode: >>>\n");
+	interlog("InterPreterCompileCode: >>>\n");
 
 	AST* root = rootAts;
 	if (root == nullptr) {
@@ -1443,15 +1443,19 @@ AST::AstType ScriptC::Obj::CerInterpreter::analysExprOp(AST* node)
 void ScriptC::Obj::CerInterpreter::printCode()
 {
 	AutoMem::Obj::LetTools tools;
-	for (auto code = m_vm_code.begin(); code != m_vm_code.end(); code++) {
+	auto column = 1;
+	for (auto code = m_vm_code.begin(); code != m_vm_code.end(); code++,column ++) 
+	{
+#if DebuInterLog && GlobalDebugOpend
+		std::cout << column;
 		interlog(" - CommandCode(" + code->getCodeTypeStr());
 		for (auto& i : *(code->getCodeParams())) {
 			interlog(" , " + i.first + ":");
-#if DebuInterLog && GlobalDebugOpend
+
 			tools.print(i.second);
-#endif
-		}
+	}
 		interlog(")\n\n");
+#endif
 	}
 }
 

@@ -230,48 +230,19 @@ void TestCodeCall() {
 	std::string input = R"(
 	//-- debug
 	require "io";
-
 	let io = new StdIo;
 
-	interface Person
-	{
-		let age = 0;
-		let sex = null;
-	}
-
-
-	interface Class 
-	{
-		function call0():
-			let ret = new Person;
-			io.println("Person init");
-			return ret;
-		end
-		function call1(age,sex):
-			let ret = new Person;
-			ret.age = age;
-			ret.sex = sex;
-			io.println("Person init");
-			return ret;
-		end
-
-		function put():
-			io.println(this);
+	interface structA{
+		let number = 1;
+		// 特殊函数
+		function _gc():
+			this.number = 3;
+			io.print(this.number + "Gc");
 		end
 	}
 
-	let Class = new Class;
-
-
-	function main():
-		let person = Class.call0();
-		person.age = 18;
-		person.sex = "boy";
-		Class.put()<person>;
-	end
-
-
-	main();
+	let value = new structA;
+	// 结束时会自动调用 structA接口的_gc函数
 	// ---
 )";
 

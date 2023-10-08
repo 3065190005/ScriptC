@@ -407,6 +407,29 @@ value.struct.number = 123;				// 赋值123给structA的成员 number
 value.number = value.struct.Afunc();	// 调用 structA的Afunc方法 并赋值给StructB的成员number
 ```
 
+### 特殊函数 _gc
+特殊函数 _gc()，可以在接口变量被销毁前自动调用
+**该函数只会在变量被局部变量管理时才会调用，成员则不会进行调用**
+**this指针自动指向当前将要被销毁的变量**
+```sc
+	require "io";
+	let io = new StdIo;
+
+	interface structA{
+		let number = 1;
+
+		// 特殊函数
+		function _gc():
+			this.number = 3;
+			io.print(this.number + " Gc");
+		end
+	}
+
+	let value = new structA;
+	// 结束时会自动调用 structA接口的_gc函数 并输出 "3 Gc"
+```
+
+
 ### 特殊变量 this 和捕获符<>
 
 接口可以通过捕获符**<>**来将**函数**或**方法**内的**this**与指定变量进行绑定，且和**this**进行绑定的变量可以为任意变量

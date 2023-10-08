@@ -28,6 +28,12 @@ SFPtr ScriptC::Obj::CerStackSystem::PopNewSF()
 	return GetLastSF();
 }
 
+SFPtr ScriptC::Obj::CerStackSystem::GetBaseSF()
+{
+	SFPtr ret = m_stacks.begin();
+	return ret;
+}
+
 void ScriptC::Obj::CerStackSystem::setVarMapValue(std::string name, auto_c element, bool recursion)
 {
 	int state = 0;

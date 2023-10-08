@@ -14,6 +14,12 @@ let io = new StdIo;
 interface Class {
 	let num = 114514.1919810;
 	let str = "Hello double world";
+
+	// 特殊方法 (析构函数)
+	function _gc():
+		io.print("\n gc called " + this.str + "\n");
+	end
+
 	function getNum():
 		return 1.63;
 	end
@@ -79,6 +85,7 @@ maps[2] = "*********\n";
 io.print(maps);
 
 cls.num = 11111;
+cls.str = "Hello World";
 io.print(cls.PrintNum()<cls>);
 
 // 这是注释
