@@ -1,4 +1,4 @@
-require "system";
+require ("system");
 
 interface StdThread{
 	// path:string -> boolean|null

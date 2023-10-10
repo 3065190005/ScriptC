@@ -1,5 +1,5 @@
-require "io";
-	require "os";
+require ("io");
+	require ("os");
 	let os = new StdOs;
 	let io = new StdIo;
 

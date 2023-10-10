@@ -1,4 +1,4 @@
-require "system";
+require ("system");
 
 interface StdOs{
 	// abort (void)

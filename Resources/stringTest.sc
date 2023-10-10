@@ -1,7 +1,7 @@
-require "io";
+require ("io");
 let io = new StdIo;
 
-require "string";
+require ("string");
 let string = new StdString;
 
 let str = "  Hello World : Begin {name} over  ";

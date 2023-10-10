@@ -1,5 +1,5 @@
-require "thread";
-	require "io";
+require ("thread");
+	require ("io");
 	
 	let io = new StdIo;
 	let thread = new StdThread;

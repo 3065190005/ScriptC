@@ -1,4 +1,4 @@
-require "system";
+require ("system");
 
 interface StdWindow{
 	// (void) -> boolean;

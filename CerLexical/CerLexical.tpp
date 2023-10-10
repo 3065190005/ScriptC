@@ -387,6 +387,18 @@ bool ScriptC::Obj::CerLexical<T>::initTokenVector()
 			continue;
 		}
 
+		/*
+		* 2023.10.11 
+		* 修复多余分号解析失败的情况
+		*/
+
+		// 跳过无效分号
+		if(sour_byte == ';' || sour_byte == L';'){
+			resourcesIndexAdvance(1);
+			continue;
+		}
+
+
 		// 跳过空格等
 		if (isJumpChar(sour_byte)) {
 			resourcesIndexAdvance(1);

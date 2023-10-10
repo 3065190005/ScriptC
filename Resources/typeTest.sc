@@ -1,10 +1,10 @@
-	require "io";
+	require ("io");
 	function log(val):
 		let io = new StdIo;
 		io.println(val);
 	end
 
-	require "type";
+	require ("type");
 	let tp = new StdType;
 	
 	log(tp.isAlpha("abcAAfg"));

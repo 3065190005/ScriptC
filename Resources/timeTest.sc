@@ -1,10 +1,10 @@
-	require "io";
+	require ("io");
 	function log(val):
 		let io = new StdIo;
 		io.println(val);
 	end
 
-	require "time";
+	require ("time");
 	let tm = new StdTime;
 	
 	log(tm.time());

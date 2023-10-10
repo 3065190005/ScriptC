@@ -1,5 +1,5 @@
-	require "socket";
-	require "io";
+	require ("socket");
+	require ("io");
 	let io = new StdIo;
 	let socket = new StdSocket;
 

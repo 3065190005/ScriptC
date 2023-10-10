@@ -19,7 +19,7 @@
 
 ### HelloWorld
 ```sc
-require "io";
+require ("io");
 let io = new StdIo;
 io.println("Hello World");
 ```
@@ -35,7 +35,7 @@ io.println("Hello World");
 我们可以将ScriptC程序保存到以sc结尾的文件并执行。
 
 ```sc
-require "io";
+require ("io");
 let io = new StdIo;
 io.println("Hello World!");
 io.println("Hello ScriptC!");
@@ -412,7 +412,7 @@ value.number = value.struct.Afunc();	// 调用 structA的Afunc方法 并赋值�
 **该函数只会在变量被局部变量管理时才会调用，成员则不会进行调用**
 **this指针自动指向当前将要被销毁的变量**
 ```sc
-	require "io";
+	require ("io");
 	let io = new StdIo;
 
 	interface structA{
@@ -475,18 +475,18 @@ require file_string;
 头文件在引入时会将要引入的文件代码全部执行一遍  
 如果文件被多次引用，将只会保留第一次引入代码，不执行之后的代码
 ```sc
-require "io";	// 引入io.sc 头文件标准库
-require "io";	// 无视，不执行
+require ("io");	// 引入io.sc 头文件标准库
+require ("io");	// 无视，不执行
 ```
 
 ### 有条件引用  
-头文件是属于代码的一部分，可以配合条件语句进行选择性引入
+头文件的执行是属于代码的一部分，可以配合条件语句进行选择性引入
 ```sc
 let value = 1;
 if(value == 1):
-	require "io";
+	require ("io");
 else:
-	require "os";
+	require ("os");
 end
 ```
 
@@ -500,7 +500,7 @@ end
 ScriptC一般使用print和input来获取标准输入输出，具体的使用如下
 
 ```sc
-require "io";
+require ("io");
 let io = new StdIo;
 io.print("Hello World");
 let string = io.input();
@@ -576,7 +576,7 @@ fread(fileId , lens);
 
 ### 实例
 ```sc
-require "io";
+require ("io");
 let io = new StdIo;
 
 let fileId = io.fopen("student.txt","wb+");	// 使用wb+模式打开 student.txt文件
@@ -607,7 +607,7 @@ errget()
 
 ### 实例  
 ```sc
-require "io";
+require ("io");
 let io = new StdIo;
 
 io.errset("ErrCode 1");
@@ -622,7 +622,7 @@ let err = errget(); // err = "ErrCode 1";
 可以通过调用**os.sc**标准库中的**argv**函数来获取所有命令行参数  
 以下情况默认传入参数为 ```"1" "2" "3"```
 ```sc
-require "os";
+require ("os");
 let os = new StdOs;
 
 let args = os.argv();
@@ -637,7 +637,7 @@ let args = os.argv();
 # 标准库
 ## StdIo 标准输入/输出
 ```sc
-require "io";
+require ("io");
 let io = new StdIo;
 ```
 
@@ -700,7 +700,7 @@ let write_all = -1;
 
 ## StdOs  操作系统
 ```sc
-require "os";
+require ("os");
 let os = new StdOs;
 ```
 
@@ -754,7 +754,7 @@ argv()		(void)	-> array
 
 ## StdMath 数学库
 ```sc
-require "math";
+require ("math");
 let math = new StdMath;
 ```
 
@@ -825,7 +825,7 @@ value1:number -> array|null
 
 ## StdString 字符串处理库
 ```sc
-require "string";
+require ("string");
 let s = StdString;
 ```
 
@@ -941,7 +941,7 @@ let str_all = -1;
 
 ## StdArray 数组处理库
 ```sc
-require "array";
+require ("array");
 let array = new StdArray;
 ```
 
@@ -1013,7 +1013,7 @@ childs(arr)
 
 ## StdTime 时间库
 ```sc
-require "time";
+require ("time");
 let tm = new StdTime;
 ```
 
@@ -1100,7 +1100,7 @@ let ms = 0;
 
 ## StdType 类型库
 ```sc
-require "type";
+require ("type");
 let tp = new StdType;
 ```
 
@@ -1138,7 +1138,7 @@ isUpper(str);
 
 ## StdWindow 窗口库
 ```sc
-require "window";
+require ("window");
 let win = new StdWindow;
 ```
 
@@ -1210,7 +1210,7 @@ getWebBoxSize()
 
 ## StdThread 线程库
 ```sc
-require "thread";
+require ("thread");
 let thread = new StdThread;
 ```
 
@@ -1293,7 +1293,7 @@ clear(id)
 
 ## StdSocket 套接字库
 ```sc
-require "socket";
+require ("socket");
 let socket = new StdSocket;
 ```
 

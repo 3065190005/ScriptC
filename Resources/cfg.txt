@@ -16,7 +16,7 @@ Body	: InterfaceDeclaration
 
 
 // 文件包含
-FileInclude : KEY_INCLUDE String_const SEMI
+FileInclude : KEY_INCLUDE LPARAM String_const RPARAM SEMI
 
 // 接口定义
 InterfaceDeclaration	: KEY_INTERFACE InterfaceHeader LBRACE (FunDeclaration | Assignment SEMI)* RBRACE

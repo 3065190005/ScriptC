@@ -1260,14 +1260,21 @@ AST* ScriptC::Obj::CerParser::ReturnExpr()
 AST* ScriptC::Obj::CerParser::FileInclude()
 {
 	/*
-	*	FileInclude: KEY_INCLUDE String_const SEMI
+	*	FileInclude: KEY_INCLUDE LPARAM String_const RPARAM SEMI
+	*/
+
+	/*
+	* 2023.10.11 
+	* 修改 将 require "str"; 改为 require (str);
 	*/
 
 	IncludeFile* include_file = nullptr;
 	takeEat(CerTokType::Key_InClude);
+	takeEat(CerTokType::LPARAM);
 	auto tok = this->m_lexical->getCurrentToken();
 	include_file = new IncludeFile(tok);
 	takeEat(CerTokType::Str_Const);
+	takeEat(CerTokType::RPARAM);
 	takeEat(CerTokType::SEMI);
 	return include_file;
 }

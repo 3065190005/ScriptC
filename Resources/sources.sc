@@ -7,7 +7,7 @@ function getNumB():
 	return 2.5;
 end
 
-require "io";
+require ("io");
 
 let io = new StdIo;
 

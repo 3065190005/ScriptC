@@ -229,7 +229,7 @@ void TestCodeCall() {
 
 	std::string input = R"(
 	//-- debug
-	require "io";
+	require ("io");
 	let io = new StdIo;
 
 	interface structA{
