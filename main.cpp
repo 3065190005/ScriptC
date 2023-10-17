@@ -220,7 +220,10 @@ void ProgramerCall() {
 void TestCodeCall() {
 
 	auto_c str;
+	str.setAttribute((nature)AutoMem::Obj::NatureType::cls);
 	auto_c boo;
+
+	auto_c::reference(&str, &boo);
 
 	str << "Hello";
 	boo << 1;
@@ -228,22 +231,7 @@ void TestCodeCall() {
 	he = str + boo;
 
 	std::string input = R"(
-	//-- debug
-	require ("io");
-	let io = new StdIo;
-
-	interface structA{
-		let number = 1;
-		// 特殊函数
-		function _gc():
-			this.number = 3;
-			io.print(this.number + "Gc");
-		end
-	}
-
-	let value = new structA;
-	// 结束时会自动调用 structA接口的_gc函数
-	// ---
+	//-- released
 )";
 
 

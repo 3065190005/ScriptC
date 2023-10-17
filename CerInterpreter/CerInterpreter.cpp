@@ -91,8 +91,18 @@ bool ScriptC::Obj::CerInterpreter::visit_exprOp(AST* node, autoPtr ret)
 	
 	visit(expr->getExpr(), ret, this);
 
+	/*
+	* 2023.10.17
+	* bug ： 只有当下表为左值时才会用引用，右值全是拷贝复制 VmPush (u)和(Ru)不会进入LetObject::reference
+	* fix ： 当仅为变量作为右值 且 拥有下表时 改为引用方式
+	*/
+
 	if (expr->getHasIndex())
+	{
+		if (expr->getExpr()->getNodeType() == AstNodeType::Var)
+			m_vm_code.back().insertCodeParams("param3", auto_c());
 		visit(expr->getIndex(), ret, this);
+	}
 
 	return true;
 }
@@ -1096,7 +1106,15 @@ bool ScriptC::Obj::CerInterpreter::visit_InterExprOp(AST* node, autoPtr ret)
 	param1.insert({ "param3", std::move(param3C) });
 	m_errHis->setErrInfo(node->getDebugInfo());
 	CommandCode opear1(CodeType::Push, std::move(param1));
-	PushCode(std::move(opear1));
+
+	/*
+	* 2023.10.17
+	* 函数返回值将不在进行变量转换，为返回this指针进行修改
+	* 变量赋值运算等不受影响
+	*/
+	if(inter->getPerson()->getNodeType() != Obj::AstNodeType::FuncCall)
+		PushCode(std::move(opear1));
+
 	return true;
 }
 

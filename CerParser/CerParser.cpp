@@ -43,6 +43,7 @@ AST* ScriptC::Obj::CerParser::expr()
 	AST* index_ptr = nullptr;
 	AST* expr_ptr = logicaloper_b();
 	CerTokClass& tok = m_lexical->getCurrentToken();
+
 	if (tok.getType() == CerTokType::LBRACKET || tok.getType() == CerTokType::DOT) {
 		index_ptr = indexExpr();
 	}
@@ -162,23 +163,41 @@ AST* ScriptC::Obj::CerParser::indexExpr(bool left)
 			// array
 			ArrayVar* ele = dynamic_cast<ArrayVar*>(ArrayExpression());
 			ele->setOnlyIndex(true);
-			ele->setLeftIndex(left);
+			ele->setLeftIndex(true);
 			vec.push_back(ele);
 		}
 		else if (tok.getType() == CerTokType::DOT) {
 			// interface
 			InterExprOp* ele = dynamic_cast<InterExprOp*>(InterfaceExpression());
-			ele->setLeftIndex(left);
-			vec.push_back(ele);
+			ele->setLeftIndex(true);
 			if (ele->getPerson()->getNodeType() == AST::AstType::FuncCall)
+			{
 				funcIndex++;
+				ele->setLeftIndex(false);
+			}
 			else
 				interIndex++;
+			vec.push_back(ele);
 		}
 
 		tok = m_lexical->getCurrentToken();
 	} while (tok.getType() == CerTokType::LBRACKET || tok.getType() == CerTokType::DOT);
-
+	
+	/*
+	* 2023.10.17
+	* 左右值将在末尾或函数调用后进行拷贝，其他则都是引用
+	*/
+	AST* back_ast = vec.back();
+	if (back_ast->getNodeType() == AST::AstType::ArrayVar)
+	{
+		auto last_ast = dynamic_cast<ArrayVar*>(back_ast);
+		last_ast->setLeftIndex(left);
+	}
+	else if (back_ast->getNodeType() == AST::AstType::InterExprOp)
+	{
+		auto last_ast = dynamic_cast<InterExprOp*>(back_ast);
+		last_ast->setLeftIndex(left);
+	}
 
 	astlog(" - InterExprOp()\n");
 	indexExprOp* result = new indexExprOp(std::move(vec));

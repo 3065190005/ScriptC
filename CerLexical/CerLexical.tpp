@@ -387,17 +387,6 @@ bool ScriptC::Obj::CerLexical<T>::initTokenVector()
 			continue;
 		}
 
-		/*
-		* 2023.10.11 
-		* 修复多余分号解析失败的情况
-		*/
-
-		// 跳过无效分号
-		if(sour_byte == ';' || sour_byte == L';'){
-			resourcesIndexAdvance(1);
-			continue;
-		}
-
 
 		// 跳过空格等
 		if (isJumpChar(sour_byte)) {
@@ -411,6 +400,19 @@ bool ScriptC::Obj::CerLexical<T>::initTokenVector()
 					m_row--;
 				}
 			}
+			continue;
+		}
+
+		/*
+		* 2023.10.11 
+		* 修复多余分号解析失败的情况
+		*/
+
+		// 跳过无效分号
+		if(!m_tokens_vec.empty() && 
+			m_tokens_vec.back().getType() == CerTokType::SEMI &&
+			(sour_byte == ';' || sour_byte == L';')){
+			resourcesIndexAdvance(1);
 			continue;
 		}
 		

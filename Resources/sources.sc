@@ -30,6 +30,10 @@ interface Class {
 	function PrintNum():
 		io.print(this.num);
 	end
+
+	function subNum():
+		this.num = "This Change!";
+	end
 }
 
 function getNum():
@@ -86,6 +90,8 @@ io.print(maps);
 
 cls.num = 11111;
 cls.str = "Hello World";
+io.print(cls.PrintNum()<cls>);
+cls.subNum();
 io.print(cls.PrintNum()<cls>);
 
 // ’‚ «◊¢ Õ

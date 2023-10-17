@@ -283,15 +283,6 @@ void ScriptC::Obj::CerVm::VmCall()
 	auto_c func = (*cmd.getCodeParams())["param1"];
 	auto_c paramSize = (*cmd.getCodeParams())["param2"];
 	std::string funcName;
-
-	if ((*cmd.getCodeParams()).find("param3") != (*cmd.getCodeParams()).end()) {
-		this_var = (*cmd.getCodeParams())["param3"];
-		this_var >> this_name;
-		LetObject::reference(&this_var, m_stacks.getVarMapValuePtr(this_name, true));
-
-	}
-
-
 	func >> funcName;
 
 	numberT paramSizeT;
@@ -312,7 +303,30 @@ void ScriptC::Obj::CerVm::VmCall()
 		dataSf->back()["_class_name"] >> className;
 		funcName = funcName.substr(3, funcName.size());
 		funcName = className + ":" + funcName;
-		dataSf->pop_back();
+
+		/* 
+		 * 2023.10.17
+		 *通过(u)的函数将不在直接回收，之后会在Leave返回值之前进行删除 
+		*/
+		// dataSf->pop_back();
+		auto del_nature = dataSf->back().getSelfAttribute();
+		dataSf->back().setAttribute(del_nature | 16);
+	}
+
+	/*
+	* 2023.10.17
+	* 默认不在需要手动传入this参数
+	* 手动更换this指针
+	*/
+	if ((*cmd.getCodeParams()).find("param3") != (*cmd.getCodeParams()).end()) {
+		this_var = (*cmd.getCodeParams())["param3"];
+		this_var >> this_name;
+		LetObject::reference(&this_var, m_stacks.getVarMapValuePtr(this_name, true));
+
+	}
+	else
+	{
+		LetObject::reference(&this_var, &dataSf->back());
 	}
 
 	auto funcMap = m_stacks.getFuncMapAddress(funcName);
@@ -381,7 +395,15 @@ void ScriptC::Obj::CerVm::VmLeave()
 	takeEat(CommandCode::CommandCodeType::Leave);
 	if (cmd.getCodeParams()->find("param1") != cmd.getCodeParams()->end()) {
 		haveRetVal = true;
-		retVal = dataSf->back();
+
+		/*
+		* 2023.10.17
+		* 指针内容将不再进行拷贝转换
+		*/
+		if (dataSf->back().getSelfAttribute() & (nature)AutoMem::Obj::NatureType::ptr)
+			auto_c::reference(&retVal, &dataSf->back());
+		else
+			retVal = dataSf->back();
 		dataSf->pop_back();
 	}
 
@@ -430,6 +452,18 @@ void ScriptC::Obj::CerVm::VmLeave()
 	runT = sf->getRunTime();
 	dataSf = sf->getDataStack();
 
+	/*
+	 * 2023.10.17
+	 * 通过 (u) 调用的函数 会在此进行释放
+	*/
+	if (!dataSf->empty())
+	{
+		if ((dataSf->back().getSelfAttribute() & 16) != 0)
+		{
+			dataSf->pop_back();
+		}
+	}
+
 	if (haveRetVal) {
 		dataSf->emplace_back(retVal);
 	}
@@ -453,14 +487,16 @@ void ScriptC::Obj::CerVm::VmPush()
 			std::string Pushtype;
 			i.second >> Pushtype;
 			if (Pushtype == "value") {
-				if ((*cmd.getCodeParams()).find("param3") != (*cmd.getCodeParams()).end()) {
-					std::string var_name;
-					obj >> var_name;
+				std::string var_name;
+				obj >> var_name;
+				/*
+				* 2023.10.17
+				* this 在单独情况下将在任何时候作为指针返回
+				*/
+				if ((*cmd.getCodeParams()).find("param3") != (*cmd.getCodeParams()).end() || var_name == "this") {
 					LetObject::reference(&obj,m_stacks.getVarMapValuePtr(var_name, true));
 				}
 				else {
-					std::string var_name;
-					obj >> var_name;
 					obj = m_stacks.getVarMapValue(var_name, true);
 				}
 			}

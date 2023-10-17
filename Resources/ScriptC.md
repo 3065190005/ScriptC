@@ -82,7 +82,7 @@ ScriptC一共有20个关键字
 
 |  	特殊变量名 	   |    说明   |
 | -------- | ----- |
-| this | 调用函数时通过捕获符\<\>将this与变量绑定 |
+| this | 调用函数时通过捕获符\<\>修改this与变量的绑定关系 |
 | \_FILE\_NAME\_ | 表示程序主文件名 |
 
 
@@ -221,7 +221,7 @@ value = value + 1; // 使用全局变量 value = 2
 <tbody>
 <tr><th style="width:10%">运算符</th><th style="width:55%;">描述</th><th>实例</th></tr>
 <tr><td>.</td><td>获取接口的变量或函数</td><td> a.value 获取a接口的value成员 , a.func() 调用a接口 的func函数</td></tr>
-<tr><td><></td><td>捕获符</td><td>func()&lt;value&gt; 将func函数运行时的this与value变量绑定</td></tr>
+<tr><td><></td><td>捕获符</td><td>func()&lt;value&gt; 修改func函数运行时的this与value变量绑定</td></tr>
 </tbody>
 </table>
 
@@ -253,9 +253,9 @@ value = value + 1; // 使用全局变量 value = 2
 ***判断语句运算符***
 <table class=>
 <tbody><tr><th style="width:35%">语句</th><th>描述</th></tr>
-<tr><td><a target="_blank" href="/cprogramming/c-if.html" title="C 中的 if...end 语句" rel="noopener noreferrer">if...end 语句</a></td><td>一个 <b>if 语句</b> 由一个布尔表达式后跟一个或多个语句组成。</td></tr>
-<tr><td><a target="_blank" href="/cprogramming/c-if-else.html" title="C 中的 if...elif...else...end 语句" rel="noopener noreferrer">if...elif...else...end 语句</a></td><td>一个 <b>if 语句</b> 后可跟任意多个可选的 <b>elif 语句</b>，else 语句在前面所有布尔表达式为假时执行。</td></tr>
-<tr><td><a target="_blank" href="/cprogramming/c-nested-if.html" title="C 中的嵌套 if 语句" rel="noopener noreferrer">嵌套 if 语句</a></td><td>您可以在一个 <b>if</b> 或 <b>elif 和 else</b> 语句内使用另一个 <b>if elif else</b> 语句。</td></tr>
+<tr><td>if...end 语句</td><td>一个 <b>if 语句</b> 由一个布尔表达式后跟一个或多个语句组成。</td></tr>
+<tr><td>if...elif...else...end 语句</td><td>一个 <b>if 语句</b> 后可跟任意多个可选的 <b>elif 语句</b>，else 语句在前面所有布尔表达式为假时执行。</td></tr>
+<tr><td>嵌套 if 语句</td><td>您可以在一个 <b>if</b> 或 <b>elif 和 else</b> 语句内使用另一个 <b>if elif else</b> 语句。</td></tr>
 </tbody></table>
 
 
@@ -280,17 +280,17 @@ end
 **ScriptC提供了两种循环（条件循环和变量循环）**  
 <table>
 <tbody><tr><th style="width:30%">循环类型</th><th>描述</th></tr>
-<tr><td><a href="/cprogramming/c-while-loop.html" title="C 中的 while 循环">while...end 循环</a></td><td>当给定条件为真时，重复语句或语句组。它会在执行循环主体之前测试条件。</td></tr>
-<tr><td><a href="/cprogramming/c-for-loop.html" title="C 中的 for 循环">for...in...end 循环</a></td><td>对数组变量进行从头到尾的变量获取循环</td></tr>
-<tr><td><a href="/cprogramming/c-nested-loops.html" title="C 中的嵌套循环">嵌套循环</a></td><td>您可以在 while 或 for 循环内使用一个或多个循环。</td></tr>
+<tr><td>while...end 循环</td><td>当给定条件为真时，重复语句或语句组。它会在执行循环主体之前测试条件。</td></tr>
+<tr><td>for...in...end 循环</td><td>对数组变量进行从头到尾的变量获取循环</td></tr>
+<tr><td>嵌套循环</td><td>您可以在 while 或 for 循环内使用一个或多个循环。</td></tr>
 </tbody></table>
 
 
 ### 循环控循环控制语句制语句
 <table>
 <tbody><tr><th style="width:30%">控制语句</th><th>描述</th></tr>
-<tr><td><a href="/cprogramming/c-break-statement.html" title="C 中的 break 语句">break 语句</a></td><td>终止<b>循环</b>或 <b>switch</b> 语句，程序流将继续执行紧接着循环或 switch 的下一条语句。</td></tr>
-<tr><td><a href="/cprogramming/c-continue-statement.html" title="C 中的 continue 语句">continue 语句</a></td><td>告诉一个循环体立刻停止本次循环迭代，重新开始下次循环迭代。</td></tr>
+<tr><td>break 语句</td><td>终止<b>循环</b>或 <b>switch</b> 语句，程序流将继续执行紧接着循环或 switch 的下一条语句。</td></tr>
+<tr><td>continue 语句</td><td>告诉一个循环体立刻停止本次循环迭代，重新开始下次循环迭代。</td></tr>
 </tbody></table>
 
 
@@ -410,7 +410,7 @@ value.number = value.struct.Afunc();	// 调用 structA的Afunc方法 并赋值�
 ### 特殊函数 _gc
 特殊函数 _gc()，可以在接口变量被销毁前自动调用
 **该函数只会在变量被局部变量管理时才会调用，成员则不会进行调用**
-**this指针自动指向当前将要被销毁的变量**
+**this指针指向当前将要被销毁的变量**
 ```sc
 	require ("io");
 	let io = new StdIo;
@@ -432,7 +432,7 @@ value.number = value.struct.Afunc();	// 调用 structA的Afunc方法 并赋值�
 
 ### 特殊变量 this 和捕获符<>
 
-接口可以通过捕获符**<>**来将**函数**或**方法**内的**this**与指定变量进行绑定，且和**this**进行绑定的变量可以为任意变量
+接口可以通过捕获符**<>**来修改**函数**或**方法**内的**this**的绑定关系
 
 ```sc
 interface structA{
@@ -454,18 +454,19 @@ let value2 = new structB;
 let result = 0;
 value1.setNumber(5)<value1>;	// value1.number = 5;
 value2.setNumber(1,2)<value1>;	// value1.number = 3;
-// value1.setNumber(0);			// error 未与内部this进行绑定
+value1.setNumber(0);		// value1.number = 0;
 // value1.setNumber(0)<result>; // error 绑定成功但result不是成员且内部没有成员变量number
 
 ```
-**当未绑定变量或绑定的变量没有相关接口成员或方法将会出现错误**
+**当绑定的变量没有相关接口成员或方法将会出现错误**
+**当未手动绑定则会默认将this与调用变量进行绑定**
 
 
 ## 头文件
 
 ### 引用头文件的语法  
 ```sc 
-require file_string;
+require (file_string);
 ```
 
 + require  头文件引入关键字
@@ -508,7 +509,7 @@ io.println(string);
 ```
 
 **实例解析**  
-+ require "io"	引入标准输入输出头文件 io.sc
++ require ("io")	引入标准输入输出头文件 io.sc
 + let io = new StdIo;	io.sc内部文件均在StdIo接口中实现
 + io.print("Hello World");	调用标准输出并输出字符串 "Hello World"
 + let string = io.input();		从键盘获取标准输入并赋值给string变量

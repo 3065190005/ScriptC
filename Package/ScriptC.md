@@ -19,7 +19,7 @@
 
 ### HelloWorld
 ```sc
-require "io";
+require ("io");
 let io = new StdIo;
 io.println("Hello World");
 ```
@@ -35,7 +35,7 @@ io.println("Hello World");
 我们可以将ScriptC程序保存到以sc结尾的文件并执行。
 
 ```sc
-require "io";
+require ("io");
 let io = new StdIo;
 io.println("Hello World!");
 io.println("Hello ScriptC!");
@@ -82,7 +82,7 @@ ScriptC一共有20个关键字
 
 |  	特殊变量名 	   |    说明   |
 | -------- | ----- |
-| this | 调用函数时通过捕获符\<\>将this与变量绑定 |
+| this | 调用函数时通过捕获符\<\>修改this与变量的绑定关系 |
 | \_FILE\_NAME\_ | 表示程序主文件名 |
 
 
@@ -221,7 +221,7 @@ value = value + 1; // 使用全局变量 value = 2
 <tbody>
 <tr><th style="width:10%">运算符</th><th style="width:55%;">描述</th><th>实例</th></tr>
 <tr><td>.</td><td>获取接口的变量或函数</td><td> a.value 获取a接口的value成员 , a.func() 调用a接口 的func函数</td></tr>
-<tr><td><></td><td>捕获符</td><td>func()&lt;value&gt; 将func函数运行时的this与value变量绑定</td></tr>
+<tr><td><></td><td>捕获符</td><td>func()&lt;value&gt; 修改func函数运行时的this与value变量绑定</td></tr>
 </tbody>
 </table>
 
@@ -253,9 +253,9 @@ value = value + 1; // 使用全局变量 value = 2
 ***判断语句运算符***
 <table class=>
 <tbody><tr><th style="width:35%">语句</th><th>描述</th></tr>
-<tr><td><a target="_blank" href="/cprogramming/c-if.html" title="C 中的 if...end 语句" rel="noopener noreferrer">if...end 语句</a></td><td>一个 <b>if 语句</b> 由一个布尔表达式后跟一个或多个语句组成。</td></tr>
-<tr><td><a target="_blank" href="/cprogramming/c-if-else.html" title="C 中的 if...elif...else...end 语句" rel="noopener noreferrer">if...elif...else...end 语句</a></td><td>一个 <b>if 语句</b> 后可跟任意多个可选的 <b>elif 语句</b>，else 语句在前面所有布尔表达式为假时执行。</td></tr>
-<tr><td><a target="_blank" href="/cprogramming/c-nested-if.html" title="C 中的嵌套 if 语句" rel="noopener noreferrer">嵌套 if 语句</a></td><td>您可以在一个 <b>if</b> 或 <b>elif 和 else</b> 语句内使用另一个 <b>if elif else</b> 语句。</td></tr>
+<tr><td>if...end 语句</td><td>一个 <b>if 语句</b> 由一个布尔表达式后跟一个或多个语句组成。</td></tr>
+<tr><td>if...elif...else...end 语句</td><td>一个 <b>if 语句</b> 后可跟任意多个可选的 <b>elif 语句</b>，else 语句在前面所有布尔表达式为假时执行。</td></tr>
+<tr><td>嵌套 if 语句</td><td>您可以在一个 <b>if</b> 或 <b>elif 和 else</b> 语句内使用另一个 <b>if elif else</b> 语句。</td></tr>
 </tbody></table>
 
 
@@ -280,17 +280,17 @@ end
 **ScriptC提供了两种循环（条件循环和变量循环）**  
 <table>
 <tbody><tr><th style="width:30%">循环类型</th><th>描述</th></tr>
-<tr><td><a href="/cprogramming/c-while-loop.html" title="C 中的 while 循环">while...end 循环</a></td><td>当给定条件为真时，重复语句或语句组。它会在执行循环主体之前测试条件。</td></tr>
-<tr><td><a href="/cprogramming/c-for-loop.html" title="C 中的 for 循环">for...in...end 循环</a></td><td>对数组变量进行从头到尾的变量获取循环</td></tr>
-<tr><td><a href="/cprogramming/c-nested-loops.html" title="C 中的嵌套循环">嵌套循环</a></td><td>您可以在 while 或 for 循环内使用一个或多个循环。</td></tr>
+<tr><td>while...end 循环</td><td>当给定条件为真时，重复语句或语句组。它会在执行循环主体之前测试条件。</td></tr>
+<tr><td>for...in...end 循环</td><td>对数组变量进行从头到尾的变量获取循环</td></tr>
+<tr><td>嵌套循环</td><td>您可以在 while 或 for 循环内使用一个或多个循环。</td></tr>
 </tbody></table>
 
 
 ### 循环控循环控制语句制语句
 <table>
 <tbody><tr><th style="width:30%">控制语句</th><th>描述</th></tr>
-<tr><td><a href="/cprogramming/c-break-statement.html" title="C 中的 break 语句">break 语句</a></td><td>终止<b>循环</b>或 <b>switch</b> 语句，程序流将继续执行紧接着循环或 switch 的下一条语句。</td></tr>
-<tr><td><a href="/cprogramming/c-continue-statement.html" title="C 中的 continue 语句">continue 语句</a></td><td>告诉一个循环体立刻停止本次循环迭代，重新开始下次循环迭代。</td></tr>
+<tr><td>break 语句</td><td>终止<b>循环</b>或 <b>switch</b> 语句，程序流将继续执行紧接着循环或 switch 的下一条语句。</td></tr>
+<tr><td>continue 语句</td><td>告诉一个循环体立刻停止本次循环迭代，重新开始下次循环迭代。</td></tr>
 </tbody></table>
 
 
@@ -407,9 +407,32 @@ value.struct.number = 123;				// 赋值123给structA的成员 number
 value.number = value.struct.Afunc();	// 调用 structA的Afunc方法 并赋值给StructB的成员number
 ```
 
+### 特殊函数 _gc
+特殊函数 _gc()，可以在接口变量被销毁前自动调用
+**该函数只会在变量被局部变量管理时才会调用，成员则不会进行调用**
+**this指针指向当前将要被销毁的变量**
+```sc
+	require ("io");
+	let io = new StdIo;
+
+	interface structA{
+		let number = 1;
+
+		// 特殊函数
+		function _gc():
+			this.number = 3;
+			io.print(this.number + " Gc");
+		end
+	}
+
+	let value = new structA;
+	// 结束时会自动调用 structA接口的_gc函数 并输出 "3 Gc"
+```
+
+
 ### 特殊变量 this 和捕获符<>
 
-接口可以通过捕获符**<>**来将**函数**或**方法**内的**this**与指定变量进行绑定，且和**this**进行绑定的变量可以为任意变量
+接口可以通过捕获符**<>**来修改**函数**或**方法**内的**this**的绑定关系
 
 ```sc
 interface structA{
@@ -431,18 +454,19 @@ let value2 = new structB;
 let result = 0;
 value1.setNumber(5)<value1>;	// value1.number = 5;
 value2.setNumber(1,2)<value1>;	// value1.number = 3;
-// value1.setNumber(0);			// error 未与内部this进行绑定
+value1.setNumber(0);		// value1.number = 0;
 // value1.setNumber(0)<result>; // error 绑定成功但result不是成员且内部没有成员变量number
 
 ```
-**当未绑定变量或绑定的变量没有相关接口成员或方法将会出现错误**
+**当绑定的变量没有相关接口成员或方法将会出现错误**
+**当未手动绑定则会默认将this与调用变量进行绑定**
 
 
 ## 头文件
 
 ### 引用头文件的语法  
 ```sc 
-require file_string;
+require (file_string);
 ```
 
 + require  头文件引入关键字
@@ -452,18 +476,18 @@ require file_string;
 头文件在引入时会将要引入的文件代码全部执行一遍  
 如果文件被多次引用，将只会保留第一次引入代码，不执行之后的代码
 ```sc
-require "io";	// 引入io.sc 头文件标准库
-require "io";	// 无视，不执行
+require ("io");	// 引入io.sc 头文件标准库
+require ("io");	// 无视，不执行
 ```
 
 ### 有条件引用  
-头文件是属于代码的一部分，可以配合条件语句进行选择性引入
+头文件的执行是属于代码的一部分，可以配合条件语句进行选择性引入
 ```sc
 let value = 1;
 if(value == 1):
-	require "io";
+	require ("io");
 else:
-	require "os";
+	require ("os");
 end
 ```
 
@@ -477,7 +501,7 @@ end
 ScriptC一般使用print和input来获取标准输入输出，具体的使用如下
 
 ```sc
-require "io";
+require ("io");
 let io = new StdIo;
 io.print("Hello World");
 let string = io.input();
@@ -485,7 +509,7 @@ io.println(string);
 ```
 
 **实例解析**  
-+ require "io"	引入标准输入输出头文件 io.sc
++ require ("io")	引入标准输入输出头文件 io.sc
 + let io = new StdIo;	io.sc内部文件均在StdIo接口中实现
 + io.print("Hello World");	调用标准输出并输出字符串 "Hello World"
 + let string = io.input();		从键盘获取标准输入并赋值给string变量
@@ -553,7 +577,7 @@ fread(fileId , lens);
 
 ### 实例
 ```sc
-require "io";
+require ("io");
 let io = new StdIo;
 
 let fileId = io.fopen("student.txt","wb+");	// 使用wb+模式打开 student.txt文件
@@ -584,7 +608,7 @@ errget()
 
 ### 实例  
 ```sc
-require "io";
+require ("io");
 let io = new StdIo;
 
 io.errset("ErrCode 1");
@@ -599,7 +623,7 @@ let err = errget(); // err = "ErrCode 1";
 可以通过调用**os.sc**标准库中的**argv**函数来获取所有命令行参数  
 以下情况默认传入参数为 ```"1" "2" "3"```
 ```sc
-require "os";
+require ("os");
 let os = new StdOs;
 
 let args = os.argv();
@@ -614,7 +638,7 @@ let args = os.argv();
 # 标准库
 ## StdIo 标准输入/输出
 ```sc
-require "io";
+require ("io");
 let io = new StdIo;
 ```
 
@@ -677,7 +701,7 @@ let write_all = -1;
 
 ## StdOs  操作系统
 ```sc
-require "os";
+require ("os");
 let os = new StdOs;
 ```
 
@@ -731,7 +755,7 @@ argv()		(void)	-> array
 
 ## StdMath 数学库
 ```sc
-require "math";
+require ("math");
 let math = new StdMath;
 ```
 
@@ -802,7 +826,7 @@ value1:number -> array|null
 
 ## StdString 字符串处理库
 ```sc
-require "string";
+require ("string");
 let s = StdString;
 ```
 
@@ -918,7 +942,7 @@ let str_all = -1;
 
 ## StdArray 数组处理库
 ```sc
-require "array";
+require ("array");
 let array = new StdArray;
 ```
 
@@ -990,7 +1014,7 @@ childs(arr)
 
 ## StdTime 时间库
 ```sc
-require "time";
+require ("time");
 let tm = new StdTime;
 ```
 
@@ -1077,7 +1101,7 @@ let ms = 0;
 
 ## StdType 类型库
 ```sc
-require "type";
+require ("type");
 let tp = new StdType;
 ```
 
@@ -1115,7 +1139,7 @@ isUpper(str);
 
 ## StdWindow 窗口库
 ```sc
-require "window";
+require ("window");
 let win = new StdWindow;
 ```
 
@@ -1187,7 +1211,7 @@ getWebBoxSize()
 
 ## StdThread 线程库
 ```sc
-require "thread";
+require ("thread");
 let thread = new StdThread;
 ```
 
@@ -1270,7 +1294,7 @@ clear(id)
 
 ## StdSocket 套接字库
 ```sc
-require "socket";
+require ("socket");
 let socket = new StdSocket;
 ```
 
