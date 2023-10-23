@@ -16,14 +16,14 @@ namespace ScriptC {
 			struct FuncDescription
 			{
 				bool hasExport = false;
-				size_t addRess;
-				size_t paramLen;
+				size_t addRess{0};
+				size_t paramLen{0};
 				std::vector<std::string> params;
 			};
 
 			struct InterProperties {
-				std::string name;
-				std::string parent;
+				std::string name{};
+				std::string parent{};
 				std::map<std::string, auto_c> var_people;
 				std::vector<std::string> func_name;
 			};
@@ -44,10 +44,14 @@ namespace ScriptC {
 
 			void setInterMapValue(std::string, InterProperties);
 			InterProperties getInterMapValue(std::string);
+			std::string getInterMapParent(std::string);
 			bool findInterMap(std::string name);
 
 			void insetInterVal(std::string cls, std::string name , auto_c var_default);
 			void insetInterFunc(std::string name, std::string func);
+
+		private:
+			auto_c getParentValue(std::string name);
 
 		private:
 			std::map<std::string, auto_c> m_var_map;			// ±‰¡ø”≥…‰±Ì

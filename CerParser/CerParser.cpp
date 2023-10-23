@@ -940,7 +940,7 @@ AST* ScriptC::Obj::CerParser::InterfaceDeclaration()
 
 AST* ScriptC::Obj::CerParser::InterfaceHeader() {
 	/*
-	* InterfaceHeader		: VAR_ID (COLON VAR_ID)
+	* InterfaceHeader	: VAR_ID (Key_INHERITS VAR_ID)?
 	*/
 
 	AST* ast = nullptr;
@@ -950,9 +950,9 @@ AST* ScriptC::Obj::CerParser::InterfaceHeader() {
 	name = tok.getCstr();
 	
 	tok = m_lexical->getCurrentToken();
-	if (tok.getType() == CerTokType::COLON)
+	if (tok.getType() == CerTokType::Key_Inherits)
 	{
-		takeEat(CerTokType::COLON);
+		takeEat(CerTokType::Key_Inherits);
 		auto tok = m_lexical->getCurrentToken();
 		takeEat(CerTokType::Var_Id);
 		parent = tok.getCstr();

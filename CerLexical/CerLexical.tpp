@@ -216,6 +216,8 @@ CerTokType ScriptC::Obj::CerLexical<T>::isKeyWord(std::string str)
 		ret = CerTokType::Key_Export;
 	else if (str == "require")
 		ret = CerTokType::Key_InClude;
+	else if (str == "override")
+		ret = CerTokType::Key_Inherits;
 
 	return ret;
 }

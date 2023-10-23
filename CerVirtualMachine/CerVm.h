@@ -29,7 +29,7 @@ namespace ScriptC {
 			void Command();
 			void runTime();
 		
-		public:
+		private:
 			void VmInter();
 			void VmFunc();
 			void VmCall();
@@ -77,6 +77,7 @@ namespace ScriptC {
 			VectorStr isCallGc();		// 返回当前栈的所有 接口变量名 (不包含this)
 			VectorStr isCallGcR();		// 返回当前栈所涵盖的所有 接口变量名 (不包含this)
 			bool GcCallBack();			// 是否调用接口的析构函数
+			std::string findClassFunc(std::string className, std::string funcName);// 递归获取类的函数名
 
 		public:
 			bool takeEat(CommandCode::CommandCodeType type);

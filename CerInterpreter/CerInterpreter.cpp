@@ -1352,9 +1352,11 @@ bool ScriptC::Obj::CerInterpreter::visit_InterfaceHeader(AST* node, autoPtr ret)
 	auto_c childName, parentName;
 	childName << interH->getName().getCstr();
 	param1.insert({ "param1",std::move(childName) });
+
 	if (!interH->getParent().getCstr().empty()) {
 		parentName << interH->getParent().getCstr();
 	}
+
 	param1.insert({ "param2",std::move(parentName) });
 
 	m_table_temp[interH->getName().getCstr()] = 1;

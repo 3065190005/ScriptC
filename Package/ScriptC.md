@@ -68,7 +68,7 @@ myname50     _temp     Jsbd       a23b9        retVal
 
 ### 关键字
 
-ScriptC一共有20个关键字
+ScriptC一共有21个关键字
 
 |  	 	   |       |           |        |         |
 | -------- | ----- | :-------: | ---- | ------- |
@@ -76,6 +76,7 @@ ScriptC一共有20个关键字
 | elif     | end   |   false   | for  | true    |
 | function | if    |    in     | let  | while   |
 | null     | undef | interface | new  | require |
+| override     |  |  |   |  |
 
 
 ### 特殊变量
@@ -84,6 +85,9 @@ ScriptC一共有20个关键字
 | -------- | ----- |
 | this | 调用函数时通过捕获符\<\>修改this与变量的绑定关系 |
 | \_FILE\_NAME\_ | 表示程序主文件名 |
+| _class_name | 表示变量的接口名 |
+| _class_parent | 表示变量口的父接口名 |
+| _class_auto_gc_call | 表示变量是否自动调用特殊函数_gc |
 
 
 ## 数据类型
@@ -406,6 +410,39 @@ let value = new structB;
 value.struct.number = 123;				// 赋值123给structA的成员 number
 value.number = value.struct.Afunc();	// 调用 structA的Afunc方法 并赋值给StructB的成员number
 ```
+
+
+### 接口重写
+接口可以通过 override 关键字进行重写
+```sc
+interface Base{
+	let age = 18;
+	let sex = "boy";
+	
+	function fakeAge():
+		return this.age + 1;
+	end
+	
+	function realAge():
+		return this.age;
+	end
+}
+
+interface Child override Base{
+	let age = 19;
+	
+	function fakeAge():
+		return this.age * 2;
+	end
+}
+
+let person = new Child;
+let age = person.age; 				// age = 19
+let fake_age = person.fakeAge(); 	// fake_age = 38
+let real_age = person.realAge();	// real_age = 19
+let sex = person.sex;				// sex = "boy"
+```
+
 
 ### 特殊函数 _gc
 特殊函数 _gc()，可以在接口变量被销毁前自动调用

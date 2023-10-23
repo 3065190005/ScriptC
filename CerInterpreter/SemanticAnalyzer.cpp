@@ -662,10 +662,21 @@ bool ScriptC::Obj::SemanticAnalyzer::visit_InterfaceHeader(AST* node, autoPtr re
 	name = interH->getName().getCstr();
 	parent = interH->getParent().getCstr();
 	type = SymbolType::InterSymbol;
+
 	finder = m_symbol_table->findSymbol(name, type, true);
 	if (finder != symbArea::noFind) {
 		m_errHis->setErrInfo(interH->getDebugInfo());
 		m_errHis->throwErr(EType::SemanticAnalyzer,"symbom " + name + " was aleardy define");
+	}
+
+	/*
+	* 2023.10.23
+	* 对要继承的父类进行判断
+	*/
+	finder = m_symbol_table->findSymbol(parent, type, true);
+	if (!parent.empty() && finder == symbArea::noFind) {
+		m_errHis->setErrInfo(interH->getDebugInfo());
+		m_errHis->throwErr(EType::SemanticAnalyzer, "symbom " + parent + " was not define");
 	}
 
 	SymbolClass symbol(name, parent);

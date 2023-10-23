@@ -91,7 +91,8 @@ namespace ScriptC {
 				Key_For,		// for 关键字
 				Key_In,			// in 关键字
 				Key_Export,		// export 关键字
-				Key_InClude,	// include 关键字
+				Key_InClude,	// require 关键字
+				Key_Inherits,	// inherits 关键字
 
 				Eof,			// 文件结束符
 			};

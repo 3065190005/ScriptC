@@ -19,11 +19,11 @@ Body	: InterfaceDeclaration
 FileInclude : KEY_INCLUDE LPARAM String_const RPARAM SEMI
 
 // 接口定义
-InterfaceDeclaration	: KEY_INTERFACE InterfaceHeader LBRACE (FunDeclaration | Assignment SEMI)* RBRACE
+InterfaceDeclaration	: KEY_INTERFACE InterfaceHeader  LBRACE (FunDeclaration | Assignment SEMI)* RBRACE
 
 
 // 接口头
-InterfaceHeader		: VAR_ID (COLON VAR_ID)
+InterfaceHeader		: VAR_ID (Key_INHERITS VAR_ID)?
 
 
 // 函数定义

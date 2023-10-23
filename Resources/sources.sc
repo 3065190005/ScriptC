@@ -28,11 +28,19 @@ interface Class {
 	end
 
 	function PrintNum():
-		io.print(this.num);
+		io.println(this.num);
 	end
 
 	function subNum():
 		this.num = "This Change!";
+	end
+}
+
+interface SubClass override Class{
+	let num = 1000;
+	
+	function subNum():
+		this.num = "Sub Class Overide This Change!";
 	end
 }
 
@@ -90,10 +98,16 @@ io.print(maps);
 
 cls.num = 11111;
 cls.str = "Hello World";
-io.print(cls.PrintNum()<cls>);
+cls.PrintNum()<cls>;
 cls.subNum();
-io.print(cls.PrintNum()<cls>);
+cls.PrintNum()<cls>;
+io.println("\n\n --- sub class called ---\n");
+
+let subcls = new SubClass;
+subcls.PrintNum()<subcls>;
+subcls.subNum();
+subcls.PrintNum()<subcls>;
 
 // ’‚ «◊¢ Õ
-
+io.println("program over");
 return forResu;

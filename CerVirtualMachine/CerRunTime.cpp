@@ -76,6 +76,17 @@ bool ScriptC::Obj::CerRunTime::findFuncMap(std::string name)
 
 void ScriptC::Obj::CerRunTime::setInterMapValue(std::string name, InterProperties proper)
 {
+	/*
+	* 2023.10.23
+	* 实现继承关系，获取父类的所有成员
+	*/
+	auto parent = m_inter_map.find(proper.parent);
+	if (parent != m_inter_map.end())
+	{
+		proper.var_people = parent->second.var_people;
+		proper.func_name = parent->second.func_name;
+	}
+
 	auto inter = m_inter_map.find(name);
 	if (inter == m_inter_map.end()) {
 		m_inter_map.insert({ name,std::move(proper) });
@@ -90,6 +101,15 @@ CerRunTime::InterProperties ScriptC::Obj::CerRunTime::getInterMapValue(std::stri
 	return m_inter_map[name];
 }
 
+/*
+* 2023.10.23
+* 获取相关类的父类名
+*/
+std::string ScriptC::Obj::CerRunTime::getInterMapParent(std::string name)
+{
+	return m_inter_map[name].parent;
+}
+
 bool ScriptC::Obj::CerRunTime::findInterMap(std::string name)
 {
 	if (m_inter_map.find(name) != m_inter_map.end()) {
@@ -102,7 +122,11 @@ void ScriptC::Obj::CerRunTime::insetInterVal(std::string cls , std::string name,
 {
 	auto iter = m_inter_map.find(cls);
 	if (iter != m_inter_map.end()) {
-		iter->second.var_people.insert({ name,std::move(var_default) });
+		/*
+		* 2023.10.23
+		* 修复父类继承insert无法覆盖的问题
+		*/
+		iter->second.var_people[name] = std::move(var_default);
 	}
 }
 

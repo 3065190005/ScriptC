@@ -298,11 +298,24 @@ void ScriptC::Obj::CerVm::VmCall()
 	if (funcName.find("(u)") != funcName.npos) {
 		if ((dataSf->back().getAttribute() & (int)NatureType::cls) == false) {
 			auto errHis = ErrorHandling::getInstance();
-			errHis->throwErr(EType::Vm,"value is not person with function");
+			errHis->throwErr(EType::Vm,"variable is not a interface");
 		}
+
 		dataSf->back()["_class_name"] >> className;
 		funcName = funcName.substr(3, funcName.size());
-		funcName = className + ":" + funcName;
+		
+		/*
+		* 2023.10.23
+		* 特殊函数禁止手动调用
+		*/
+		if(funcName != "_gc")
+			funcName = findClassFunc(className, funcName);
+
+		if (funcName.empty())
+		{
+			auto errHis = ErrorHandling::getInstance();
+			errHis->throwErr(EType::Vm, "invalid interface method call");
+		}
 
 		/* 
 		 * 2023.10.17
@@ -332,12 +345,12 @@ void ScriptC::Obj::CerVm::VmCall()
 	auto funcMap = m_stacks.getFuncMapAddress(funcName);
 	if (funcMap.addRess == 0) {
 		auto errHis = ErrorHandling::getInstance();
-		errHis->throwErr(EType::Vm, "value is not person with function");
+		errHis->throwErr(EType::Vm, "invalid interface method call");
 	}
 
 	if (funcMap.params.size() != valueVec.size()) {
 		auto errHis = ErrorHandling::getInstance();
-		errHis->throwErr(EType::Vm, "params count error with function");
+		errHis->throwErr(EType::Vm, "params error with function");
 	}
 
 	if (funcMap.hasExport) {
@@ -388,6 +401,7 @@ void ScriptC::Obj::CerVm::VmLeave()
 	SFPtr sf = m_stacks.GetLastSF();
 	auto runT = sf->getRunTime();
 	auto dataSf = sf->getDataStack();
+	std::string frameName = sf->getStackFrameName();
 
 	auto_c retVal;
 	bool haveRetVal = false;
@@ -441,7 +455,6 @@ void ScriptC::Obj::CerVm::VmLeave()
 		m_command_codes_index = retPtr;
 	}
 
-
 	if (popStack) {
 		CodePopNewSf();
 	}
@@ -462,6 +475,21 @@ void ScriptC::Obj::CerVm::VmLeave()
 		{
 			dataSf->pop_back();
 		}
+	}
+
+	/*
+	* 2023.10.23
+	* 析构函数禁止值的返回
+	*/
+	if (frameName.find(":_gc") != frameName.npos)
+	{
+		if (haveRetVal) 
+		{
+			auto errHis = ErrorHandling::getInstance();
+			errHis->throwErr(EType::Vm, "destructors prohibit returning valuesl");
+		}
+
+		return;
 	}
 
 	if (haveRetVal) {
@@ -639,7 +667,7 @@ void ScriptC::Obj::CerVm::VmPush()
 					auto interTemplate = m_stacks.getInterMapValue(var_name, true);
 					pushValue["_class_name"] << interTemplate.name;
 					pushValue["_class_parent"] << interTemplate.parent;
-					pushValue["_class_auto_gc_called"] << "false";
+					pushValue["_class_auto_gc_call"] << true;
 					for (auto& i : interTemplate.var_people) {
 						pushValue[i.first] = i.second;
 					}
@@ -1418,7 +1446,7 @@ void ScriptC::Obj::CerVm::CodeCallFunc(std::string _funcName, std::vector<auto_c
 	auto funcMap = m_stacks.getFuncMapAddress(funcName);
 	if (funcMap.addRess == 0) {
 		auto errHis = ErrorHandling::getInstance();
-		errHis->throwErr(EType::Vm, "value is not person with function");
+		errHis->throwErr(EType::Vm, "invalid interface method call");
 	}
 
 	if (funcMap.params.size() != valueVec.size()) {
@@ -1518,10 +1546,11 @@ ScriptC::Obj::CerVm::VectorStr ScriptC::Obj::CerVm::isCallGc()
 		{
 			if (it->second.getAttribute() == (int)NatureType::cls)
 			{
-				std::string auto_gc_called;
-				it->second["_class_auto_gc_called"] >> auto_gc_called;
-				if(auto_gc_called == "false")
+				bool auto_gc_called;
+				it->second["_class_auto_gc_call"] >> auto_gc_called;
+				if (auto_gc_called == true)
 					ret.push_back(it->first);
+				
 			}
 		}
 	}
@@ -1580,14 +1609,16 @@ bool ScriptC::Obj::CerVm::GcCallBack()
 		var = runT->getVarMapValue(var_name);
 
 		// 获取析构函数名
-		func_name = LetObject::cast<std::string>(var["_class_name"]) + ":_gc";
+		std::string className = LetObject::cast<std::string>(var["_class_name"]);
+		std::string gcName = "_gc";
+		func_name = findClassFunc(className, gcName);
 
 		// 清除变量标志
 		auto var_map = runT->getVarMap();
 		if (var_map != nullptr)
 		{
 			auto iter = var_map->find(var_name);
-			iter->second["_class_auto_gc_called"] << "true";
+			iter->second["_class_auto_gc_call"] << false;
 		}
 
 		// 未找到相关析构函数
@@ -1602,6 +1633,28 @@ bool ScriptC::Obj::CerVm::GcCallBack()
 	CodeCallFunc(func_name, {}, std::move(var_name));
 	
 	return true;
+}
+
+std::string ScriptC::Obj::CerVm::findClassFunc(std::string className , std::string funcName)
+{
+	SFPtr sf = m_stacks.GetLastSF();
+	auto runT = sf->getRunTime();
+	auto dataSf = sf->getDataStack();
+
+	std::string func = className + ":" + funcName;
+	auto funcMap = m_stacks.getFuncMapAddress(func);
+	while (funcMap.addRess == 0 && !className.empty())
+	{
+		className = runT->getInterMapParent(className);
+
+		func = className + ":" + funcName;
+		funcMap = m_stacks.getFuncMapAddress(func);
+	}
+
+	if (className.empty())
+		func.clear();
+
+	return func;
 }
 
 bool ScriptC::Obj::CerVm::takeEat(CommandCode::CommandCodeType type)

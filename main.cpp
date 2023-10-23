@@ -219,19 +219,41 @@ void ProgramerCall() {
 
 void TestCodeCall() {
 
-	auto_c str;
-	str.setAttribute((nature)AutoMem::Obj::NatureType::cls);
-	auto_c boo;
-
-	auto_c::reference(&str, &boo);
-
-	str << "Hello";
-	boo << 1;
-	auto_c he;
-	he = str + boo;
-
 	std::string input = R"(
-	//-- released
+	//--- package
+	require("io");
+	let io = new StdIo;
+
+	interface point{
+		let point_value = "point value";
+		function point_func():
+			return this.point_value + " called point_func";
+		end
+	}
+
+	interface object override point {
+		let object_value = "parent value";
+		function object_func():
+			return this.object_value + " called object_func";
+		end
+	}
+	
+	interface class override object {
+		let class_value = "point value override";
+		function class_func():
+			return this.object_value + " called class_func";
+		end
+		function _gc():
+			io.println("gc called");
+		end
+	}
+
+	function getClass():
+		let ret = new class;
+		return ret;
+	end
+
+	let abc = getClass();
 )";
 
 
