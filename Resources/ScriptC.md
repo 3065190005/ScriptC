@@ -143,124 +143,128 @@ value = value + 1; // 使用全局变量 value = 2
 ### 算术运算符
 **下表显示了 ScriptC 语言支持的所有算术运算符。假设变量 A 的值为 10，变量 B 的值为 20，则**  
 
-<table>
-<tbody><tr><th style="width:10%">运算符</th><th style="width:55%;">描述</th><th>实例</th></tr>
-<tr><td>+</td><td>把两个操作数相加</td><td> A + B 将得到 30</td></tr>
-<tr><td>-</td><td>从第一个操作数中减去第二个操作数</td><td> A - B 将得到 -10</td></tr>
-<tr><td>*</td><td>把两个操作数相乘</td><td> A * B 将得到 200</td></tr>
-<tr><td>/</td><td>分子除以分母</td><td> B / A 将得到 2</td></tr>
-<tr><td>%</td><td>取模运算符，整除后的余数</td><td> B % A 将得到 0</td></tr>
-</tbody></table>
+| 运算符 | 描述 | 实例 |
+| --- | --- | --- |
+| + | 把两个操作数相加 | A + B 将得到 30 |
+| \- | 从第一个操作数中减去第二个操作数 | A - B 将得到 -10 |
+| \* | 把两个操作数相乘 | A \* B 将得到 200 |
+| / | 分子除以分母 | B / A 将得到 2 |
+| % | 取模运算符，整除后的余数 | B % A 将得到 0 |
 ### 关系运算符
 
 **下表显示了 ScriptC支持的所有关系运算符。假设变量  A  的值为 10，变量 B 的值为 20，则**  
 
-<table>
-<tbody><tr><th style="width:10%">运算符</th><th style="width:55%;">描述</th><th>实例</th></tr>
-<tr><td>==</td><td>检查两个操作数的值是否相等，如果相等则条件为真。</td><td> (A == B) 为假。</td></tr>
-<tr><td>!=</td><td>检查两个操作数的值是否相等，如果不相等则条件为真。</td><td> (A != B) 为真。</td></tr>
-<tr><td>&gt;</td><td>检查左操作数的值是否大于右操作数的值，如果是则条件为真。</td><td> (A &gt; B) 为假。</td></tr>
-<tr><td>&lt;</td><td>检查左操作数的值是否小于右操作数的值，如果是则条件为真。</td><td> (A &lt; B) 为真。</td></tr>
-<tr><td>&gt;=</td><td>检查左操作数的值是否大于或等于右操作数的值，如果是则条件为真。</td><td> (A &gt;= B) 为假。</td></tr>
-<tr><td>&lt;=</td><td>检查左操作数的值是否小于或等于右操作数的值，如果是则条件为真。</td><td> (A &lt;= B) 为真。</td></tr>
-</tbody>
-</table>
+| 运算符 | 描述 | 实例 |
+| --- | --- | --- |
+| \== | 检查两个操作数的值是否相等，如果相等则条件为真。 | (A == B) 为假。 |
+| != | 检查两个操作数的值是否相等，如果不相等则条件为真。 | (A != B) 为真。 |
+| \> | 检查左操作数的值是否大于右操作数的值，如果是则条件为真。 | (A > B) 为假。 |
+| < | 检查左操作数的值是否小于右操作数的值，如果是则条件为真。 | (A < B) 为真。 |
+| \>= | 检查左操作数的值是否大于或等于右操作数的值，如果是则条件为真。 | (A >= B) 为假。 |
+| <= | 检查左操作数的值是否小于或等于右操作数的值，如果是则条件为真。 | (A <= B) 为真。 |
 
 
 ### 逻辑运算符
 
 **下表显示了ScriptC支持的所有关系逻辑运算符。假设变量 A 的值为 1，变量 B 的值为 0，则**  
 
-<table>
-<tbody><tr><th style="width:10%">运算符</th><th style="width:55%;">描述</th><th>实例</th></tr>
-<tr><td>&amp;&amp;</td><td>称为逻辑与运算符。如果两个操作数都非零，则条件为真。</td><td> (A &amp;&amp; B) 为假。</td></tr>
-<tr><td>||</td><td>称为逻辑或运算符。如果两个操作数中有任意一个非零，则条件为真。</td><td> (A || B) 为真。</td></tr>
-<tr><td>!</td><td>称为逻辑非运算符。用来逆转操作数的逻辑状态。如果条件为真则逻辑非运算符将使其为假。</td><td> !(A &amp;&amp; B) 为真。</td></tr>
-</tbody></table>
+| 运算符 | 描述 | 实例 |
+| --- | --- | --- |
+| && | 称为逻辑与运算符。如果两个操作数都非零，则条件为真。 | (A && B) 为假。 |
+| || | 称为逻辑或运算符。如果两个操作数中有任意一个非零，则条件为真。 | (A || B) 为真。 |
+| ! | 称为逻辑非运算符。用来逆转操作数的逻辑状态。如果条件为真则逻辑非运算符将使其为假。 | !(A && B) 为真。 |
 
 
 ### 位运算符
 **bit相关操作 会强制截断将浮点转换成8字节的整形进行运算**
 
-<table class="reference">
-<tbody><tr><th style="width:10%">运算符</th><th style="width:55%;">描述</th><th>实例</th></tr>
-<tr><td>&amp;</td><td><p>按位与操作，按二进制位进行"与"运算。运算规则：</p>
-<pre class="prettyprint prettyprinted" style=""><span class="lit">0</span><span class="pun">&amp;</span><span class="lit">0</span><span class="pun">=</span><span class="lit">0</span><span class="pun">;</span><span class="pln">   
-</span><span class="lit">0</span><span class="pun">&amp;</span><span class="lit">1</span><span class="pun">=</span><span class="lit">0</span><span class="pun">;</span><span class="pln">    
-</span><span class="lit">1</span><span class="pun">&amp;</span><span class="lit">0</span><span class="pun">=</span><span class="lit">0</span><span class="pun">;</span><span class="pln">     
-</span><span class="lit">1</span><span class="pun">&amp;</span><span class="lit">1</span><span class="pun">=</span><span class="lit">1</span><span class="pun">;</span></pre></td><td> (A &amp; B) 将得到 12，即为 0000 1100</td></tr>
-<tr><td>|</td><td><p>按位或运算符，按二进制位进行"或"运算。运算规则：</p>
-<pre class="prettyprint prettyprinted" style=""><span class="lit">0</span><span class="pun">|</span><span class="lit">0</span><span class="pun">=</span><span class="lit">0</span><span class="pun">;</span><span class="pln">   
-</span><span class="lit">0</span><span class="pun">|</span><span class="lit">1</span><span class="pun">=</span><span class="lit">1</span><span class="pun">;</span><span class="pln">   
-</span><span class="lit">1</span><span class="pun">|</span><span class="lit">0</span><span class="pun">=</span><span class="lit">1</span><span class="pun">;</span><span class="pln">    
-</span><span class="lit">1</span><span class="pun">|</span><span class="lit">1</span><span class="pun">=</span><span class="lit">1</span><span class="pun">;</span></pre>
-</td><td> (A | B) 将得到 61，即为 0011 1101</td></tr>
-<tr><td>^</td><td><p>异或运算符，按二进制位进行"异或"运算。运算规则：</p>
-<pre class="prettyprint prettyprinted" style=""><span class="lit">0</span><span class="pun">^</span><span class="lit">0</span><span class="pun">=</span><span class="lit">0</span><span class="pun">;</span><span class="pln">   
-</span><span class="lit">0</span><span class="pun">^</span><span class="lit">1</span><span class="pun">=</span><span class="lit">1</span><span class="pun">;</span><span class="pln">   
-</span><span class="lit">1</span><span class="pun">^</span><span class="lit">0</span><span class="pun">=</span><span class="lit">1</span><span class="pun">;</span><span class="pln">  
-</span><span class="lit">1</span><span class="pun">^</span><span class="lit">1</span><span class="pun">=</span><span class="lit">0</span><span class="pun">;</span></pre>
-</td><td> (A ^ B) 将得到 49，即为 0011 0001</td></tr>
-<tr><td>~</td><td><p>取反运算符，按二进制位进行"取反"运算。运算规则：</p>
-<pre class="prettyprint prettyprinted" style=""><span class="pun">~</span><span class="lit">1</span><span class="pun">=-</span><span class="lit">2</span><span class="pun">;</span><span class="pln">   
-</span><span class="pun">~</span><span class="lit">0</span><span class="pun">=-</span><span class="lit">1</span><span class="pun">;</span></pre></td><td> (~A ) 将得到 -61，即为 1100 0011，一个有符号二进制数的补码形式。</td></tr>
-<tr><td>&lt;&lt;</td><td>二进制左移运算符。将一个运算对象的各二进制位全部左移若干位（左边的二进制位丢弃，右边补0）。</td><td> A &lt;&lt; 2 将得到 240，即为 1111 0000</td></tr>
-<tr><td>&gt;&gt;</td><td>二进制右移运算符。将一个数的各二进制位全部右移若干位，正数左补0，负数左补1，右边丢弃。</td><td> A &gt;&gt; 2 将得到 15，即为 0000 1111</td></tr>
-</tbody></table>
+| 运算符 | 描述 | 实例 |
+| --- | --- | --- |
+| & | 
+按位与操作，按二进制位进行"与"运算。运算规则：
+
+0&0\=0;   
+0&1\=0;    
+1&0\=0;     
+1&1\=1;
+
+ | (A & B) 将得到 12，即为 0000 1100 |
+| | | 
+
+按位或运算符，按二进制位进行"或"运算。运算规则：
+
+0|0\=0;   
+0|1\=1;   
+1|0\=1;    
+1|1\=1;
+
+ | (A | B) 将得到 61，即为 0011 1101 |
+| ^ | 
+
+异或运算符，按二进制位进行"异或"运算。运算规则：
+
+0^0\=0;   
+0^1\=1;   
+1^0\=1;  
+1^1\=0;
+
+ | (A ^ B) 将得到 49，即为 0011 0001 |
+| ~ | 
+
+取反运算符，按二进制位进行"取反"运算。运算规则：
+
+~1\=-2;   
+~0\=-1;
+
+ | (~A ) 将得到 -61，即为 1100 0011，一个有符号二进制数的补码形式。 |
+| << | 二进制左移运算符。将一个运算对象的各二进制位全部左移若干位（左边的二进制位丢弃，右边补0）。 | A << 2 将得到 240，即为 1111 0000 |
+| \>> | 二进制右移运算符。将一个数的各二进制位全部右移若干位，正数左补0，负数左补1，右边丢弃。 | A >> 2 将得到 15，即为 0000 1111 |
 
 
 ### 赋值运算符
 
-<table>
-<tbody>
-<tr><th style="width:10%">运算符</th><th style="width:55%;">描述</th><th>实例</th></tr>
-<tr><td>=</td><td>简单的赋值运算符，把右边操作数的值赋给左边操作数</td><td> C = A + B 将把 A + B 的值赋给 C</td></tr>
-</tbody>
-</table>
+| 运算符 | 描述 | 实例 |
+| --- | --- | --- |
+| \= | 简单的赋值运算符，把右边操作数的值赋给左边操作数 | C = A + B 将把 A + B 的值赋给 C |
 
 
 ### 杂项运算符
 
-<table>
-<tbody>
-<tr><th style="width:10%">运算符</th><th style="width:55%;">描述</th><th>实例</th></tr>
-<tr><td>.</td><td>获取接口的变量或函数</td><td> a.value 获取a接口的value成员 , a.func() 调用a接口 的func函数</td></tr>
-<tr><td><></td><td>捕获符</td><td>func()&lt;value&gt; 修改func函数运行时的this与value变量绑定</td></tr>
-</tbody>
-</table>
+| 运算符 | 描述 | 实例 |
+| --- | --- | --- |
+| . | 获取接口的变量或函数 | a.value 获取a接口的value成员 , a.func() 调用a接口 的func函数 |
+| <> | 捕获符 | func()<value> 修改func函数运行时的this与value变量绑定 |
 
 
 
 ### 运算符优先级
 
-<table>
-<tbody><tr> <th>类别&nbsp;</th> <th>运算符&nbsp;</th><th>结合性&nbsp;</th> </tr> 
-<tr> <td>后缀&nbsp;</td><td>() [] ; . &lt;&gt; &nbsp;</td> <td>从左到右&nbsp;</td> </tr>
-<tr> <td>一元&nbsp;</td> <td>+  -   !  ~</td> <td>从右到左&nbsp;</td></tr> 
-<tr> <td>乘除&nbsp;</td> <td>*  /  %&nbsp;</td><td>从左到右&nbsp;</td> </tr> 
-<tr> <td>加减&nbsp;</td><td>+  -&nbsp;</td> <td>从左到右&nbsp;</td> </tr>
-<tr> <td>移位&nbsp;</td> <td>&lt;&lt; &gt;&gt;&nbsp;</td> <td>从左到右&nbsp;</td> </tr> 
-<tr> <td>关系&nbsp;</td><td>&lt; &lt;=  &gt; &gt;=&nbsp;</td> <td>从左到右&nbsp;</td> </tr>
-<tr> <td>相等&nbsp;</td> <td>==  !=&nbsp;</td> <td>从左到右&nbsp;</td> </tr> 
-<tr> <td>位与 AND&nbsp;</td><td>&amp;&nbsp;</td> <td>从左到右&nbsp;</td> </tr> 
-<tr> <td>位异或 XOR&nbsp;</td> <td>^&nbsp;</td> <td>从左到右&nbsp;</td></tr> 
-<tr> <td>位或 OR&nbsp;</td> <td>|&nbsp;</td> <td>从左到右&nbsp;</td></tr> 
-<tr> <td>逻辑与 AND&nbsp;</td><td>&amp;&amp;&nbsp;</td> <td>从左到右&nbsp;</td></tr>
-<tr><td>逻辑或 OR&nbsp;</td> <td>||&nbsp;</td> <td>从左到右&nbsp;</td></tr> 
-<tr><td>赋值&nbsp;</td> <td>= &nbsp;</td><td>从右到左&nbsp;</td></tr>
-<tr> <td>逗号&nbsp;</td> <td>,&nbsp;</td> <td>从左到右&nbsp;</td></tr> 
-</tbody></table>
+| 类别  | 运算符  | 结合性  |
+| --- | --- | --- |
+| 后缀  | () \[\] ; . <>   | 从左到右  |
+| 一元  | \+ - ! ~ | 从右到左  |
+| 乘除  | \* / %  | 从左到右  |
+| 加减  | \+ -  | 从左到右  |
+| 移位  | << >>  | 从左到右  |
+| 关系  | < <= > >=  | 从左到右  |
+| 相等  | \== !=  | 从左到右  |
+| 位与 AND  | &  | 从左到右  |
+| 位异或 XOR  | ^  | 从左到右  |
+| 位或 OR  | |  | 从左到右  |
+| 逻辑与 AND  | &&  | 从左到右  |
+| 逻辑或 OR  | ||  | 从左到右  |
+| 赋值  | \=   | 从右到左  |
+| 逗号  | ,  | 从左到右  |
 
 
 ## 判断
 
 ***判断语句运算符***
-<table class=>
-<tbody><tr><th style="width:35%">语句</th><th>描述</th></tr>
-<tr><td>if...end 语句</td><td>一个 <b>if 语句</b> 由一个布尔表达式后跟一个或多个语句组成。</td></tr>
-<tr><td>if...elif...else...end 语句</td><td>一个 <b>if 语句</b> 后可跟任意多个可选的 <b>elif 语句</b>，else 语句在前面所有布尔表达式为假时执行。</td></tr>
-<tr><td>嵌套 if 语句</td><td>您可以在一个 <b>if</b> 或 <b>elif 和 else</b> 语句内使用另一个 <b>if elif else</b> 语句。</td></tr>
-</tbody></table>
+| 语句 | 描述 |
+| --- | --- |
+| if...end 语句 | 一个 **if 语句** 由一个布尔表达式后跟一个或多个语句组成。 |
+| if...elif...else...end 语句 | 一个 **if 语句** 后可跟任意多个可选的 **elif 语句**，else 语句在前面所有布尔表达式为假时执行。 |
+| 嵌套 if 语句 | 您可以在一个 **if** 或 **elif 和 else** 语句内使用另一个 **if elif else** 语句。 |
 
 
 ***实例***
@@ -282,20 +286,18 @@ end
 
 ### 循环类型
 **ScriptC提供了两种循环（条件循环和变量循环）**  
-<table>
-<tbody><tr><th style="width:30%">循环类型</th><th>描述</th></tr>
-<tr><td>while...end 循环</td><td>当给定条件为真时，重复语句或语句组。它会在执行循环主体之前测试条件。</td></tr>
-<tr><td>for...in...end 循环</td><td>对数组变量进行从头到尾的变量获取循环</td></tr>
-<tr><td>嵌套循环</td><td>您可以在 while 或 for 循环内使用一个或多个循环。</td></tr>
-</tbody></table>
+| 循环类型 | 描述 |
+| --- | --- |
+| while...end 循环 | 当给定条件为真时，重复语句或语句组。它会在执行循环主体之前测试条件。 |
+| for...in...end 循环 | 对数组变量进行从头到尾的变量获取循环 |
+| 嵌套循环 | 您可以在 while 或 for 循环内使用一个或多个循环。 |
 
 
 ### 循环控循环控制语句制语句
-<table>
-<tbody><tr><th style="width:30%">控制语句</th><th>描述</th></tr>
-<tr><td>break 语句</td><td>终止<b>循环</b>或 <b>switch</b> 语句，程序流将继续执行紧接着循环或 switch 的下一条语句。</td></tr>
-<tr><td>continue 语句</td><td>告诉一个循环体立刻停止本次循环迭代，重新开始下次循环迭代。</td></tr>
-</tbody></table>
+| 控制语句 | 描述 |
+| --- | --- |
+| break 语句 | 终止**循环**或 **switch** 语句，程序流将继续执行紧接着循环或 switch 的下一条语句。 |
+| continue 语句 | 告诉一个循环体立刻停止本次循环迭代，重新开始下次循环迭代。 |
 
 
 **实例**
@@ -568,15 +570,14 @@ function fopen(filename , mode)
 
 **filename**是需要打开的文件名，**mode**表示该文件的访问模式值可以是下列值中的一个  
 
-<table>
-<tbody><tr><th style="width:5%">模式</th><th>描述</th></tr>
-<tr><td>r</td><td>打开一个已有的文本文件，允许读取文件。</td></tr>
-<tr><td>w</td><td>打开一个文本文件，允许写入文件。如果文件不存在，则会创建一个新文件。在这里，您的程序会从文件的开头写入内容。如果文件存在，则该会被截断为零长度，重新写入。</td></tr>
-<tr><td>a</td><td>打开一个文本文件，以追加模式写入文件。如果文件不存在，则会创建一个新文件。在这里，您的程序会在已有的文件内容中追加内容。</td></tr>
-<tr><td>r+</td><td>打开一个文本文件，允许读写文件。</td></tr>
-<tr><td>w+</td><td>打开一个文本文件，允许读写文件。如果文件已存在，则文件会被截断为零长度，如果文件不存在，则会创建一个新文件。</td></tr>
-<tr><td>a+</td><td>打开一个文本文件，允许读写文件。如果文件不存在，则会创建一个新文件。读取会从文件的开头开始，写入则只能是追加模式。</td></tr>
-</tbody></table>
+| 模式 | 描述 |
+| --- | --- |
+| r | 打开一个已有的文本文件，允许读取文件。 |
+| w | 打开一个文本文件，允许写入文件。如果文件不存在，则会创建一个新文件。在这里，您的程序会从文件的开头写入内容。如果文件存在，则该会被截断为零长度，重新写入。 |
+| a | 打开一个文本文件，以追加模式写入文件。如果文件不存在，则会创建一个新文件。在这里，您的程序会在已有的文件内容中追加内容。 |
+| r+ | 打开一个文本文件，允许读写文件。 |
+| w+ | 打开一个文本文件，允许读写文件。如果文件已存在，则文件会被截断为零长度，如果文件不存在，则会创建一个新文件。 |
+| a+ | 打开一个文本文件，允许读写文件。如果文件不存在，则会创建一个新文件。读取会从文件的开头开始，写入则只能是追加模式。 |
 
 如果处理的是二进制文件，则需使用下面的访问模式来取代上面的访问模式  
 ``` "rb", "wb", "ab", "rb+", "r+b", "wb+", "w+b", "ab+", "a+b" ```
