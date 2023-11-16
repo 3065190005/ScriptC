@@ -64,6 +64,7 @@ namespace ScriptC {
 				PopS,		// 销毁最近栈
 				Lens,		// 获取最近的栈计算数组长度并返回新的数组
 				Inc,		// 导入文件
+				Swap,		// 交换两个栈元素位置
 			};
 
 		public:

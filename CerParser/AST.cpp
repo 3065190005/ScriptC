@@ -165,16 +165,53 @@ ScriptC::Obj::InterNew::InterNew(CerTokClass name)
 {
 	CerTokClass::copy(m_inter_name, name);
 	m_ast_type = AST::AstType::InterNew;
+	m_call_init = false;
+}
+
+ScriptC::Obj::InterNew::InterNew(CerTokClass name, std::vector<AST*> params)
+{
+	CerTokClass::copy(m_inter_name, name);
+	m_ast_type = AST::AstType::InterNew;
+	m_params = std::move(params);
+	m_call_init = true;
 }
 
 ScriptC::Obj::InterNew::~InterNew()
 {
 	astlog("\n~InterNew");
+	if (m_call_init)
+	{
+		for (auto& i : m_params) 
+		{
+			delete i;
+			i = nullptr;
+		}
+	}
 }
 
 CerTokClass ScriptC::Obj::InterNew::getName()
 {
 	return m_inter_name;
+}
+
+bool ScriptC::Obj::InterNew::getCallInit()
+{
+	return m_call_init;
+}
+
+std::vector<AST*> ScriptC::Obj::InterNew::getParams()
+{
+	return m_params;
+}
+
+void ScriptC::Obj::InterNew::setInitInter(std::string inter)
+{
+	m_init_inter = inter;
+}
+
+std::string ScriptC::Obj::InterNew::getInitInter()
+{
+	return m_init_inter;
 }
 
 /*****************
@@ -233,6 +270,8 @@ ScriptC::Obj::InterExprOp::InterExprOp(AST* person)
 {
 	m_person = person;
 	m_ast_type = AST::AstType::InterExprOp;
+	m_left_index = false;
+	m_left_last = false;
 }
 
 ScriptC::Obj::InterExprOp::~InterExprOp()
@@ -250,9 +289,19 @@ void ScriptC::Obj::InterExprOp::setLeftIndex(bool isindex)
 	m_left_index = isindex;
 }
 
+void ScriptC::Obj::InterExprOp::setLeftLast(bool islast)
+{
+	m_left_last = islast;
+}
+
 bool ScriptC::Obj::InterExprOp::gethasLeftIndex()
 {
 	return m_left_index;
+}
+
+bool ScriptC::Obj::InterExprOp::gethasLeftLast()
+{
+	return m_left_last;
 }
 
 AST* ScriptC::Obj::InterExprOp::getPerson()

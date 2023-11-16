@@ -20,6 +20,7 @@ namespace ScriptC {
 				SemanticAnalyzer,
 				Interpreter,
 				Vm,
+				System,
 			};
 
 		public:

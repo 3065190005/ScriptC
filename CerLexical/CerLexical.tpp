@@ -1,5 +1,6 @@
 #include <map>
 #include <typeinfo>
+#include <codecvt> 
 #include "CerLexical.h"
 #include "..\ErrorHandling\ErrorHandling.h"
 #include "CerLexicalMacro.h"
@@ -375,7 +376,7 @@ bool ScriptC::Obj::CerLexical<T>::initTokenVector()
 	{
 		CerTokClass tok("", CerTokType::None);
 		sour_byte = m_sources_txt.at(m_sources_index);
-
+		
 		// É¾³ý×¢ÊÍ
 		if (isDoubleChar('/', '/') || isDoubleChar(L'/', L'/')) {
 			JumpExegesis();
@@ -549,7 +550,6 @@ bool ScriptC::Obj::CerLexical<T>::initTokenVector()
 			pushToks(std::move(tok));
 			continue;
 		}
-
 		return false;
 	}
 	

@@ -1,5 +1,5 @@
 # 高级库
-1. std_direct 	目录库
+1. std_direct 	目录库 -> DLL(Complate) -> Script(Complate) -> Debug(Complate) -> Release(Complate) -> Package(Complate) -> MakeDown
 2. std_random   随机库
 3. std_regex 	正则库
 
@@ -15,16 +15,15 @@
 2. interface => struct					将接口改为结构体
 3.1 +co_resume(<coroutineId>, <value>) 			通过id恢复一个协程并将参数value发送到协程
 3.2 +co_yeild(<value>)					暂停一个协程并返回value
-3.3  +co_cancel(<coroutineId>)				关闭一个协程
+3.3 +co_cancel(<coroutineId>)				关闭一个协程
 
 
 
 # 接口特殊方法
-1. _init(<args...>) 			初始化调用
-2. _attr(<name>, <type>, <list>)	当调用不存在的方法或属性时调用
+1. _init(<args...>) 		初始化调用 (Complate)
+2. _attr(<args...>)			当调用不存在的方法或属性时调用	-> 变量 (Complate) && 函数 (Complate)
 3. _call(<args...>)			当作为函数调用时自动进入
 
 
 # 实现机制【参考】
-1. 重写关于 DOT(.) 的实现机制来更便捷实现 特殊方法
-2. 修改栈的实现结构，从列表结构改为带层次的模块结构
+1. 修改栈的实现结构，从列表结构改为带层次的模块结构

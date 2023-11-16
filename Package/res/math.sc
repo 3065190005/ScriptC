@@ -1,4 +1,4 @@
-require ("system");
+require ("extern_system\\system_math");
 
 interface StdMath{
     // value:number -> number|null

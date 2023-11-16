@@ -180,12 +180,25 @@ namespace ScriptC {
 		{
 		public:
 			InterNew(CerTokClass name);
+			InterNew(CerTokClass name, std::vector<AST*> params);
 			~InterNew();
 
 			CerTokClass getName();
+			bool getCallInit();
+			std::vector<AST*> getParams();
+
+
+			/*
+			* 初始化_init 调用相关函数
+			*/
+			void setInitInter(std::string inter);
+			std::string getInitInter();
 
 		private:
 			CerTokClass m_inter_name;
+			std::vector<AST*> m_params;
+			std::string m_init_inter;
+			bool m_call_init;
 		};
 
 		/*****************
@@ -223,13 +236,16 @@ namespace ScriptC {
 			~InterExprOp();
 
 			void setLeftIndex(bool isindex);
+			void setLeftLast(bool islast);
 			bool gethasLeftIndex();
+			bool gethasLeftLast();
 
 			AST* getPerson();
 
 		private:
 			AST* m_person;
 			bool m_left_index;
+			bool m_left_last;
 		};
 
 		/*****************
@@ -493,7 +509,7 @@ namespace ScriptC {
 
 		private:
 			std::string m_this_name;
-			std::vector<AST*> m_params;	// 函数参数
+			std::vector<AST*> m_params;			// 函数参数
 			std::string m_func_name;			// 函数名
 			CerTokClass m_func_tok;				// 保存函数tok
 

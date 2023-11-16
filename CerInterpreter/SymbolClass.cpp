@@ -43,6 +43,11 @@ std::vector<std::string> ScriptC::Obj::SymbolClass::getParams()
 	return m_symbol_params;
 }
 
+std::string ScriptC::Obj::SymbolClass::getInterParent()
+{
+	return m_symbol_inter_parent;
+}
+
 
 // º¯Êý·ûºÅ
 ScriptC::Obj::SymbolClass::SymbolClass(std::string func_name, std::vector<std::string> params)
@@ -55,7 +60,7 @@ ScriptC::Obj::SymbolClass::SymbolClass(std::string func_name, std::vector<std::s
 		throw("can not take function symbol with " + func_name);
 }
 
-// º¯Êý·ûºÅ
+// ½Ó¿Ú·ûºÅ
 ScriptC::Obj::SymbolClass::SymbolClass(std::string inter_name, std::string inter_parent)
 {
 	m_symbol_name = inter_name;
@@ -128,6 +133,23 @@ SymbolClass ScriptC::Obj::SymbolTable::getFuncSymbol(std::string name, bool recu
 	if (recursion && m_parent) {
 		if (m_parent->findSymbol(name, SymbolType::FuncSymbol, recursion) != SymbolfindArea::noFind) {
 			return m_parent->getFuncSymbol(name, recursion);
+		}
+	}
+	auto ret = SymbolClass("let");
+	return ret;
+}
+
+SymbolClass ScriptC::Obj::SymbolTable::getInterSymbol(std::string name, bool recursion)
+{
+	for (auto& i : m_tables) {
+		if (i.getName() == name && i.getType() == SymbolType::InterSymbol) {
+			return i;
+		}
+	}
+
+	if (recursion && m_parent) {
+		if (m_parent->findSymbol(name, SymbolType::InterSymbol, recursion) != SymbolfindArea::noFind) {
+			return m_parent->getInterSymbol(name, recursion);
 		}
 	}
 	auto ret = SymbolClass("let");

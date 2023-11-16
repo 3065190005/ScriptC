@@ -19,7 +19,7 @@
 
 std::string G_TipsSymbol = "->: ";
 std::string G_consoleTxt =
-R"(ScriptC £¨Last Update : 2023.9.30 | LetObject : v9_3) [console mode]
+R"(ScriptC £¨Last Update : 2023.11.16 | LetObject : v9_6) [console mode]
 If you want to compile and run the code, type Enter twice.
 
 )";
@@ -54,10 +54,15 @@ int CmdRunType();
 
 int getCmdParam(int args, char** argv);
 
+void InitConsole();
+
 struct CerTokClass::DebugInfo G_Global_Debug_Info;
 
 int main(int args , char** argv) {
+
+	// InitConsole();
 	std::string ret;
+
 #ifdef _PACKAGE
 	char* pValue;
 	size_t len;
@@ -85,7 +90,7 @@ int main(int args , char** argv) {
 		return 0;
 	}
 
-	HWND hwnd = GetForegroundWindow();
+	HWND hwnd = GetConsoleWindow();
 	if (hwnd) {
 		ShowWindow(hwnd, SW_SHOW);
 	}
@@ -106,7 +111,8 @@ int main(int args , char** argv) {
 	ScriptRun();
 	// ---
 #endif
-
+	
+	// ::FreeConsole();
 	return 0;
 }
 #ifdef _PACKAGE
@@ -219,45 +225,24 @@ void ProgramerCall() {
 
 void TestCodeCall() {
 
-	std::string input = R"(
-	//--- package
-	require("io");
+	std::string input = 
+R"(//--- package
+
+require ("io");
+	require("direct");
+
 	let io = new StdIo;
+	let dir = new StdDirect;
 
-	interface point{
-		let point_value = "point value";
-		function point_func():
-			return this.point_value + " called point_func";
-		end
-	}
+	let run_path = "%D:\\";
 
-	interface object override point {
-		let object_value = "parent value";
-		function object_func():
-			return this.object_value + " called object_func";
-		end
-	}
-	
-	interface class override object {
-		let class_value = "point value override";
-		function class_func():
-			return this.object_value + " called class_func";
-		end
-		function _gc():
-			io.println("gc called");
-		end
-	}
+	let value = dir.rmdir(run_path + "example\\");
+	io.println(value);
 
-	function getClass():
-		let ret = new class;
-		return ret;
-	end
-
-	let abc = getClass();
 )";
 
 
-	std::cout << "Test Code : " << std::endl;
+	std::cout << "Test Code £º \n";
 	AST* astTree = nullptr;
 	auto ta = true;
 	auto fa = false;
@@ -339,6 +324,37 @@ int getCmdParam(int args, char** argv) {
 	}
 
 	return 0;
+}
+
+void InitConsole()
+{
+	HWND hwnd = GetConsoleWindow();
+	if (hwnd)
+		return;
+
+	::AllocConsole();
+
+	// std::cout, std::clog, std::cerr, std::cin
+	FILE* fDummy;
+	freopen_s(&fDummy, "CONOUT$", "w", stdout);
+	freopen_s(&fDummy, "CONOUT$", "w", stderr);
+	freopen_s(&fDummy, "CONIN$", "r", stdin);
+	std::cout.clear();
+	std::clog.clear();
+	std::cerr.clear();
+	std::cin.clear();
+
+	// std::wcout, std::wclog, std::wcerr, std::wcin
+	HANDLE hConOut = CreateFile(L"CONOUT$", GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE hConIn = CreateFile(L"CONIN$", GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	SetStdHandle(STD_OUTPUT_HANDLE, hConOut);
+	SetStdHandle(STD_ERROR_HANDLE, hConOut);
+	SetStdHandle(STD_INPUT_HANDLE, hConIn);
+	std::wcout.clear();
+	std::wclog.clear();
+	std::wcerr.clear();
+	std::wcin.clear();
+
 }
 
 int CmdRunType()

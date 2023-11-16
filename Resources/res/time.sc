@@ -1,4 +1,4 @@
-require ("system");
+require ("extern_system\\system_time");
 
 interface StdTime{
 	// (void) -> number|null

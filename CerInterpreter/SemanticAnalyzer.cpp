@@ -337,6 +337,82 @@ bool ScriptC::Obj::SemanticAnalyzer::visit_InterNew(AST* node, autoPtr ret)
 		m_errHis->throwErr(EType::SemanticAnalyzer,"undefine symbol " + name);
 	}
 
+	/*
+	* 2023.11.13
+	* 如果有调用_init函数 则进行检查
+	*/
+
+	bool is_init_call{ var_ast->getCallInit() };
+	auto params{ var_ast->getParams() };
+	
+	while (is_init_call)
+	{
+		// 检查函数是否合法
+		auto funParams = params;
+		/*
+		* 递归寻找父接口_init函数
+		*/
+		std::string error_info;
+		
+		while (true)
+		{
+			// 初始化变量
+			error_info.clear();
+			std::string func_name{ name + ":" + SPECIAL_FUNC_INIT };
+			symbArea finder = m_symbol_table->findSymbol(name, SymbolType::InterSymbol, true);
+			auto funcClass = m_symbol_table->getFuncSymbol(func_name, true);
+
+			// 尝试检测_init 函数是否存在
+			if (funcClass.getName() == "let") {
+				error_info = "func is not define" + func_name;
+			}
+
+			// 强制检测参数是否正确 不添加重写功能
+			else if (funcClass.getParams().size() != funParams.size()) {
+				error_info = "can not take func params";
+				name.clear();
+			}
+
+			// 通过测试
+			else
+			{
+				var_ast->setInitInter(name);
+				break;
+			}
+
+			// 未找到接口 且 调用检测失败
+			if (finder == symbArea::noFind && !error_info.empty())
+			{
+				m_errHis->setErrInfo(var_ast->getDebugInfo());
+				m_errHis->throwErr(EType::SemanticAnalyzer, error_info);
+				return false;
+			}
+			// 获取父接口，尝试在父接口中寻找相关初始化函数
+			else {
+				auto inter = m_symbol_table->getInterSymbol(name, true);
+				name = inter.getInterParent();
+			}
+
+			// 未找到父接口
+			if (name.empty())
+			{
+				m_errHis->setErrInfo(var_ast->getDebugInfo());
+				m_errHis->throwErr(EType::SemanticAnalyzer, error_info);
+				return false;
+			}
+			else
+				continue;
+		}
+
+
+		for (auto& varName : funParams) {
+			visit(varName, ret, this);
+		}
+
+
+		break;
+	}
+
 	return true;
 }
 
@@ -426,6 +502,7 @@ bool ScriptC::Obj::SemanticAnalyzer::visit_InterExprOp(AST* node, autoPtr ret)
 			m_errHis->setErrInfo(func->getDebugInfo());
 			m_errHis->throwErr(EType::SemanticAnalyzer, "symbom " + thisName + " is not define");
 		}
+
 
 		auto param = func->getParams();
 		for (auto& i : param) {
@@ -571,8 +648,19 @@ bool ScriptC::Obj::SemanticAnalyzer::visit_FunctionHeader(AST* node, autoPtr ret
 		func_params.push_back(i.getCstr());
 	}
 
-	SymbolClass symbol(name,func_params);
-	m_symbol_table->pushSymbol(symbol);
+	/*
+	* 2023.11.14
+	* 将所有函数声明推送到
+	* 全局符号表中
+	*/
+
+	SymbolClass symbol{ name,func_params };
+	auto symbol_tab = m_symbol_table;
+
+	while (symbol_tab->getLevel() > 1)
+		symbol_tab = symbol_tab->getParent();
+	
+	symbol_tab->pushSymbol(symbol);
 	return true;
 }
 

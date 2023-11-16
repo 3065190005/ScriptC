@@ -89,22 +89,22 @@ function export __system__str__rfind_not_N__(str,txt,cnt) end
 
 
 // array
-function export __system__vec__size__(arr) end
-function export __system__vec__cmp__(arr1,arr2) end
-function export __system__vec__max__(arr) end
-function export __system__vec__min__(arr) end
-function export __system__vec__append__(arr,val) end
-function export __system__vec__count__(arr,val) end
-function export __system__vec__extend__(arr,val) end
-function export __system__vec__back__(arr) end
-function export __system__vec__front__(arr) end
-function export __system__vec__index__(arr,val) end
-function export __system__vec__insert__(arr,index,val) end
-function export __system__vec__pop__(arr,index) end
-function export __system__vec__remove__(arr,val) end
-function export __system__vec__reverse__(arr) end
-function export __system__vec__range__(num_min,num_max) end
-function export __system__vec__childs__(arr) end
+function export __system__array__size__(arr) end
+function export __system__array__cmp__(arr1,arr2) end
+function export __system__array__max__(arr) end
+function export __system__array__min__(arr) end
+function export __system__array__append__(arr,val) end
+function export __system__array__count__(arr,val) end
+function export __system__array__extend__(arr,val) end
+function export __system__array__back__(arr) end
+function export __system__array__front__(arr) end
+function export __system__array__index__(arr,val) end
+function export __system__array__insert__(arr,index,val) end
+function export __system__array__pop__(arr,index) end
+function export __system__array__remove__(arr,val) end
+function export __system__array__reverse__(arr) end
+function export __system__array__range__(num_min,num_max) end
+function export __system__array__childs__(arr) end
 
 // time
 function export __system__time__time__() end
@@ -134,20 +134,20 @@ function export __system__type__isLower__(str) end
 function export __system__type__isUpper__(str) end
 
 // window
-function export __system__fltk_window__hideControl__() end
-function export __system__fltk_window__showControl__() end
-function export __system__fltk_window__msgBox__(title,txt,type) end
-function export __system__fltk_window__editBox__(title,txt) end
-function export __system__fltk_window__bowserBox__() end
-function export __system__fltk_window__htmlBox__(title,html) end
-function export __system__fltk_window__urlBox__(title,url) end
-function export __system__fltk_window__htmlView__(title,html) end
-function export __system__fltk_window__urlView__(title,url) end
+function export __system__window__hideControl__() end
+function export __system__window__showControl__() end
+function export __system__window__msgBox__(title,txt,type) end
+function export __system__window__editBox__(title,txt) end
+function export __system__window__bowserBox__() end
+function export __system__window__htmlBox__(title,html) end
+function export __system__window__urlBox__(title,url) end
+function export __system__window__htmlView__(title,html) end
+function export __system__window__urlView__(title,url) end
 
-function export __system__fltk_window__getWebBoxSize__() end
-function export __system__fltk_window__setWebBoxSize__(x,y,width,height) end
-function export __system__fltk_window__getWebBoxStyle__() end
-function export __system__fltk_window__setWebBoxStyle__(style) end
+function export __system__window__getWebBoxSize__() end
+function export __system__window__setWebBoxSize__(x,y,width,height) end
+function export __system__window__getWebBoxStyle__() end
+function export __system__window__setWebBoxStyle__(style) end
 
 
 // thread

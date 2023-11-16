@@ -186,6 +186,9 @@ AST* ScriptC::Obj::CerParser::indexExpr(bool left)
 	/*
 	* 2023.10.17
 	* 左右值将在末尾或函数调用后进行拷贝，其他则都是引用
+	* 2023.11.2
+	* 将最后一个左值接口下表设置标记
+	* 用来替换赋值操作的左值调用_attr跳过pop
 	*/
 	AST* back_ast = vec.back();
 	if (back_ast->getNodeType() == AST::AstType::ArrayVar)
@@ -197,6 +200,7 @@ AST* ScriptC::Obj::CerParser::indexExpr(bool left)
 	{
 		auto last_ast = dynamic_cast<InterExprOp*>(back_ast);
 		last_ast->setLeftIndex(left);
+		last_ast->setLeftLast(true);
 	}
 
 	astlog(" - InterExprOp()\n");
@@ -304,13 +308,7 @@ AST* ScriptC::Obj::CerParser::singleKey()
 	auto peek_type = peek.getType();
 
 	if (tok_type == CerTokType::Key_New) {
-		takeEat(CerTokType::Key_New);
-		tok = m_lexical->getCurrentToken();
-		CerTokClass tokc;
-		CerTokClass::copy(tokc, tok);
-		takeEat(CerTokType::Var_Id);
-		result = new InterNew(tokc);
-		astlog(" - InterNew(" + tokc.getCstr() + ") \n\n");
+		result = interNew();
 	}
 	else if (tok_type == CerTokType::Key_Break) {
 		CerTokClass tokc;
@@ -327,6 +325,63 @@ AST* ScriptC::Obj::CerParser::singleKey()
 		astlog(" - ContinueOp() \n\n");
 	}
 
+	return result;
+}
+
+AST* ScriptC::Obj::CerParser::interNew()
+{
+	AST* result = nullptr;
+
+	CerTokClass& tok = m_lexical->getCurrentToken();
+	CerTokClass peek = m_lexical->peekNextToken();
+
+	auto tok_type = tok.getType();
+	auto peek_type = peek.getType();
+
+	takeEat(CerTokType::Key_New);
+	tok = m_lexical->getCurrentToken();
+
+	CerTokClass tokc;
+	CerTokClass::copy(tokc, tok);
+
+	takeEat(CerTokType::Var_Id);
+
+	/*
+	* 2023.11.13
+	* 添加 _init 初始化方法 new VarId 添加 括号用来启用特殊函数 _init
+	*/
+
+	tok = m_lexical->getCurrentToken();
+	if (tok.getType() != CerTokType::LPARAM)
+	{
+		result = new InterNew(tokc);
+		astlog(" - InterNew(" + tokc.getCstr() + ") \n\n");
+		return result;
+	}
+
+	std::vector<AST*> params;
+
+	takeEat(CerTokType::LPARAM);
+	tok = m_lexical->getCurrentToken();
+
+	if (tok.getType() != CerTokType::RPARAM) {
+		AST* param = expr();
+		params.push_back(param);
+
+		tok = m_lexical->getCurrentToken();
+		while (tok.getType() == CerTokType::COMMA) {
+			takeEat(CerTokType::COMMA);
+			param = expr();
+			params.push_back(param);
+			tok = m_lexical->getCurrentToken();
+		}
+	}
+
+	takeEat(CerTokType::RPARAM);
+
+
+	result = new InterNew(tokc, std::move(params));
+	astlog(" - InterNew(" + tokc.getCstr() <<  " , params , size:" <<  params.size() << ") \n\n");
 	return result;
 }
 

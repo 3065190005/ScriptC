@@ -1,3 +1,4 @@
+
 # ScriptC
 
 ## 基础介绍
@@ -31,7 +32,6 @@ io.println("Hello World");
 
 
 ### 脚本式编程
-因为ScriptC是预先编译好指定字节码然后再执行所以只有脚本式编程。
 我们可以将ScriptC程序保存到以sc结尾的文件并执行。
 
 ```sc
@@ -143,124 +143,128 @@ value = value + 1; // 使用全局变量 value = 2
 ### 算术运算符
 **下表显示了 ScriptC 语言支持的所有算术运算符。假设变量 A 的值为 10，变量 B 的值为 20，则**  
 
-<table>
-<tbody><tr><th style="width:10%">运算符</th><th style="width:55%;">描述</th><th>实例</th></tr>
-<tr><td>+</td><td>把两个操作数相加</td><td> A + B 将得到 30</td></tr>
-<tr><td>-</td><td>从第一个操作数中减去第二个操作数</td><td> A - B 将得到 -10</td></tr>
-<tr><td>*</td><td>把两个操作数相乘</td><td> A * B 将得到 200</td></tr>
-<tr><td>/</td><td>分子除以分母</td><td> B / A 将得到 2</td></tr>
-<tr><td>%</td><td>取模运算符，整除后的余数</td><td> B % A 将得到 0</td></tr>
-</tbody></table>
+| 运算符 | 描述 | 实例 |
+| --- | --- | --- |
+| + | 把两个操作数相加 | A + B 将得到 30 |
+| \- | 从第一个操作数中减去第二个操作数 | A - B 将得到 -10 |
+| \* | 把两个操作数相乘 | A \* B 将得到 200 |
+| / | 分子除以分母 | B / A 将得到 2 |
+| % | 取模运算符，整除后的余数 | B % A 将得到 0 |
 ### 关系运算符
 
 **下表显示了 ScriptC支持的所有关系运算符。假设变量  A  的值为 10，变量 B 的值为 20，则**  
 
-<table>
-<tbody><tr><th style="width:10%">运算符</th><th style="width:55%;">描述</th><th>实例</th></tr>
-<tr><td>==</td><td>检查两个操作数的值是否相等，如果相等则条件为真。</td><td> (A == B) 为假。</td></tr>
-<tr><td>!=</td><td>检查两个操作数的值是否相等，如果不相等则条件为真。</td><td> (A != B) 为真。</td></tr>
-<tr><td>&gt;</td><td>检查左操作数的值是否大于右操作数的值，如果是则条件为真。</td><td> (A &gt; B) 为假。</td></tr>
-<tr><td>&lt;</td><td>检查左操作数的值是否小于右操作数的值，如果是则条件为真。</td><td> (A &lt; B) 为真。</td></tr>
-<tr><td>&gt;=</td><td>检查左操作数的值是否大于或等于右操作数的值，如果是则条件为真。</td><td> (A &gt;= B) 为假。</td></tr>
-<tr><td>&lt;=</td><td>检查左操作数的值是否小于或等于右操作数的值，如果是则条件为真。</td><td> (A &lt;= B) 为真。</td></tr>
-</tbody>
-</table>
+| 运算符 | 描述 | 实例 |
+| --- | --- | --- |
+| \== | 检查两个操作数的值是否相等，如果相等则条件为真。 | (A == B) 为假。 |
+| != | 检查两个操作数的值是否相等，如果不相等则条件为真。 | (A != B) 为真。 |
+| \> | 检查左操作数的值是否大于右操作数的值，如果是则条件为真。 | (A > B) 为假。 |
+| < | 检查左操作数的值是否小于右操作数的值，如果是则条件为真。 | (A < B) 为真。 |
+| \>= | 检查左操作数的值是否大于或等于右操作数的值，如果是则条件为真。 | (A >= B) 为假。 |
+| <= | 检查左操作数的值是否小于或等于右操作数的值，如果是则条件为真。 | (A <= B) 为真。 |
 
 
 ### 逻辑运算符
 
 **下表显示了ScriptC支持的所有关系逻辑运算符。假设变量 A 的值为 1，变量 B 的值为 0，则**  
 
-<table>
-<tbody><tr><th style="width:10%">运算符</th><th style="width:55%;">描述</th><th>实例</th></tr>
-<tr><td>&amp;&amp;</td><td>称为逻辑与运算符。如果两个操作数都非零，则条件为真。</td><td> (A &amp;&amp; B) 为假。</td></tr>
-<tr><td>||</td><td>称为逻辑或运算符。如果两个操作数中有任意一个非零，则条件为真。</td><td> (A || B) 为真。</td></tr>
-<tr><td>!</td><td>称为逻辑非运算符。用来逆转操作数的逻辑状态。如果条件为真则逻辑非运算符将使其为假。</td><td> !(A &amp;&amp; B) 为真。</td></tr>
-</tbody></table>
+| 运算符 | 描述 | 实例 |
+| --- | --- | --- |
+| && | 称为逻辑与运算符。如果两个操作数都非零，则条件为真。 | (A && B) 为假。 |
+| || | 称为逻辑或运算符。如果两个操作数中有任意一个非零，则条件为真。 | (A || B) 为真。 |
+| ! | 称为逻辑非运算符。用来逆转操作数的逻辑状态。如果条件为真则逻辑非运算符将使其为假。 | !(A && B) 为真。 |
 
 
 ### 位运算符
 **bit相关操作 会强制截断将浮点转换成8字节的整形进行运算**
 
-<table class="reference">
-<tbody><tr><th style="width:10%">运算符</th><th style="width:55%;">描述</th><th>实例</th></tr>
-<tr><td>&amp;</td><td><p>按位与操作，按二进制位进行"与"运算。运算规则：</p>
-<pre class="prettyprint prettyprinted" style=""><span class="lit">0</span><span class="pun">&amp;</span><span class="lit">0</span><span class="pun">=</span><span class="lit">0</span><span class="pun">;</span><span class="pln">   
-</span><span class="lit">0</span><span class="pun">&amp;</span><span class="lit">1</span><span class="pun">=</span><span class="lit">0</span><span class="pun">;</span><span class="pln">    
-</span><span class="lit">1</span><span class="pun">&amp;</span><span class="lit">0</span><span class="pun">=</span><span class="lit">0</span><span class="pun">;</span><span class="pln">     
-</span><span class="lit">1</span><span class="pun">&amp;</span><span class="lit">1</span><span class="pun">=</span><span class="lit">1</span><span class="pun">;</span></pre></td><td> (A &amp; B) 将得到 12，即为 0000 1100</td></tr>
-<tr><td>|</td><td><p>按位或运算符，按二进制位进行"或"运算。运算规则：</p>
-<pre class="prettyprint prettyprinted" style=""><span class="lit">0</span><span class="pun">|</span><span class="lit">0</span><span class="pun">=</span><span class="lit">0</span><span class="pun">;</span><span class="pln">   
-</span><span class="lit">0</span><span class="pun">|</span><span class="lit">1</span><span class="pun">=</span><span class="lit">1</span><span class="pun">;</span><span class="pln">   
-</span><span class="lit">1</span><span class="pun">|</span><span class="lit">0</span><span class="pun">=</span><span class="lit">1</span><span class="pun">;</span><span class="pln">    
-</span><span class="lit">1</span><span class="pun">|</span><span class="lit">1</span><span class="pun">=</span><span class="lit">1</span><span class="pun">;</span></pre>
-</td><td> (A | B) 将得到 61，即为 0011 1101</td></tr>
-<tr><td>^</td><td><p>异或运算符，按二进制位进行"异或"运算。运算规则：</p>
-<pre class="prettyprint prettyprinted" style=""><span class="lit">0</span><span class="pun">^</span><span class="lit">0</span><span class="pun">=</span><span class="lit">0</span><span class="pun">;</span><span class="pln">   
-</span><span class="lit">0</span><span class="pun">^</span><span class="lit">1</span><span class="pun">=</span><span class="lit">1</span><span class="pun">;</span><span class="pln">   
-</span><span class="lit">1</span><span class="pun">^</span><span class="lit">0</span><span class="pun">=</span><span class="lit">1</span><span class="pun">;</span><span class="pln">  
-</span><span class="lit">1</span><span class="pun">^</span><span class="lit">1</span><span class="pun">=</span><span class="lit">0</span><span class="pun">;</span></pre>
-</td><td> (A ^ B) 将得到 49，即为 0011 0001</td></tr>
-<tr><td>~</td><td><p>取反运算符，按二进制位进行"取反"运算。运算规则：</p>
-<pre class="prettyprint prettyprinted" style=""><span class="pun">~</span><span class="lit">1</span><span class="pun">=-</span><span class="lit">2</span><span class="pun">;</span><span class="pln">   
-</span><span class="pun">~</span><span class="lit">0</span><span class="pun">=-</span><span class="lit">1</span><span class="pun">;</span></pre></td><td> (~A ) 将得到 -61，即为 1100 0011，一个有符号二进制数的补码形式。</td></tr>
-<tr><td>&lt;&lt;</td><td>二进制左移运算符。将一个运算对象的各二进制位全部左移若干位（左边的二进制位丢弃，右边补0）。</td><td> A &lt;&lt; 2 将得到 240，即为 1111 0000</td></tr>
-<tr><td>&gt;&gt;</td><td>二进制右移运算符。将一个数的各二进制位全部右移若干位，正数左补0，负数左补1，右边丢弃。</td><td> A &gt;&gt; 2 将得到 15，即为 0000 1111</td></tr>
-</tbody></table>
+| 运算符 | 描述 | 实例 |
+| --- | --- | --- |
+| & | 
+按位与操作，按二进制位进行"与"运算。运算规则：
+
+0&0\=0;   
+0&1\=0;    
+1&0\=0;     
+1&1\=1;
+
+ | (A & B) 将得到 12，即为 0000 1100 |
+| | | 
+
+按位或运算符，按二进制位进行"或"运算。运算规则：
+
+0|0\=0;   
+0|1\=1;   
+1|0\=1;    
+1|1\=1;
+
+ | (A | B) 将得到 61，即为 0011 1101 |
+| ^ | 
+
+异或运算符，按二进制位进行"异或"运算。运算规则：
+
+0^0\=0;   
+0^1\=1;   
+1^0\=1;  
+1^1\=0;
+
+ | (A ^ B) 将得到 49，即为 0011 0001 |
+| ~ | 
+
+取反运算符，按二进制位进行"取反"运算。运算规则：
+
+~1\=-2;   
+~0\=-1;
+
+ | (~A ) 将得到 -61，即为 1100 0011，一个有符号二进制数的补码形式。 |
+| << | 二进制左移运算符。将一个运算对象的各二进制位全部左移若干位（左边的二进制位丢弃，右边补0）。 | A << 2 将得到 240，即为 1111 0000 |
+| \>> | 二进制右移运算符。将一个数的各二进制位全部右移若干位，正数左补0，负数左补1，右边丢弃。 | A >> 2 将得到 15，即为 0000 1111 |
 
 
 ### 赋值运算符
 
-<table>
-<tbody>
-<tr><th style="width:10%">运算符</th><th style="width:55%;">描述</th><th>实例</th></tr>
-<tr><td>=</td><td>简单的赋值运算符，把右边操作数的值赋给左边操作数</td><td> C = A + B 将把 A + B 的值赋给 C</td></tr>
-</tbody>
-</table>
+| 运算符 | 描述 | 实例 |
+| --- | --- | --- |
+| \= | 简单的赋值运算符，把右边操作数的值赋给左边操作数 | C = A + B 将把 A + B 的值赋给 C |
 
 
 ### 杂项运算符
 
-<table>
-<tbody>
-<tr><th style="width:10%">运算符</th><th style="width:55%;">描述</th><th>实例</th></tr>
-<tr><td>.</td><td>获取接口的变量或函数</td><td> a.value 获取a接口的value成员 , a.func() 调用a接口 的func函数</td></tr>
-<tr><td><></td><td>捕获符</td><td>func()&lt;value&gt; 修改func函数运行时的this与value变量绑定</td></tr>
-</tbody>
-</table>
+| 运算符 | 描述 | 实例 |
+| --- | --- | --- |
+| . | 获取接口的变量或函数 | a.value 获取a接口的value成员 , a.func() 调用a接口 的func函数 |
+| <> | 捕获符 | func()<value> 修改func函数运行时的this与value变量绑定 |
 
 
 
 ### 运算符优先级
 
-<table>
-<tbody><tr> <th>类别&nbsp;</th> <th>运算符&nbsp;</th><th>结合性&nbsp;</th> </tr> 
-<tr> <td>后缀&nbsp;</td><td>() [] ; . &lt;&gt; &nbsp;</td> <td>从左到右&nbsp;</td> </tr>
-<tr> <td>一元&nbsp;</td> <td>+  -   !  ~</td> <td>从右到左&nbsp;</td></tr> 
-<tr> <td>乘除&nbsp;</td> <td>*  /  %&nbsp;</td><td>从左到右&nbsp;</td> </tr> 
-<tr> <td>加减&nbsp;</td><td>+  -&nbsp;</td> <td>从左到右&nbsp;</td> </tr>
-<tr> <td>移位&nbsp;</td> <td>&lt;&lt; &gt;&gt;&nbsp;</td> <td>从左到右&nbsp;</td> </tr> 
-<tr> <td>关系&nbsp;</td><td>&lt; &lt;=  &gt; &gt;=&nbsp;</td> <td>从左到右&nbsp;</td> </tr>
-<tr> <td>相等&nbsp;</td> <td>==  !=&nbsp;</td> <td>从左到右&nbsp;</td> </tr> 
-<tr> <td>位与 AND&nbsp;</td><td>&amp;&nbsp;</td> <td>从左到右&nbsp;</td> </tr> 
-<tr> <td>位异或 XOR&nbsp;</td> <td>^&nbsp;</td> <td>从左到右&nbsp;</td></tr> 
-<tr> <td>位或 OR&nbsp;</td> <td>|&nbsp;</td> <td>从左到右&nbsp;</td></tr> 
-<tr> <td>逻辑与 AND&nbsp;</td><td>&amp;&amp;&nbsp;</td> <td>从左到右&nbsp;</td></tr>
-<tr><td>逻辑或 OR&nbsp;</td> <td>||&nbsp;</td> <td>从左到右&nbsp;</td></tr> 
-<tr><td>赋值&nbsp;</td> <td>= &nbsp;</td><td>从右到左&nbsp;</td></tr>
-<tr> <td>逗号&nbsp;</td> <td>,&nbsp;</td> <td>从左到右&nbsp;</td></tr> 
-</tbody></table>
+| 类别  | 运算符  | 结合性  |
+| --- | --- | --- |
+| 后缀  | () \[\] ; . <>   | 从左到右  |
+| 一元  | \+ - ! ~ | 从右到左  |
+| 乘除  | \* / %  | 从左到右  |
+| 加减  | \+ -  | 从左到右  |
+| 移位  | << >>  | 从左到右  |
+| 关系  | < <= > >=  | 从左到右  |
+| 相等  | \== !=  | 从左到右  |
+| 位与 AND  | &  | 从左到右  |
+| 位异或 XOR  | ^  | 从左到右  |
+| 位或 OR  | |  | 从左到右  |
+| 逻辑与 AND  | &&  | 从左到右  |
+| 逻辑或 OR  | ||  | 从左到右  |
+| 赋值  | \=   | 从右到左  |
+| 逗号  | ,  | 从左到右  |
 
 
 ## 判断
 
 ***判断语句运算符***
-<table class=>
-<tbody><tr><th style="width:35%">语句</th><th>描述</th></tr>
-<tr><td>if...end 语句</td><td>一个 <b>if 语句</b> 由一个布尔表达式后跟一个或多个语句组成。</td></tr>
-<tr><td>if...elif...else...end 语句</td><td>一个 <b>if 语句</b> 后可跟任意多个可选的 <b>elif 语句</b>，else 语句在前面所有布尔表达式为假时执行。</td></tr>
-<tr><td>嵌套 if 语句</td><td>您可以在一个 <b>if</b> 或 <b>elif 和 else</b> 语句内使用另一个 <b>if elif else</b> 语句。</td></tr>
-</tbody></table>
+| 语句 | 描述 |
+| --- | --- |
+| if...end 语句 | 一个 **if 语句** 由一个布尔表达式后跟一个或多个语句组成。 |
+| if...elif...else...end 语句 | 一个 **if 语句** 后可跟任意多个可选的 **elif 语句**，else 语句在前面所有布尔表达式为假时执行。 |
+| 嵌套 if 语句 | 您可以在一个 **if** 或 **elif 和 else** 语句内使用另一个 **if elif else** 语句。 |
 
 
 ***实例***
@@ -282,20 +286,18 @@ end
 
 ### 循环类型
 **ScriptC提供了两种循环（条件循环和变量循环）**  
-<table>
-<tbody><tr><th style="width:30%">循环类型</th><th>描述</th></tr>
-<tr><td>while...end 循环</td><td>当给定条件为真时，重复语句或语句组。它会在执行循环主体之前测试条件。</td></tr>
-<tr><td>for...in...end 循环</td><td>对数组变量进行从头到尾的变量获取循环</td></tr>
-<tr><td>嵌套循环</td><td>您可以在 while 或 for 循环内使用一个或多个循环。</td></tr>
-</tbody></table>
+| 循环类型 | 描述 |
+| --- | --- |
+| while...end 循环 | 当给定条件为真时，重复语句或语句组。它会在执行循环主体之前测试条件。 |
+| for...in...end 循环 | 对数组变量进行从头到尾的变量获取循环 |
+| 嵌套循环 | 您可以在 while 或 for 循环内使用一个或多个循环。 |
 
 
 ### 循环控循环控制语句制语句
-<table>
-<tbody><tr><th style="width:30%">控制语句</th><th>描述</th></tr>
-<tr><td>break 语句</td><td>终止<b>循环</b>或 <b>switch</b> 语句，程序流将继续执行紧接着循环或 switch 的下一条语句。</td></tr>
-<tr><td>continue 语句</td><td>告诉一个循环体立刻停止本次循环迭代，重新开始下次循环迭代。</td></tr>
-</tbody></table>
+| 控制语句 | 描述 |
+| --- | --- |
+| break 语句 | 终止**循环**或 **switch** 语句，程序流将继续执行紧接着循环或 switch 的下一条语句。 |
+| continue 语句 | 告诉一个循环体立刻停止本次循环迭代，重新开始下次循环迭代。 |
 
 
 **实例**
@@ -444,10 +446,14 @@ let sex = person.sex;				// sex = "boy"
 ```
 
 
-### 特殊函数 _gc
-特殊函数 _gc()，可以在接口变量被销毁前自动调用
+### 特殊函数 
+### gc
+特殊函数 gc，可以在接口变量被销毁前自动调用
 **该函数只会在变量被局部变量管理时才会调用，成员则不会进行调用**
 **this指针指向当前将要被销毁的变量**
+**_析构函数不允许使用return返回值_**
+**该方法禁止手动调用**
+
 ```sc
 	require ("io");
 	let io = new StdIo;
@@ -464,6 +470,116 @@ let sex = person.sex;				// sex = "boy"
 
 	let value = new structA;
 	// 结束时会自动调用 structA接口的_gc函数 并输出 "3 Gc"
+```
+### init
+当使用new关键字通过传参语法实例化一个接口时会调用特殊函数 init
+**this指针指向当前实例化对象**
+_**初始化函数不允许使用return返回值**_
+**该方法禁止手动调用**
+
+```sc
+	interface Base{
+		let name = null;
+		let age = null;
+
+		// 特殊函数
+		function _init(name,age):
+			this.name = name;
+			this.age = age;
+		end
+	}
+	
+	interface Baby{
+		// 特殊函数
+		function _init(name):
+			this.name = name;
+			this.age = 1;
+		end
+	}
+
+	interface Dancer override Base{
+		function onDance():
+				// ... something
+		end
+	}
+
+	interface Singer{
+		function Func():
+		end
+	}
+
+	let baby = new Baby("Tom"); // 调用 Baby:_init(name = "tom")
+	let base = new Base("Bob",27); // 调用 Base:_init(name = "Bob", age = 27)
+	let dancer = new Dancer("Jane", 30); // 调用 Base:_init(name = "Jane", age = 30)
+	// let error_baby = new Baby("Tom",27); // error ，Base的初始化函数已被覆盖
+	let person = new Baby; // 不会调用初始化函数
+	// let singer = new Singer(); // 报错 Singer没有实现初始化函数
+	let singer = new Singer; // 实例化Singer接口
+```
+
+### attr
+当调用一个不存在的方法或成员时会自动拦截并调用特殊方法attr
+**this指针指向当前调用的对象**
+_**拦截函数允许使用return返回值**_
+**该方法允许手动调用，但** _**不推荐**_ 
+
+```sc
+	interface Person{
+		let name = "Bob";
+		let age = 30;
+
+		// 特殊函数
+		function _attr(info,argv):
+			
+		end
+
+		function setName(name):
+			this.name = name;
+		end		
+
+		function getName():
+			return this.name;
+		end
+	}
+
+	let person = new Person;
+	
+	// 调用 Person:getName();
+	let call_name = person.getName();
+	
+	// 返回Person:name - "Bob"
+	let name = person.name;	 
+	
+	// 拦截调用 Person:_attr(info = ["name":"sex", "type":"member"], argv = null)
+	let sex = person.sex; 
+
+	// 拦截调用 Person:_attr(info = ["name":"getSex", "type":"function"], argv = null)
+	let call_sex = person.getSex();
+	
+	// 拦截调用 Person:_attr(info = ["name":"setAge", "type" : "function"], argv = [0:17]);
+	let call_age = person.setAge(17);
+	
+	// 拦截调用 Person:_attr(info = ["name":"getAge", "type" : "function"], argv = [0:"param", -1:"value"]);
+	person.getInstance("param") = "value";
+
+	// 拦截调用 Person:_attr(info = ["name":"isChild ", "type":"member"], argv = false);
+	person.isChild = false;
+
+```
+
+**_不推荐_**
+通过下标运算符可以禁止 attr 拦截不存在的成员变量
+**需要注意：当使用下标运算符赋值后，则不会再拦截已赋值的成员**
+```sc
+	interface Person{
+		function _attr(info,argv):
+		end
+	}
+	
+	let person = new Person;
+	person["name"] = "Tom";  // person.name = "Tom"; 不会调用 _attr
+	person.name = "Bob"; // 不会调用拦截函数 _attr;
+	
 ```
 
 
@@ -568,15 +684,14 @@ function fopen(filename , mode)
 
 **filename**是需要打开的文件名，**mode**表示该文件的访问模式值可以是下列值中的一个  
 
-<table>
-<tbody><tr><th style="width:5%">模式</th><th>描述</th></tr>
-<tr><td>r</td><td>打开一个已有的文本文件，允许读取文件。</td></tr>
-<tr><td>w</td><td>打开一个文本文件，允许写入文件。如果文件不存在，则会创建一个新文件。在这里，您的程序会从文件的开头写入内容。如果文件存在，则该会被截断为零长度，重新写入。</td></tr>
-<tr><td>a</td><td>打开一个文本文件，以追加模式写入文件。如果文件不存在，则会创建一个新文件。在这里，您的程序会在已有的文件内容中追加内容。</td></tr>
-<tr><td>r+</td><td>打开一个文本文件，允许读写文件。</td></tr>
-<tr><td>w+</td><td>打开一个文本文件，允许读写文件。如果文件已存在，则文件会被截断为零长度，如果文件不存在，则会创建一个新文件。</td></tr>
-<tr><td>a+</td><td>打开一个文本文件，允许读写文件。如果文件不存在，则会创建一个新文件。读取会从文件的开头开始，写入则只能是追加模式。</td></tr>
-</tbody></table>
+| 模式 | 描述 |
+| --- | --- |
+| r | 打开一个已有的文本文件，允许读取文件。 |
+| w | 打开一个文本文件，允许写入文件。如果文件不存在，则会创建一个新文件。在这里，您的程序会从文件的开头写入内容。如果文件存在，则该会被截断为零长度，重新写入。 |
+| a | 打开一个文本文件，以追加模式写入文件。如果文件不存在，则会创建一个新文件。在这里，您的程序会在已有的文件内容中追加内容。 |
+| r+ | 打开一个文本文件，允许读写文件。 |
+| w+ | 打开一个文本文件，允许读写文件。如果文件已存在，则文件会被截断为零长度，如果文件不存在，则会创建一个新文件。 |
+| a+ | 打开一个文本文件，允许读写文件。如果文件不存在，则会创建一个新文件。读取会从文件的开头开始，写入则只能是追加模式。 |
 
 如果处理的是二进制文件，则需使用下面的访问模式来取代上面的访问模式  
 ``` "rb", "wb", "ab", "rb+", "r+b", "wb+", "w+b", "ab+", "a+b" ```
@@ -1335,72 +1450,69 @@ require ("socket");
 let socket = new StdSocket;
 ```
 
-
-
-create		 创建socket		：成功返回socket id，否则返回错误码id
+create 创建socket ：成功返回socket id，否则返回错误码id
 family|number, type|number -> boolean|number
-create(family, type) end
+create(family, type)
 
 
-bind		 绑定socket		：成功返回true ，否则返回错误码id
+bind 绑定socket ：成功返回true ，否则返回错误码id
 socket|number, ip|string, port|number -> boolean|number
-bind(socket, ip, port) end
+bind(socket, ip, port)
 
 
-listen		 监听socket		：成功返回true ，否则返回错误码id
+listen 监听socket ：成功返回true ，否则返回错误码id
 socket|number, count|number -> boolean|number
-listen(socket, count) end
+listen(socket, count)
+  
 
-
-accept		 接受socket		：成功返回array数组包含ip sock以及port  ，否则返回错误码id
+accept 接受socket ：成功返回array数组包含ip sock以及port ，否则返回错误码id
 socket|number -> array|number
-accept(socket) end
+accept(socket)
 
 
-connect		 连接socket		：成功返回true ，否则返回错误码id
+connect 连接socket ：成功返回true ，否则返回错误码id
 socket|number ,ip|string, port|number -> boolean|number
-connect(socket, ip, port) end
+connect(socket, ip, port)
 
 
-send		 发送字段Tcp		：成功返回发送长度 ，否则返回错误码id
+send 发送字段Tcp ：成功返回发送长度 ，否则返回错误码id
 socket|number, buf|string, lens|number -> number
-send(socket, buf, lens) end
+send(socket, buf, lens)
 
 
-recv		 接受字段Tcp		：成功返回接受字符串 ，否则返回错误码id
+recv 接受字段Tcp ：成功返回接受字符串 ，否则返回错误码id
 socket|number, lens|number -> number
-recv(socket, lens) end
+recv(socket, lens)
 
 
-sendto		 发送字段Udp		：成功返回发送长度 ，否则返回错误码id
+sendto 发送字段Udp ：成功返回发送长度 ，否则返回错误码id
 socket|number, buf|string, lens|number, ip|string, port|number -> number
-sendto(socket, buf, lens, ip, port) end
+sendto(socket, buf, lens, ip, port)
 
 
-recvfrom	 接受字段Udp		：成功返回array ，否则返回错误码id
+recvfrom 接受字段Udp ：成功返回array ，否则返回错误码id
 socket|number, lens|number -> array|number
-recvfrom(socket, lens) end
+recvfrom(socket, lens)
+  
 
-
-close		 关闭socket 		：成功返回true ，否则返回false
+close 关闭socket ：成功返回true ，否则返回false
 socket|number -> boolean
-close(socket) end
+close(socket)
+  
 
-select 
-
-select		检测一组一维数组socket并返回 	：成功返回二位数组（可能为空） ，否则返回错误码id
+select 检测一组一维数组socket并返回 ：成功返回二位数组（可能为空） ，否则返回错误码id
 sockets|array, tm|number -> array|number
-select(list, tm) end
+select(list, tm)
+  
 
-
-gethostname	获取主机名 	：成功返回字符串 ，否则返回错误码id
+gethostname 获取主机名 ：成功返回字符串 ，否则返回错误码id
 (void) -> string
-gethostname() end
+gethostname()
 
 
-gethostbyname 通过主机名获取ip 	：成功返回数组 ，否则返回错误码id
+gethostbyname 通过主机名获取ip ：成功返回数组 ，否则返回错误码id
 host|string -> array|number
-gethostbyname(host) end
+gethostbyname(host)
 
 ```
 	// socket创建family
@@ -1411,3 +1523,157 @@ gethostbyname(host) end
 	socket.tcp		基于tcp连接
 	socket.udp		基于udp连接
 ```
+
+
+
+## StdDirect 目录库
+
+```sc
+require ("direct");
+let dir = new StdDirect;
+```
+改变当前工作目录                ：字符串 -> 成功true，否则返回错误码
+path:string -> boolean|number
+chdir(path)
+
+
+返回当前工作目录                ：void -> 成功字符串，否则返回null
+(void) -> string|null
+getcwd()
+
+
+返回指定的文件夹包含的文件或文件夹的名字的列表。                ：字符串 -> 成功数组，否则返回错误码
+path:string -> boolean|number
+listdir(path)
+
+
+设置目录或文件权限      : 字符串 | 数字 -> 成功返回true，否则返回错误码
+dir:string | mods|number -> boolean|number
+chmod(dir,mods)
+
+
+递归创建目录。          ：字符串 -> 成功返回true，否则返回错误码
+dir:string -> boolean|number
+makedirs(dir)
+
+
+创建目录。              ：字符串 -> 成功true，否则返回错误码
+dir:string -> boolean|number
+mkdir(dir)
+
+
+递归删除目录。          ：字符串 -> 成功true，否则返回错误码
+dir:string -> boolean|number
+removedirs(dir)
+
+
+删除目录。              ：字符串 -> 成功true，否则返回错误码
+dir:string -> boolean|number
+rmdir(dir)
+
+
+重命名目录名。          ：字符串 | 字符串 -> 成功true，否则返回错误码
+src:string | des:string -> boolean|number
+rename(src, des)
+
+
+方法用于在给定的路径上执行一个系统 stat 的调用          ：字符串 -> 成功数组，否则返回错误码
+dir:string -> array|number
+stat(dir)
+
+
+返回绝对路径    ：字符串 -> 成功字符串，否则返回错误码
+path:string -> string|number
+abspath(path)
+
+
+返回相对路径    ：字符串 -> 成功字符串，否则返回错误码
+path:string -> string|number
+relative(path)
+
+
+返回文件名      ：字符串 -> 成功字符串，否则返回错误码
+path:string -> string|number
+basename(path)
+
+
+返回多个路径中，所有共有的最长的路径    ：数组 -> 成功字符串，否则返回null
+paths:array -> string|null
+commonprefix(paths)
+
+
+返回文件路径    ：字符串 -> 成功字符串，否则返回错误码
+path:string -> string|number
+dirname(path)
+
+
+路径是否存在    ：字符串 -> 成功true，否则返回false
+path:string -> boolean
+exists(path)
+
+
+根据环境变量的值替换%字符串%值  ：字符串 -> 成功字符串，否则返回错误码
+path:string -> string|number
+expand(path)
+
+
+返回最近访问时间        ：字符串 -> 成功数字，否则返回错误码
+file:string -> number
+getatime(file)
+
+
+返回最近文件修改时间    ：字符串 -> 成功数字，否则返回错误码
+file:string -> number
+getmtime(file)
+
+
+返回文件创建时间        ：字符串 -> 成功数字，否则返回错误码
+file:string -> number
+getctime(file)
+
+
+返回文件大小    ：字符串 -> 成功数字，否则返回错误码
+file:string -> number
+getsize(file)
+
+
+判断是否为绝对路径      ：字符串 -> 成功true，否则返回false
+path:string -> boolean
+isabs(path)
+
+
+判断路径是否为文件      ：字符串 -> 成功true，否则返回false
+path:string -> boolean
+isfile(path)
+
+
+判断路径是否为目录      ：字符串 -> 成功true，否则返回false
+path:string -> boolean
+isdir(path)
+
+
+将路径字符串的大写和正斜杠转换  ：字符串 -> 成功字符串，否则返回错误码
+path:string -> string|number
+normcase(path)
+
+
+规范路径字符串形式      ：字符串 -> 成功字符串，否则返回错误码
+path:string -> string|number
+normpath(path)
+
+
+获得相对信息    ：字符串 -> 成功数组，否则返回错误码
+path:string -> array|number
+info(path)
+
+
+判断目录或文件是否相同 ：字符串|字符串 -> 成功返回数字，否则返回错误码
+src:string | des:string -> number
+samefile(src, des) array|number
+info（str_dir)
+
+
+判断目录或文件是否相同 ：字符串|字符串 -> 成功返回数字，否则返回错误码
+src:string | des:string -> number
+samefile（str_src, str_des)
+

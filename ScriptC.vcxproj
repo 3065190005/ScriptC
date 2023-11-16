@@ -175,6 +175,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PreBuildEvent>
       <Command>copy /Y E:\VsPro\CerviceScript\STD\CompileDLL\debug\*.* E:\VsPro\CerviceScript\Cervice\Resources\libs\
@@ -200,6 +201,7 @@ update.bat</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PreBuildEvent>
       <Command>copy /Y E:\VsPro\CerviceScript\STD\CompileDLL\release\*.* E:\VsPro\CerviceScript\Cervice\Resources\libs\
@@ -225,6 +227,7 @@ cd .\AutoElement\
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PreBuildEvent>
       <Command>cd .\AutoElement\
@@ -305,11 +308,22 @@ copy /Y .\x64\Package\ScriptC.exe .\Package\</Command>
     <None Include="AutoElement\LetObject.tpp" />
     <None Include="CerLexical\CerLexical.tpp" />
     <None Include="packages.config" />
-    <None Include="Resources\arrayTest.sc" />
-    <None Include="Resources\client.py" />
-    <None Include="Resources\clientUdp.py" />
-    <None Include="Resources\index.sc" />
-    <None Include="Resources\ioTest.sc" />
+    <None Include="Resources\example\arrayTest.sc" />
+    <None Include="Resources\example\client.py" />
+    <None Include="Resources\example\clientUdp.py" />
+    <None Include="Resources\example\directTest.sc" />
+    <None Include="Resources\example\index.sc" />
+    <None Include="Resources\example\ioTest.sc" />
+    <None Include="Resources\example\lua_file.lua" />
+    <None Include="Resources\example\mathTest.sc" />
+    <None Include="Resources\example\osTest.sc" />
+    <None Include="Resources\example\server.py" />
+    <None Include="Resources\example\socketTest.sc" />
+    <None Include="Resources\example\stringTest.sc" />
+    <None Include="Resources\example\threadTest.sc" />
+    <None Include="Resources\example\timeTest.sc" />
+    <None Include="Resources\example\typeTest.sc" />
+    <None Include="Resources\example\windowTest.sc" />
     <None Include="Resources\libs\config.cfg" />
     <None Include="Resources\libs\std_array.dll" />
     <None Include="Resources\libs\std_io.dll" />
@@ -318,38 +332,37 @@ copy /Y .\x64\Package\ScriptC.exe .\Package\</Command>
     <None Include="Resources\libs\std_string.dll" />
     <None Include="Resources\libs\std_time.dll" />
     <None Include="Resources\libs\std_type.dll" />
-    <None Include="Resources\lua_file.lua" />
-    <None Include="Resources\mathTest.sc" />
-    <None Include="Resources\osTest.sc" />
     <None Include="Resources\res\array.sc" />
+    <None Include="Resources\res\direct.sc" />
+    <None Include="Resources\res\extern_system\system_array.sc" />
+    <None Include="Resources\res\extern_system\system_direct.sc" />
+    <None Include="Resources\res\extern_system\system_io.sc" />
+    <None Include="Resources\res\extern_system\system_math.sc" />
+    <None Include="Resources\res\extern_system\system_os.sc" />
+    <None Include="Resources\res\extern_system\system_socket.sc" />
+    <None Include="Resources\res\extern_system\system_string.sc" />
+    <None Include="Resources\res\extern_system\system_thread.sc" />
+    <None Include="Resources\res\extern_system\system_time.sc" />
+    <None Include="Resources\res\extern_system\system_type.sc" />
+    <None Include="Resources\res\extern_system\system_window.sc" />
     <None Include="Resources\res\io.sc" />
     <None Include="Resources\res\math.sc" />
     <None Include="Resources\res\os.sc" />
     <None Include="Resources\res\socket.sc" />
     <None Include="Resources\res\string.sc" />
-    <None Include="Resources\res\system.sc" />
     <None Include="Resources\res\thread.sc" />
     <None Include="Resources\res\time.sc" />
     <None Include="Resources\res\type.sc" />
     <None Include="Resources\res\window.sc" />
     <None Include="Resources\ScriptC.md" />
-    <None Include="Resources\server.py" />
-    <None Include="Resources\socketTest.sc" />
     <None Include="Resources\sources.sc" />
-    <None Include="Resources\stringTest.sc" />
-    <None Include="Resources\threadTest.sc" />
-    <None Include="Resources\timeTest.sc" />
-    <None Include="Resources\typeTest.sc" />
-    <None Include="Resources\windowTest.sc" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Resources\abcdef.txt" />
     <Text Include="Resources\cfg.txt" />
+    <Text Include="Resources\example\abcdef.txt" />
     <Text Include="Resources\log.txt" />
     <Text Include="Resources\mission.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="ScriptC.rc" />
+    <Text Include="Resources\TODO.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\ScriptC.ico" />

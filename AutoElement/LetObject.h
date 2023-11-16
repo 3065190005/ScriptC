@@ -222,6 +222,8 @@ namespace AutoMem {
 			template<>
 			static std::string cast<std::string>(LetObject*);
 
+			void swap(LetObject&);
+
 		public:
 
 			ObjT getType();
@@ -266,8 +268,21 @@ namespace AutoMem {
 			LetTools() {};
 			~LetTools() {};
 
+			enum class Operator
+			{
+				None = 0,
+				Has,
+				Type,
+				Group,
+				Nature,
+				SelfNature,
+			};
+
 		public:
 			void print(auto_c& value);
+			void println(auto_c& value);
+			bool AutoCmp(std::pair<Operator,std::string> condition, auto_c& target);
+			void Swap(auto_c& value1, auto_c& value2);
 		};
 
 #include "LetObject.tpp"

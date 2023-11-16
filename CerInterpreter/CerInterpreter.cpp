@@ -891,6 +891,33 @@ bool ScriptC::Obj::CerInterpreter::visit_InterNew(AST* node, autoPtr ret)
 		}
 	}
 
+	/*
+	* 2023.11.13
+	* 拦截Pop，添加在pop之前调用函数调用并将返回值返回给接下来要执行的pop函数
+	*/
+
+	bool is_call_init{ var_ast->getCallInit() };
+	auto func_params{ var_ast->getParams() };
+	
+	while (is_call_init)
+	{
+		CodeParams params;
+		auto_c param;
+
+		for (auto& varName : func_params) {
+			visit(varName, ret, this);
+		}
+
+		param << (std::string{ var_ast->getInitInter() + ":"} + SPECIAL_FUNC_INIT);
+		params.insert({ "param1",std::move(param) });
+
+		param << (numberT)func_params.size();
+		params.insert({ "param2",std::move(param) });
+
+		PushCode(std::move(CommandCode(CodeType::Call, std::move(params))));
+		break;
+	}
+
 	return true;
 }
 
@@ -1075,7 +1102,6 @@ bool ScriptC::Obj::CerInterpreter::visit_InterExprOp(AST* node, autoPtr ret)
 	}
 
 	InterExprOp* inter = dynamic_cast<InterExprOp*>(node);
-
 	CodeParams param1;
 
 	auto_c pushTarget,space, param3C;
@@ -1091,20 +1117,62 @@ bool ScriptC::Obj::CerInterpreter::visit_InterExprOp(AST* node, autoPtr ret)
 		param3C << var->getTok().getCstr();
 	}
 	else {
+		param3C << "(u)";
+		FuncCall* func_call = dynamic_cast<FuncCall*>(inter->getPerson());
+
 		visit(inter->getPerson(), ret, this);
 		auto code = m_vm_code.back();
 		m_vm_code.pop_back();
+
+
 		std::string funcName;
 		(*code.getCodeParams())["param1"] >> funcName;
 		funcName = "(u)" + funcName;
 		(*code.getCodeParams())["param1"] << funcName;
-		m_vm_code.emplace_back(code);
-		param3C << "(u)";
+
+		/*2023.11.11
+		* 添加函数跳转和函数调用
+		* 实现特殊变量 _attr
+		*/
+
+		{
+			CodeParams params;
+			auto_c param;
+			bool is_last = inter->gethasLeftLast() && inter->gethasLeftIndex();
+
+			m_vm_code.emplace_back(code);
+
+			/*
+			* 如果是左值最后一位
+			* 将赋值当做参数传递给 attr
+			*/
+
+			if (is_last)
+			{
+				(*m_vm_code.rbegin()->getCodeParams())["param5"] = auto_c();
+				/*
+				* Pop
+				*/
+				PushCode(std::move(CommandCode(CodeType::Pop, std::move(params))));
+
+
+				/*
+				* Jmp param:2
+				*/
+				param << numberT(2);
+				params.insert({ "param1",std::move(param) });
+				PushCode(std::move(CommandCode(CodeType::Jmp, std::move(params))));
+			}
+		}
 	}
 	param1.insert({ "param1", std::move(pushTarget) });
 	param1.insert({ "param2", std::move(space) });
 	param1.insert({ "param3", std::move(param3C) });
 	m_errHis->setErrInfo(node->getDebugInfo());
+
+
+	
+
 	CommandCode opear1(CodeType::Push, std::move(param1));
 
 	/*
@@ -1112,8 +1180,104 @@ bool ScriptC::Obj::CerInterpreter::visit_InterExprOp(AST* node, autoPtr ret)
 	* 函数返回值将不在进行变量转换，为返回this指针进行修改
 	* 变量赋值运算等不受影响
 	*/
-	if(inter->getPerson()->getNodeType() != Obj::AstNodeType::FuncCall)
+	if (inter->getPerson()->getNodeType() != Obj::AstNodeType::FuncCall)
+	{
+		/*
+		* 2023.11.2
+		* 添加跳转和函数调用
+		* 实现特殊变量 _attr
+		*/
+		if (var != nullptr)
+		{
+
+			/*
+			* Jmp param1:4 param2:$ param4:1 param5:<value>
+			*/
+			CodeParams params;
+			auto_c param;
+
+			param << numberT(5);
+			params.insert({ "param1",std::move(param) });
+
+			param << "$";
+			params.insert({ "param2",std::move(param) });
+
+			param << numberT(1);
+			params.insert({ "param4",std::move(param) });
+
+
+			param << var->getTok().getCstr();
+			params.insert({ "param5",std::move(param) });
+
+
+			m_errHis->setErrInfo(node->getDebugInfo());
+			PushCode(std::move(CommandCode(CodeType::Jmp, std::move(params))));
+
+
+			/*
+			*  Swap param1:0 ,param2:2
+			*/
+			if (inter->gethasLeftLast() && inter->gethasLeftIndex())
+			{
+				param << numberT(0);
+				params.insert({ "param1",std::move(param) });
+
+				param << numberT(1);
+				params.insert({ "param2",std::move(param) });
+				PushCode(std::move(CommandCode(CodeType::Swap, std::move(params))));
+			}
+
+
+			/*
+			* Push param:null
+			*/
+			else
+			{
+				param = auto_c();
+				params.insert({ "param1",std::move(param) });
+				PushCode(std::move(CommandCode(CodeType::Push, std::move(params))));
+			}
+
+			/*
+			*  Push , param1:<[name,type]>
+			*/
+
+			param["name"] << var->getTok().getCstr();
+			param["type"] << "member";
+
+			params.insert({ "param1",std::move(param) });
+			PushCode(std::move(CommandCode(CodeType::Push, std::move(params))));
+
+			
+			/*
+			* Call param1:(u):_attr , param2:2
+			*/
+
+			param << (std::string("(u)") + SPECIAL_FUNC_ATTR);
+			params.insert({ "param1",std::move(param) });
+
+			param << numberT(2);
+			params.insert({ "param2",std::move(param) });
+
+			param << auto_c();
+			params.insert({ "param6",std::move(param) });
+			PushCode(std::move(CommandCode(CodeType::Call, std::move(params))));
+
+			/*
+			*  Jmp , param1:2:
+			*/
+			param << numberT{ 2 };
+			if (inter->gethasLeftLast() && inter->gethasLeftIndex())
+				param << numberT{ 3 };
+
+			params.insert({ "param1",std::move(param) });
+			PushCode(std::move(CommandCode(CodeType::Jmp, std::move(params))));
+
+		}
+		// ---
+
 		PushCode(std::move(opear1));
+	}
 
 	return true;
 }

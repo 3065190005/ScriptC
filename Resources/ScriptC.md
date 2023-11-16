@@ -1,3 +1,4 @@
+
 # ScriptC
 
 ## 基础介绍
@@ -31,7 +32,6 @@ io.println("Hello World");
 
 
 ### 脚本式编程
-因为ScriptC是预先编译好指定字节码然后再执行所以只有脚本式编程。
 我们可以将ScriptC程序保存到以sc结尾的文件并执行。
 
 ```sc
@@ -239,22 +239,22 @@ value = value + 1; // 使用全局变量 value = 2
 
 ### 运算符优先级
 
-| 类别  | 运算符  | 结合性  |
+| 类别  | 运算符  | 结合性  |
 | --- | --- | --- |
-| 后缀  | () \[\] ; . <>   | 从左到右  |
-| 一元  | \+ - ! ~ | 从右到左  |
-| 乘除  | \* / %  | 从左到右  |
-| 加减  | \+ -  | 从左到右  |
-| 移位  | << >>  | 从左到右  |
-| 关系  | < <= > >=  | 从左到右  |
-| 相等  | \== !=  | 从左到右  |
-| 位与 AND  | &  | 从左到右  |
-| 位异或 XOR  | ^  | 从左到右  |
-| 位或 OR  | |  | 从左到右  |
-| 逻辑与 AND  | &&  | 从左到右  |
-| 逻辑或 OR  | ||  | 从左到右  |
-| 赋值  | \=   | 从右到左  |
-| 逗号  | ,  | 从左到右  |
+| 后缀  | () \[\] ; . <>   | 从左到右  |
+| 一元  | \+ - ! ~ | 从右到左  |
+| 乘除  | \* / %  | 从左到右  |
+| 加减  | \+ -  | 从左到右  |
+| 移位  | << >>  | 从左到右  |
+| 关系  | < <= > >=  | 从左到右  |
+| 相等  | \== !=  | 从左到右  |
+| 位与 AND  | &  | 从左到右  |
+| 位异或 XOR  | ^  | 从左到右  |
+| 位或 OR  | |  | 从左到右  |
+| 逻辑与 AND  | &&  | 从左到右  |
+| 逻辑或 OR  | ||  | 从左到右  |
+| 赋值  | \=   | 从右到左  |
+| 逗号  | ,  | 从左到右  |
 
 
 ## 判断
@@ -446,10 +446,14 @@ let sex = person.sex;				// sex = "boy"
 ```
 
 
-### 特殊函数 _gc
-特殊函数 _gc()，可以在接口变量被销毁前自动调用
+### 特殊函数 
+### gc
+特殊函数 gc，可以在接口变量被销毁前自动调用
 **该函数只会在变量被局部变量管理时才会调用，成员则不会进行调用**
 **this指针指向当前将要被销毁的变量**
+**_析构函数不允许使用return返回值_**
+**该方法禁止手动调用**
+
 ```sc
 	require ("io");
 	let io = new StdIo;
@@ -466,6 +470,116 @@ let sex = person.sex;				// sex = "boy"
 
 	let value = new structA;
 	// 结束时会自动调用 structA接口的_gc函数 并输出 "3 Gc"
+```
+### init
+当使用new关键字通过传参语法实例化一个接口时会调用特殊函数 init
+**this指针指向当前实例化对象**
+_**初始化函数不允许使用return返回值**_
+**该方法禁止手动调用**
+
+```sc
+	interface Base{
+		let name = null;
+		let age = null;
+
+		// 特殊函数
+		function _init(name,age):
+			this.name = name;
+			this.age = age;
+		end
+	}
+	
+	interface Baby{
+		// 特殊函数
+		function _init(name):
+			this.name = name;
+			this.age = 1;
+		end
+	}
+
+	interface Dancer override Base{
+		function onDance():
+				// ... something
+		end
+	}
+
+	interface Singer{
+		function Func():
+		end
+	}
+
+	let baby = new Baby("Tom"); // 调用 Baby:_init(name = "tom")
+	let base = new Base("Bob",27); // 调用 Base:_init(name = "Bob", age = 27)
+	let dancer = new Dancer("Jane", 30); // 调用 Base:_init(name = "Jane", age = 30)
+	// let error_baby = new Baby("Tom",27); // error ，Base的初始化函数已被覆盖
+	let person = new Baby; // 不会调用初始化函数
+	// let singer = new Singer(); // 报错 Singer没有实现初始化函数
+	let singer = new Singer; // 实例化Singer接口
+```
+
+### attr
+当调用一个不存在的方法或成员时会自动拦截并调用特殊方法attr
+**this指针指向当前调用的对象**
+_**拦截函数允许使用return返回值**_
+**该方法允许手动调用，但** _**不推荐**_ 
+
+```sc
+	interface Person{
+		let name = "Bob";
+		let age = 30;
+
+		// 特殊函数
+		function _attr(info,argv):
+			
+		end
+
+		function setName(name):
+			this.name = name;
+		end		
+
+		function getName():
+			return this.name;
+		end
+	}
+
+	let person = new Person;
+	
+	// 调用 Person:getName();
+	let call_name = person.getName();
+	
+	// 返回Person:name - "Bob"
+	let name = person.name;	 
+	
+	// 拦截调用 Person:_attr(info = ["name":"sex", "type":"member"], argv = null)
+	let sex = person.sex; 
+
+	// 拦截调用 Person:_attr(info = ["name":"getSex", "type":"function"], argv = null)
+	let call_sex = person.getSex();
+	
+	// 拦截调用 Person:_attr(info = ["name":"setAge", "type" : "function"], argv = [0:17]);
+	let call_age = person.setAge(17);
+	
+	// 拦截调用 Person:_attr(info = ["name":"getAge", "type" : "function"], argv = [0:"param", -1:"value"]);
+	person.getInstance("param") = "value";
+
+	// 拦截调用 Person:_attr(info = ["name":"isChild ", "type":"member"], argv = false);
+	person.isChild = false;
+
+```
+
+**_不推荐_**
+通过下标运算符可以禁止 attr 拦截不存在的成员变量
+**需要注意：当使用下标运算符赋值后，则不会再拦截已赋值的成员**
+```sc
+	interface Person{
+		function _attr(info,argv):
+		end
+	}
+	
+	let person = new Person;
+	person["name"] = "Tom";  // person.name = "Tom"; 不会调用 _attr
+	person.name = "Bob"; // 不会调用拦截函数 _attr;
+	
 ```
 
 
@@ -1336,72 +1450,69 @@ require ("socket");
 let socket = new StdSocket;
 ```
 
-
-
-create		 创建socket		：成功返回socket id，否则返回错误码id
+create 创建socket ：成功返回socket id，否则返回错误码id
 family|number, type|number -> boolean|number
-create(family, type) end
+create(family, type)
 
 
-bind		 绑定socket		：成功返回true ，否则返回错误码id
+bind 绑定socket ：成功返回true ，否则返回错误码id
 socket|number, ip|string, port|number -> boolean|number
-bind(socket, ip, port) end
+bind(socket, ip, port)
 
 
-listen		 监听socket		：成功返回true ，否则返回错误码id
+listen 监听socket ：成功返回true ，否则返回错误码id
 socket|number, count|number -> boolean|number
-listen(socket, count) end
+listen(socket, count)
+  
 
-
-accept		 接受socket		：成功返回array数组包含ip sock以及port  ，否则返回错误码id
+accept 接受socket ：成功返回array数组包含ip sock以及port ，否则返回错误码id
 socket|number -> array|number
-accept(socket) end
+accept(socket)
 
 
-connect		 连接socket		：成功返回true ，否则返回错误码id
+connect 连接socket ：成功返回true ，否则返回错误码id
 socket|number ,ip|string, port|number -> boolean|number
-connect(socket, ip, port) end
+connect(socket, ip, port)
 
 
-send		 发送字段Tcp		：成功返回发送长度 ，否则返回错误码id
+send 发送字段Tcp ：成功返回发送长度 ，否则返回错误码id
 socket|number, buf|string, lens|number -> number
-send(socket, buf, lens) end
+send(socket, buf, lens)
 
 
-recv		 接受字段Tcp		：成功返回接受字符串 ，否则返回错误码id
+recv 接受字段Tcp ：成功返回接受字符串 ，否则返回错误码id
 socket|number, lens|number -> number
-recv(socket, lens) end
+recv(socket, lens)
 
 
-sendto		 发送字段Udp		：成功返回发送长度 ，否则返回错误码id
+sendto 发送字段Udp ：成功返回发送长度 ，否则返回错误码id
 socket|number, buf|string, lens|number, ip|string, port|number -> number
-sendto(socket, buf, lens, ip, port) end
+sendto(socket, buf, lens, ip, port)
 
 
-recvfrom	 接受字段Udp		：成功返回array ，否则返回错误码id
+recvfrom 接受字段Udp ：成功返回array ，否则返回错误码id
 socket|number, lens|number -> array|number
-recvfrom(socket, lens) end
+recvfrom(socket, lens)
+  
 
-
-close		 关闭socket 		：成功返回true ，否则返回false
+close 关闭socket ：成功返回true ，否则返回false
 socket|number -> boolean
-close(socket) end
+close(socket)
+  
 
-select 
-
-select		检测一组一维数组socket并返回 	：成功返回二位数组（可能为空） ，否则返回错误码id
+select 检测一组一维数组socket并返回 ：成功返回二位数组（可能为空） ，否则返回错误码id
 sockets|array, tm|number -> array|number
-select(list, tm) end
+select(list, tm)
+  
 
-
-gethostname	获取主机名 	：成功返回字符串 ，否则返回错误码id
+gethostname 获取主机名 ：成功返回字符串 ，否则返回错误码id
 (void) -> string
-gethostname() end
+gethostname()
 
 
-gethostbyname 通过主机名获取ip 	：成功返回数组 ，否则返回错误码id
+gethostbyname 通过主机名获取ip ：成功返回数组 ，否则返回错误码id
 host|string -> array|number
-gethostbyname(host) end
+gethostbyname(host)
 
 ```
 	// socket创建family
@@ -1412,3 +1523,157 @@ gethostbyname(host) end
 	socket.tcp		基于tcp连接
 	socket.udp		基于udp连接
 ```
+
+
+
+## StdDirect 目录库
+
+```sc
+require ("direct");
+let dir = new StdDirect;
+```
+改变当前工作目录                ：字符串 -> 成功true，否则返回错误码
+path:string -> boolean|number
+chdir(path)
+
+
+返回当前工作目录                ：void -> 成功字符串，否则返回null
+(void) -> string|null
+getcwd()
+
+
+返回指定的文件夹包含的文件或文件夹的名字的列表。                ：字符串 -> 成功数组，否则返回错误码
+path:string -> boolean|number
+listdir(path)
+
+
+设置目录或文件权限      : 字符串 | 数字 -> 成功返回true，否则返回错误码
+dir:string | mods|number -> boolean|number
+chmod(dir,mods)
+
+
+递归创建目录。          ：字符串 -> 成功返回true，否则返回错误码
+dir:string -> boolean|number
+makedirs(dir)
+
+
+创建目录。              ：字符串 -> 成功true，否则返回错误码
+dir:string -> boolean|number
+mkdir(dir)
+
+
+递归删除目录。          ：字符串 -> 成功true，否则返回错误码
+dir:string -> boolean|number
+removedirs(dir)
+
+
+删除目录。              ：字符串 -> 成功true，否则返回错误码
+dir:string -> boolean|number
+rmdir(dir)
+
+
+重命名目录名。          ：字符串 | 字符串 -> 成功true，否则返回错误码
+src:string | des:string -> boolean|number
+rename(src, des)
+
+
+方法用于在给定的路径上执行一个系统 stat 的调用          ：字符串 -> 成功数组，否则返回错误码
+dir:string -> array|number
+stat(dir)
+
+
+返回绝对路径    ：字符串 -> 成功字符串，否则返回错误码
+path:string -> string|number
+abspath(path)
+
+
+返回相对路径    ：字符串 -> 成功字符串，否则返回错误码
+path:string -> string|number
+relative(path)
+
+
+返回文件名      ：字符串 -> 成功字符串，否则返回错误码
+path:string -> string|number
+basename(path)
+
+
+返回多个路径中，所有共有的最长的路径    ：数组 -> 成功字符串，否则返回null
+paths:array -> string|null
+commonprefix(paths)
+
+
+返回文件路径    ：字符串 -> 成功字符串，否则返回错误码
+path:string -> string|number
+dirname(path)
+
+
+路径是否存在    ：字符串 -> 成功true，否则返回false
+path:string -> boolean
+exists(path)
+
+
+根据环境变量的值替换%字符串%值  ：字符串 -> 成功字符串，否则返回错误码
+path:string -> string|number
+expand(path)
+
+
+返回最近访问时间        ：字符串 -> 成功数字，否则返回错误码
+file:string -> number
+getatime(file)
+
+
+返回最近文件修改时间    ：字符串 -> 成功数字，否则返回错误码
+file:string -> number
+getmtime(file)
+
+
+返回文件创建时间        ：字符串 -> 成功数字，否则返回错误码
+file:string -> number
+getctime(file)
+
+
+返回文件大小    ：字符串 -> 成功数字，否则返回错误码
+file:string -> number
+getsize(file)
+
+
+判断是否为绝对路径      ：字符串 -> 成功true，否则返回false
+path:string -> boolean
+isabs(path)
+
+
+判断路径是否为文件      ：字符串 -> 成功true，否则返回false
+path:string -> boolean
+isfile(path)
+
+
+判断路径是否为目录      ：字符串 -> 成功true，否则返回false
+path:string -> boolean
+isdir(path)
+
+
+将路径字符串的大写和正斜杠转换  ：字符串 -> 成功字符串，否则返回错误码
+path:string -> string|number
+normcase(path)
+
+
+规范路径字符串形式      ：字符串 -> 成功字符串，否则返回错误码
+path:string -> string|number
+normpath(path)
+
+
+获得相对信息    ：字符串 -> 成功数组，否则返回错误码
+path:string -> array|number
+info(path)
+
+
+判断目录或文件是否相同 ：字符串|字符串 -> 成功返回数字，否则返回错误码
+src:string | des:string -> number
+samefile(src, des) array|number
+info（str_dir)
+
+
+判断目录或文件是否相同 ：字符串|字符串 -> 成功返回数字，否则返回错误码
+src:string | des:string -> number
+samefile（str_src, str_des)
+

@@ -55,6 +55,12 @@
     <Filter Include="QuickLib\kString">
       <UniqueIdentifier>{e080aa8b-40a2-495f-8125-6bbc1e5fed15}</UniqueIdentifier>
     </Filter>
+    <Filter Include="资源文件\res\extern_system">
+      <UniqueIdentifier>{f7899a53-47ea-4a02-9884-5af1f5b5c1af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\example">
+      <UniqueIdentifier>{ec0c69d3-7094-490e-9555-fd24fac1187d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -268,31 +274,101 @@
     <None Include="Resources\libs\std_type.dll">
       <Filter>资源文件\libs</Filter>
     </None>
-    <None Include="Resources\arrayTest.sc">
-      <Filter>资源文件</Filter>
+    <None Include="..\STD\CompileDLL\debug\WebView2Loader.dll">
+      <Filter>资源文件\libs</Filter>
     </None>
-    <None Include="Resources\ioTest.sc">
-      <Filter>资源文件</Filter>
+    <None Include="packages.config" />
+    <None Include="Resources\res\extern_system\system_direct.sc">
+      <Filter>资源文件\res\extern_system</Filter>
     </None>
-    <None Include="Resources\mathTest.sc">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="Resources\osTest.sc">
+    <None Include="Resources\ScriptC.md">
       <Filter>资源文件</Filter>
     </None>
     <None Include="Resources\sources.sc">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="Resources\stringTest.sc">
-      <Filter>资源文件</Filter>
+    <None Include="Resources\example\arrayTest.sc">
+      <Filter>资源文件\example</Filter>
     </None>
-    <None Include="Resources\timeTest.sc">
-      <Filter>资源文件</Filter>
+    <None Include="Resources\example\client.py">
+      <Filter>资源文件\example</Filter>
     </None>
-    <None Include="Resources\typeTest.sc">
-      <Filter>资源文件</Filter>
+    <None Include="Resources\example\clientUdp.py">
+      <Filter>资源文件\example</Filter>
+    </None>
+    <None Include="Resources\example\index.sc">
+      <Filter>资源文件\example</Filter>
+    </None>
+    <None Include="Resources\example\ioTest.sc">
+      <Filter>资源文件\example</Filter>
+    </None>
+    <None Include="Resources\example\lua_file.lua">
+      <Filter>资源文件\example</Filter>
+    </None>
+    <None Include="Resources\example\mathTest.sc">
+      <Filter>资源文件\example</Filter>
+    </None>
+    <None Include="Resources\example\osTest.sc">
+      <Filter>资源文件\example</Filter>
+    </None>
+    <None Include="Resources\example\server.py">
+      <Filter>资源文件\example</Filter>
+    </None>
+    <None Include="Resources\example\socketTest.sc">
+      <Filter>资源文件\example</Filter>
+    </None>
+    <None Include="Resources\example\stringTest.sc">
+      <Filter>资源文件\example</Filter>
+    </None>
+    <None Include="Resources\example\threadTest.sc">
+      <Filter>资源文件\example</Filter>
+    </None>
+    <None Include="Resources\example\timeTest.sc">
+      <Filter>资源文件\example</Filter>
+    </None>
+    <None Include="Resources\example\typeTest.sc">
+      <Filter>资源文件\example</Filter>
+    </None>
+    <None Include="Resources\example\windowTest.sc">
+      <Filter>资源文件\example</Filter>
+    </None>
+    <None Include="Resources\example\directTest.sc">
+      <Filter>资源文件\example</Filter>
+    </None>
+    <None Include="Resources\res\extern_system\system_array.sc">
+      <Filter>资源文件\res\extern_system</Filter>
+    </None>
+    <None Include="Resources\res\extern_system\system_io.sc">
+      <Filter>资源文件\res\extern_system</Filter>
+    </None>
+    <None Include="Resources\res\extern_system\system_math.sc">
+      <Filter>资源文件\res\extern_system</Filter>
+    </None>
+    <None Include="Resources\res\extern_system\system_os.sc">
+      <Filter>资源文件\res\extern_system</Filter>
+    </None>
+    <None Include="Resources\res\extern_system\system_socket.sc">
+      <Filter>资源文件\res\extern_system</Filter>
+    </None>
+    <None Include="Resources\res\extern_system\system_string.sc">
+      <Filter>资源文件\res\extern_system</Filter>
+    </None>
+    <None Include="Resources\res\extern_system\system_thread.sc">
+      <Filter>资源文件\res\extern_system</Filter>
+    </None>
+    <None Include="Resources\res\extern_system\system_time.sc">
+      <Filter>资源文件\res\extern_system</Filter>
+    </None>
+    <None Include="Resources\res\extern_system\system_type.sc">
+      <Filter>资源文件\res\extern_system</Filter>
+    </None>
+    <None Include="Resources\res\extern_system\system_window.sc">
+      <Filter>资源文件\res\extern_system</Filter>
     </None>
     <None Include="Resources\res\array.sc">
+      <Filter>资源文件\res</Filter>
+    </None>
+    <None Include="Resources\res\direct.sc">
       <Filter>资源文件\res</Filter>
     </None>
     <None Include="Resources\res\io.sc">
@@ -304,10 +380,13 @@
     <None Include="Resources\res\os.sc">
       <Filter>资源文件\res</Filter>
     </None>
+    <None Include="Resources\res\socket.sc">
+      <Filter>资源文件\res</Filter>
+    </None>
     <None Include="Resources\res\string.sc">
       <Filter>资源文件\res</Filter>
     </None>
-    <None Include="Resources\res\system.sc">
+    <None Include="Resources\res\thread.sc">
       <Filter>资源文件\res</Filter>
     </None>
     <None Include="Resources\res\time.sc">
@@ -319,48 +398,11 @@
     <None Include="Resources\res\window.sc">
       <Filter>资源文件\res</Filter>
     </None>
-    <None Include="Resources\windowTest.sc">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="Resources\ScriptC.md">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="Resources\index.sc">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="..\STD\CompileDLL\debug\WebView2Loader.dll">
-      <Filter>资源文件\libs</Filter>
-    </None>
-    <None Include="packages.config" />
-    <None Include="Resources\lua_file.lua">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="Resources\res\thread.sc">
-      <Filter>资源文件\res</Filter>
-    </None>
-    <None Include="Resources\threadTest.sc">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="Resources\res\socket.sc">
-      <Filter>资源文件\res</Filter>
-    </None>
-    <None Include="Resources\socketTest.sc">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="Resources\server.py">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="Resources\client.py">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="Resources\clientUdp.py">
-      <Filter>资源文件</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Resources\abcdef.txt">
-      <Filter>资源文件</Filter>
-    </Text>
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
+  </ItemGroup>
+  <ItemGroup>
     <Text Include="Resources\cfg.txt">
       <Filter>资源文件</Filter>
     </Text>
@@ -370,14 +412,12 @@
     <Text Include="Resources\mission.txt">
       <Filter>资源文件</Filter>
     </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="ScriptC.rc">
+    <Text Include="Resources\TODO.txt">
       <Filter>资源文件</Filter>
-    </ResourceCompile>
+    </Text>
+    <Text Include="Resources\example\abcdef.txt">
+      <Filter>资源文件\example</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\ScriptC.ico">

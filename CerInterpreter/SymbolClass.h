@@ -30,11 +30,12 @@ namespace ScriptC {
 			SymbolClass(std::string name);									// 基础符号声明
 			SymbolClass(std::string name, SymbolClass type);				// 变量符号声明
 			SymbolClass(std::string func_name, std::vector<std::string>);	// 函数符号声明
-			SymbolClass(std::string inter_name, std::string parent);		// 函数符号声明
+			SymbolClass(std::string inter_name, std::string parent);		// 接口符号声明
 
 			SymbolType getType();
 			std::string getName();
 			std::vector<std::string> getParams();
+			std::string getInterParent();
 
 		private:
 			SymbolType m_symbol_type;		// 类型
@@ -64,6 +65,7 @@ namespace ScriptC {
 			// 查找符号 （符号名 ， 符号类型 ， 是否递归查找）
 			SymbolfindArea findSymbol(std::string name, SymbolType type, bool recursion);
 			SymbolClass getFuncSymbol(std::string name, bool recursion);
+			SymbolClass getInterSymbol(std::string name, bool recursion);
 
 			// 添加符号 符号本体
 			void pushSymbol(SymbolClass symbol);

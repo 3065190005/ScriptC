@@ -130,7 +130,7 @@ ArrayExpr : LBRACKET (expr (COMMA expr)*)* RBRACKET
 // 接口下标
 InterExpr : DOT (VAR_ID | Function_Id);
 
-InterNew : KEY_NEW VAR_ID
+InterNew : KEY_NEW VAR_ID LPARAM (expr (COMMA expr)*)* RPARAM
 
 // 空
 Empty : null

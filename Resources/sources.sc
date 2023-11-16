@@ -42,6 +42,25 @@ interface SubClass override Class{
 	function subNum():
 		this.num = "Sub Class Overide This Change!";
 	end
+
+	function _init(value):
+		this.num = value;
+	end
+
+	function _attr(info, name):
+		for i in info:
+			io.println(i);
+		end
+
+		if (info.type == "function"):
+			for i in name:
+				io.println(i);
+			end
+		else:
+			io.println(name);
+		end
+
+	end
 }
 
 function getNum():
@@ -107,6 +126,17 @@ let subcls = new SubClass;
 subcls.PrintNum()<subcls>;
 subcls.subNum();
 subcls.PrintNum()<subcls>;
+
+io.println("\n\n --- sub class init ---\n");
+let init_cls = new SubClass("init change !");
+io.println(init_cls.num);
+
+io.println("\n\n --- sub class attr --- \n");
+
+init_cls.getAAA("Abc");
+let space_s = init_cls.numbert;
+init_cls.getAAA("CCC") = "value";
+init_cls.numbert = "numberT value";
 
 // ’‚ «◊¢ Õ
 io.println("program over");

@@ -147,6 +147,9 @@ std::string ScriptC::Obj::CommandCode::getCodeTypeStr()
 	case ScriptC::Obj::CommandCode::CommandCodeType::Inc:
 		ret = "Inc";
 		break;
+	case ScriptC::Obj::CommandCode::CommandCodeType::Swap:
+		ret = "Swap";
+		break;
 	default:
 		break;
 	}

@@ -13,6 +13,7 @@
 #include "CerVm.h"
 
 #include <sstream>
+#include <algorithm>
 using namespace ScriptC::Obj;
 
 std::map<std::string, size_t> ScriptC::Obj::CerVm::m_CodeBaseAddress;
@@ -151,6 +152,9 @@ void ScriptC::Obj::CerVm::Command()
 	case CommandCode::CommandCodeType::Inc:
 		VmInc();
 		break;
+	case CommandCode::CommandCodeType::Swap:
+		VmSwap();
+		break;
 	default:
 		break;
 	}
@@ -282,8 +286,13 @@ void ScriptC::Obj::CerVm::VmCall()
 	std::string this_name;
 	auto_c func = (*cmd.getCodeParams())["param1"];
 	auto_c paramSize = (*cmd.getCodeParams())["param2"];
-	std::string funcName;
+	std::string funcName,src_func_name;
 	func >> funcName;
+	bool is_reverse = false;
+	is_reverse = cmd.getCodeParams()->find("param6") != cmd.getCodeParams()->end();
+
+	bool is_left_last = false;
+	is_left_last = cmd.getCodeParams()->find("param5") != cmd.getCodeParams()->end();
 
 	numberT paramSizeT;
 	paramSize >> paramSizeT;
@@ -301,15 +310,36 @@ void ScriptC::Obj::CerVm::VmCall()
 			errHis->throwErr(EType::Vm,"variable is not a interface");
 		}
 
-		dataSf->back()["_class_name"] >> className;
+		dataSf->back()[CLASS_NAME] >> className;
 		funcName = funcName.substr(3, funcName.size());
-		
+		src_func_name = funcName;
+
 		/*
 		* 2023.10.23
 		* 特殊函数禁止手动调用
 		*/
-		if(funcName != "_gc")
-			funcName = findClassFunc(className, funcName);
+		if (funcName == SPECIAL_FUNC_GC || funcName == SPECIAL_FUNC_INIT)
+		{
+			auto errHis = ErrorHandling::getInstance();
+			errHis->throwErr(EType::Vm, funcName + "Method prohibits manual calls");
+			return;
+		}
+
+		/*2023.11.11
+		* 函数hook 调用attr
+		*/
+
+		bool hook_attr = false;
+		funcName = findClassFunc(className, src_func_name);
+		if (funcName.empty())
+		{
+			funcName = findClassFunc(className, SPECIAL_FUNC_ATTR);
+			hook_attr = true;
+		}
+		else if (is_left_last)
+		{
+			m_command_codes_index += 2;
+		}
 
 		if (funcName.empty())
 		{
@@ -317,10 +347,62 @@ void ScriptC::Obj::CerVm::VmCall()
 			errHis->throwErr(EType::Vm, "invalid interface method call");
 		}
 
-		/* 
-		 * 2023.10.17
-		 *通过(u)的函数将不在直接回收，之后会在Leave返回值之前进行删除 
+		/*
+		* 2023.11.12
+		* 修复基于变量的attr函数调用参数反序的问题
 		*/
+		if (is_reverse)
+		{
+			std::reverse(valueVec.begin(), valueVec.end());
+		}
+
+		/*
+		* 2023.11.11
+		* 格式化 attr 参数
+		*/
+
+		if (hook_attr)
+		{
+			vmlog(m_command_codes_index - 1 <<
+				" - VmRunCode( [*] Replace Function Call \"" +
+				src_func_name +
+				"\" With \"" +
+				SPECIAL_FUNC_ATTR +
+				"\") \n\n");
+
+			auto_c param1, param2;
+			paramSizeT = 2;
+			param1["name"] << src_func_name;
+			param1["type"] << "function";
+			numberT index = valueVec.size();
+			for (auto& i : valueVec)
+				param2[--index] = i;
+
+			if (is_left_last)
+			{
+				auto param1_iter = dataSf->rbegin();
+				auto param2_iter = dataSf->rbegin();
+				param1_iter++;
+
+				AutoMem::Obj::LetTools tools;
+				tools.Swap(*param1_iter, *param2_iter);
+
+				param2[(numberT) - 1] = dataSf->back();
+				dataSf->pop_back();
+			}
+
+			valueVec.clear();
+
+			valueVec.emplace_back(std::move(param2));
+			valueVec.emplace_back(std::move(param1));
+		}
+
+
+		/* 
+		* 2023.10.17
+		* 通过(u)的函数将不在直接回收，之后会在Leave返回值之前进行删除 _init 除外
+		*/
+
 		// dataSf->pop_back();
 		auto del_nature = dataSf->back().getSelfAttribute();
 		dataSf->back().setAttribute(del_nature | 16);
@@ -342,17 +424,26 @@ void ScriptC::Obj::CerVm::VmCall()
 		LetObject::reference(&this_var, &dataSf->back());
 	}
 
+	/*
+	* 判断函数是否存在，不存在报错，静态动态双判断
+	*/
 	auto funcMap = m_stacks.getFuncMapAddress(funcName);
 	if (funcMap.addRess == 0) {
 		auto errHis = ErrorHandling::getInstance();
 		errHis->throwErr(EType::Vm, "invalid interface method call");
 	}
 
-	if (funcMap.params.size() != valueVec.size()) {
+	/*
+	* 判断函数参数是否合理，不合理报错，静态动态双判断
+	*/
+	if (funcMap.params.size() != paramSizeT) {
 		auto errHis = ErrorHandling::getInstance();
 		errHis->throwErr(EType::Vm, "params error with function");
 	}
 
+	/*
+	* 判断函数参数是否为外部 C++ 函数，动态判断
+	*/
 	if (funcMap.hasExport) {
 		auto_c ret;
 		auto manager = DllFuncReader::getInstance();
@@ -479,17 +570,22 @@ void ScriptC::Obj::CerVm::VmLeave()
 
 	/*
 	* 2023.10.23
-	* 析构函数禁止值的返回
+	* 析构函数和构造函数禁止值的返回
 	*/
-	if (frameName.find(":_gc") != frameName.npos)
+	if (frameName.find(":") != frameName.npos)
 	{
-		if (haveRetVal) 
-		{
-			auto errHis = ErrorHandling::getInstance();
-			errHis->throwErr(EType::Vm, "destructors prohibit returning valuesl");
-		}
+		frameName = frameName.substr(frameName.find(":") + 1);
 
-		return;
+		if (frameName == SPECIAL_FUNC_GC || frameName == SPECIAL_FUNC_INIT)
+		{
+			if (haveRetVal)
+			{
+				auto errHis = ErrorHandling::getInstance();
+				errHis->throwErr(EType::Vm, frameName + "prohibit returning values");
+			}
+			else
+				return;
+		}
 	}
 
 	if (haveRetVal) {
@@ -665,9 +761,9 @@ void ScriptC::Obj::CerVm::VmPush()
 				else {
 					auto_c pushValue;
 					auto interTemplate = m_stacks.getInterMapValue(var_name, true);
-					pushValue["_class_name"] << interTemplate.name;
-					pushValue["_class_parent"] << interTemplate.parent;
-					pushValue["_class_auto_gc_call"] << true;
+					pushValue[CLASS_NAME] << interTemplate.name;
+					pushValue[CLASS_PARENT] << interTemplate.parent;
+					pushValue[CLASS_AUTO_GC_CALL] << true;
 					for (auto& i : interTemplate.var_people) {
 						pushValue[i.first] = i.second;
 					}
@@ -685,25 +781,51 @@ void ScriptC::Obj::CerVm::VmPush()
 void ScriptC::Obj::CerVm::VmJmp()
 {
 	/*
-	* jmp param1:相对距离 param2:是否使用条件 param3:从基地址+eip的绝对跳转
+	* jmp param1:相对距离 
+	*     param2:是否使用条件 
+	*     param3:从基地址+eip的绝对跳转 
+	*     param4:内置条件id
+	*	  param5:内置条件相关常亮值
+	* 
+	* param2: 为空则使用最近的栈作为条件
+	* param2: 为$ 标识用 param4 作为预设条件 id
 	*/
 	SFPtr sf = m_stacks.GetLastSF();
 	auto runT = sf->getRunTime();
 	auto dataSf = sf->getDataStack();
+	auto cmd = m_current_cmd_code;
 	
 	numberT jmper = m_command_codes_index -1;
 
 	auto_c ret;
 	auto_c key; key << true;
-	auto cmd = m_current_cmd_code;
 	takeEat(CommandCode::CommandCodeType::Jmp);
 
-	if (cmd.getCodeParams()->find("param2") != cmd.getCodeParams()->end()) {
-		auto_c eq = dataSf->back();
-		dataSf->pop_back();
-		ret = eq == key;
-		if (LetObject::cast<bool>(ret)) {
-			return;
+	/*
+	* 2023.11.2
+	* 修改跳转语句，判断内置条件
+	* 实现接口_attr成员函数判断
+	*/
+	auto param2_finder = cmd.getCodeParams()->find("param2");
+	if (param2_finder != cmd.getCodeParams()->end()) {
+
+		std::string param2_str = LetObject::cast<std::string>(param2_finder->second);
+		if (param2_str == "$")
+		{
+			auto param4_finder = cmd.getCodeParams()->find("param4");
+			numberT param4_id = LetObject::cast<numberT>(param4_finder->second);
+			if (BuiltInCond(param4_id,cmd))
+				return;
+		}
+		else
+		{
+			auto_c eq = dataSf->back();
+			dataSf->pop_back();
+			ret = eq == key;
+
+			if (LetObject::cast<bool>(ret)) {
+				return;
+			}
 		}
 	}
 
@@ -845,6 +967,8 @@ auto_c ScriptC::Obj::CerVm::VmPop()
 	* Pop : param1 (var_id) 从栈返回最近的一个值并赋值给var_id
 	* Pop : param1 (u) 将最近的栈作为左值并将除左值以外最近的值赋值给左值
 	* Pop : param2 是否新左值变量声明
+	* Pop : param3 下表
+	* Pop : param4 RePush
 	*/
 
 	SFPtr sf = m_stacks.GetLastSF();
@@ -1402,6 +1526,85 @@ auto_c ScriptC::Obj::CerVm::VmPass()
 	return ret;
 }
 
+void ScriptC::Obj::CerVm::VmSwap()
+{
+	/*
+	* Swap Param1:第一个元素, Param2:第二个元素
+	*/
+	SFPtr sf = m_stacks.GetLastSF();
+	auto runT = sf->getRunTime();
+	auto dataSf = sf->getDataStack();
+	auto calcSf = sf->getCalcStack();
+
+	auto_c ret;
+	auto cmd = m_current_cmd_code;
+	takeEat(CommandCode::CommandCodeType::Swap);
+
+	auto_c param1, param2;
+	param1 = cmd.getCodeParams()->find("param1")->second;
+	param2 = cmd.getCodeParams()->find("param2")->second;
+
+
+	numberT param1_numb, param2_numb;
+	param1 >> param1_numb;
+	param2 >> param2_numb;
+
+	auto param1_iter = dataSf->rbegin();
+	auto param2_iter = dataSf->rbegin();
+
+	for (auto i = 0; i < ::llabs(param1_numb); i++)
+		param1_iter++;
+
+	for (auto i = 0; i < ::llabs(param2_numb); i++)
+		param2_iter++;
+
+	AutoMem::Obj::LetTools tools;
+	tools.Swap(*param1_iter, *param2_iter);
+}
+
+bool ScriptC::Obj::CerVm::BuiltInCond(numberT id, CommandCode cmd)
+{
+	SFPtr sf = m_stacks.GetLastSF();
+	auto runT = sf->getRunTime();
+	auto dataSf = sf->getDataStack();
+
+
+	using Opeartor = LetTools::Operator;
+	LetTools tools;
+	auto_c& target = dataSf->back();
+	auto param5_autoc = cmd.getCodeParams()->find("param5")->second;
+	std::string param5;
+	param5_autoc >> param5;
+
+	/*
+	* 判断栈最近的变量非类 &&
+	* 判断栈最近的变量存在某成员变量 &&
+	* 判断变量存在特殊函数 _attr
+	* 则不进行 _attr 函数调用的跳转
+	*/
+	if (id == 1)
+	{
+		bool is_cls = (target.getAttribute() & (int)NatureType::cls) != 0;
+		bool havent_value = target.getStrArrayPtr()->find(param5) == target.getStrArrayPtr()->end();
+		bool has_func = false;
+		if (is_cls && havent_value)
+		{
+			std::string class_name,func_name;
+			target[CLASS_NAME] >> class_name;
+			func_name = findClassFunc(class_name, SPECIAL_FUNC_ATTR);
+			if (!func_name.empty())
+				has_func = true;
+		}
+		return is_cls && havent_value && has_func;
+	}
+
+
+
+	auto errHis = ErrorHandling::getInstance();
+	errHis->throwErr(EType::System, "Vm::BuiltInCond return default value \n [Please check the C++source code] ");
+	return true;
+}
+
 void ScriptC::Obj::CerVm::CodeCallFunc(std::string _funcName, std::vector<auto_c> _param, std::string _thisName)
 {
 #if DebuvmLog && GlobalDebugOpend
@@ -1547,7 +1750,7 @@ ScriptC::Obj::CerVm::VectorStr ScriptC::Obj::CerVm::isCallGc()
 			if (it->second.getAttribute() == (int)NatureType::cls)
 			{
 				bool auto_gc_called;
-				it->second["_class_auto_gc_call"] >> auto_gc_called;
+				it->second[CLASS_AUTO_GC_CALL] >> auto_gc_called;
 				if (auto_gc_called == true)
 					ret.push_back(it->first);
 				
@@ -1609,8 +1812,8 @@ bool ScriptC::Obj::CerVm::GcCallBack()
 		var = runT->getVarMapValue(var_name);
 
 		// 获取析构函数名
-		std::string className = LetObject::cast<std::string>(var["_class_name"]);
-		std::string gcName = "_gc";
+		std::string className = LetObject::cast<std::string>(var[CLASS_NAME]);
+		std::string gcName = SPECIAL_FUNC_GC;
 		func_name = findClassFunc(className, gcName);
 
 		// 清除变量标志
@@ -1618,7 +1821,7 @@ bool ScriptC::Obj::CerVm::GcCallBack()
 		if (var_map != nullptr)
 		{
 			auto iter = var_map->find(var_name);
-			iter->second["_class_auto_gc_call"] << false;
+			iter->second[CLASS_AUTO_GC_CALL] << false;
 		}
 
 		// 未找到相关析构函数
