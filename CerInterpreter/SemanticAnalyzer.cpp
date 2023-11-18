@@ -579,6 +579,38 @@ bool ScriptC::Obj::SemanticAnalyzer::visit_ReturnOp(AST* node, autoPtr ret)
 	return true;
 }
 
+bool ScriptC::Obj::SemanticAnalyzer::visit_YieldOp(AST* node, autoPtr ret)
+{
+	if (node->getNodeType() != AstNodeType::YieldOp) {
+		m_errHis->setErrInfo(node->getDebugInfo());
+		m_errHis->throwErr(EType::SemanticAnalyzer, "getNode need YieldOp");
+	}
+
+	YieldOp* assign = dynamic_cast<YieldOp*>(node);
+	if (m_symbol_table->getLevel() < 2)
+	{
+		m_errHis->setErrInfo(node->getDebugInfo());
+		m_errHis->throwErr(EType::SemanticAnalyzer, "Yield OutSide Function");
+		return true;
+	}
+
+	visit(assign->getExpr(), ret, this);
+	return true;
+}
+
+bool ScriptC::Obj::SemanticAnalyzer::visit_ResumeOp(AST* node, autoPtr ret)
+{
+	if (node->getNodeType() != AstNodeType::ResumeOp) {
+		m_errHis->setErrInfo(node->getDebugInfo());
+		m_errHis->throwErr(EType::SemanticAnalyzer, "getNode need ResumeOp");
+	}
+
+	ResumeOp* assign = dynamic_cast<ResumeOp*>(node);
+	visit(assign->getCoId(), ret, this);
+	visit(assign->getExpr(), ret, this);
+	return true;
+}
+
 bool ScriptC::Obj::SemanticAnalyzer::visit_FunDeclaration(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::FuncDelOp) {

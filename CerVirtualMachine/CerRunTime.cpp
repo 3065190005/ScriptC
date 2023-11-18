@@ -27,7 +27,14 @@ void ScriptC::Obj::CerRunTime::setVarMapValue(std::string name, auto_c element)
 		/*if (inter->second.getType() == LetObject::ObjT::array && inter->second.getAttribute() == 0) {
 			inter->second = (inter->second + element);
 		}else*/
-		inter->second = element;
+		/*
+		* 2023.11.19
+		* 修改 直接赋值 为 Swap函数
+		* Fixed: 当element或 inter->second 的指针为空指针时会报错
+		* 之后将会在用户层面进行保存处理
+		*/
+		LetTools tools;
+		tools.Swap(inter->second, element);
 	}
 
 }

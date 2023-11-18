@@ -16,14 +16,14 @@ Body	: InterfaceDeclaration
 
 
 // 文件包含
-FileInclude : KEY_INCLUDE LPARAM String_const RPARAM SEMI
+FileInclude : KEY_REQUIRE LPARAM String_const RPARAM SEMI
 
 // 接口定义
 InterfaceDeclaration	: KEY_INTERFACE InterfaceHeader  LBRACE (FunDeclaration | Assignment SEMI)* RBRACE
 
 
 // 接口头
-InterfaceHeader		: VAR_ID (Key_INHERITS VAR_ID)?
+InterfaceHeader		: VAR_ID (KEY_OVERRIDE VAR_ID)?
 
 
 // 函数定义
@@ -112,6 +112,7 @@ factor	: Integer_const
 		| Key_Null
 		| Key_Undef
 		| Function_Id
+		| Coroutine
 		| ArrayExpr
 		(indexExpr)?
 
@@ -122,6 +123,13 @@ Integer_const	: int
 
 // 函数元素
 Function_Id : VAR_ID LPARAM (expr (COMMA expr)*)* RPARAM (PlusLSS VAR_ID PlusGTR)
+
+// 协程语法
+Coroutine : CoYeild | CoResume
+
+CoYield : KEY_YIELD LPARAM expr RPARAM
+
+CoResume : KEY_RESUME LPARAM expr COMMA expr RPARAM
 
 
 // 数组元素

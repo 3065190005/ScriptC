@@ -1334,6 +1334,43 @@ bool ScriptC::Obj::CerInterpreter::visit_AssignOp(AST* node, autoPtr ret)
 	return true;
 }
 
+bool ScriptC::Obj::CerInterpreter::visit_YieldOp(AST* node, autoPtr ret)
+{
+	if (node->getNodeType() != AstNodeType::YieldOp) {
+		m_errHis->setErrInfo(node->getDebugInfo());
+		m_errHis->throwErr(EType::Interpreter, "getNode need YieldOp");
+	}
+
+	YieldOp* assign = dynamic_cast<YieldOp*>(node);
+	CodeParams param2;
+
+	visit(assign->getExpr(), ret, this);
+
+	CommandCode opear2(CodeType::Yield, param2);
+	m_errHis->setErrInfo(node->getDebugInfo());
+	PushCode(std::move(opear2));
+	return true;
+}
+
+bool ScriptC::Obj::CerInterpreter::visit_ResumeOp(AST* node, autoPtr ret)
+{
+	if (node->getNodeType() != AstNodeType::ResumeOp) {
+		m_errHis->setErrInfo(node->getDebugInfo());
+		m_errHis->throwErr(EType::Interpreter, "getNode need ResumeOp");
+	}
+
+	ResumeOp* assign = dynamic_cast<ResumeOp*>(node);
+	CodeParams param2;
+
+	visit(assign->getExpr(), ret, this);
+	visit(assign->getCoId(), ret, this);
+
+	CommandCode opear2(CodeType::Resume, param2);
+	m_errHis->setErrInfo(node->getDebugInfo());
+	PushCode(std::move(opear2));
+	return true;
+}
+
 bool ScriptC::Obj::CerInterpreter::visit_ReturnOp(AST* node, autoPtr ret)
 {
 	if (node->getNodeType() != AstNodeType::ReturnAst) {
@@ -1608,11 +1645,6 @@ void ScriptC::Obj::CerInterpreter::PushCode(CommandCode code)
 {
 	code.setDebugInfo(m_errHis->getErrorInfo());
 	m_vm_code.push_back(code);
-	//interlog(" - CommandCode(" + code.getCodeTypeStr());
-	//for (auto& i : *(code.getCodeParams())) {
-	//	interlog(" , " + i.first);
-	//}
-	//interlog(")\n\n");
 }
 
 AST::AstType ScriptC::Obj::CerInterpreter::analysExprOp(AST* node)

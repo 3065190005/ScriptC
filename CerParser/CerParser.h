@@ -56,6 +56,8 @@ namespace ScriptC {
 			AST* Function_Id();				// 获取函数节点
 			AST* ArrayExpression();			// 获取数组节点
 			AST* InterfaceExpression();		// 接口成员引用
+			AST* CoYieldExpression();		// 协程暂停函数
+			AST* CoResumeExpression();		// 协程恢复函数
 
 		public:
 			bool isExprBegin();

@@ -56,6 +56,8 @@ namespace ScriptC {
 			bool visit_InterExprOp(AST* node, autoPtr ret);		// 编译接口成员运算操作码
 			bool visit_AssignOp(AST* node, autoPtr ret);		// 编译生成赋值运算操作码
 			bool visit_ReturnOp(AST* node, autoPtr ret);		// 编译生成返回运算操作码
+			bool visit_YieldOp(AST* node, autoPtr ret);			// 编译生成协程挂起操作码
+			bool visit_ResumeOp(AST* node, autoPtr ret);		// 编译生成协程恢复操作码
 			bool visit_FunDeclaration(AST* node, autoPtr ret);	// 编译生成函数定义操作码
 			bool visit_FunctionHeader(AST* node, autoPtr ret);	// 编译生成函数声明操作码
 			bool visit_FunctionCall(AST* node, autoPtr ret);	// 编译生成函数调用操作码

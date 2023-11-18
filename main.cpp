@@ -19,7 +19,7 @@
 
 std::string G_TipsSymbol = "->: ";
 std::string G_consoleTxt =
-R"(ScriptC £¨Last Update : 2023.11.16 | LetObject : v9_6) [console mode]
+R"(ScriptC £¨Last Update : 2023.11.19 | LetObject : v9_7) [console mode]
 If you want to compile and run the code, type Enter twice.
 
 )";
@@ -226,18 +226,25 @@ void ProgramerCall() {
 void TestCodeCall() {
 
 	std::string input = 
-R"(//--- package
+R"(//--- debug
+	function sell(max):
+	let count = yield(max);
+	while(count >= 0):
+		count = count - 1;
+		yield(count);
+	end
+end
 
-require ("io");
-	require("direct");
+function buy(max):
+	let iter = sell(max);
+	let only_id = iter[0];
+	let count = iter[1];
+	while(count >= 0):
+		count = resume(only_id, count)[0];
+	end
+end
 
-	let io = new StdIo;
-	let dir = new StdDirect;
-
-	let run_path = "%D:\\";
-
-	let value = dir.rmdir(run_path + "example\\");
-	io.println(value);
+let person = buy(5);
 
 )";
 

@@ -224,6 +224,8 @@ namespace AutoMem {
 
 			void swap(LetObject&);
 
+			bool isRef(LetObject* value);
+
 		public:
 
 			ObjT getType();
@@ -243,7 +245,7 @@ namespace AutoMem {
 			ObjS m_objType = { ObjT::null,ObjG::none };	// 类型
 
 			std::unordered_map<numberT, BlockArray> m_num_array;					// 数字下标
-			std::unordered_map<std::string, BlockArray> m_str_array;			// 数组下标
+			std::unordered_map<std::string, BlockArray> m_str_array;				// 数组下标
 
 			friend class LetArrayMotion;
 		private:
@@ -279,11 +281,14 @@ namespace AutoMem {
 			};
 
 		public:
-			void print(auto_c& value);
-			void println(auto_c& value);
-			bool AutoCmp(std::pair<Operator,std::string> condition, auto_c& target);
-			void Swap(auto_c& value1, auto_c& value2);
+			void print(auto_c& value);													// 打印
+			void println(auto_c& value);												// 打印带回车
+			bool AutoCmp(std::pair<Operator,std::string> condition, auto_c& target);	// 属性对比
+			void Swap(auto_c& value1, auto_c& value2);		// 通过move 交换两个数值
+			bool IsRef(auto_c& ref_value, auto_c *value);	// 检测 ref_vlaue 是否引用 value
 		};
+
+		using ToolsCond = std::pair<LetTools::Operator, std::string>;
 
 #include "LetObject.tpp"
 

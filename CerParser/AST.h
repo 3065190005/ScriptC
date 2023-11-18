@@ -51,6 +51,8 @@ namespace ScriptC {
 				ContinueOp,				// 继续关键字
 				ForExpr,				// 继续关键字
 				IncludeFile,			// 导入源文件
+				YieldOp,				// 暂停协程关键字
+				ResumeOp,				// 恢复协程关键字
 			};
 
 		public:
@@ -514,6 +516,46 @@ namespace ScriptC {
 			CerTokClass m_func_tok;				// 保存函数tok
 
 		};
+
+
+		/********************
+		* YieldOp : public AST
+		* 协程暂停节点
+		*********************/
+
+		class YieldOp : public AST
+		{
+		public:
+			YieldOp(AST*);
+			~YieldOp();
+
+			AST* getExpr();
+
+		private:
+			AST* m_expr;
+		};
+
+
+
+		/********************
+		* ResumeOp : public AST
+		* 协程恢复节点
+		*********************/
+
+		class ResumeOp : public AST
+		{
+		public:
+			ResumeOp(AST*, AST*);
+			~ResumeOp();
+
+			AST* getExpr();
+			AST* getCoId();
+
+		private:
+			AST* m_co_id;
+			AST* m_expr;
+		};
+
 
 		/********************
 		* FuncDelOp : public AST

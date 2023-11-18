@@ -155,8 +155,17 @@ void ScriptC::Obj::CerVm::Command()
 	case CommandCode::CommandCodeType::Swap:
 		VmSwap();
 		break;
-	default:
+	case CommandCode::CommandCodeType::Yield:
+		VmYield();
 		break;
+	case CommandCode::CommandCodeType::Resume:
+		VmResume();
+		break;
+	default:
+	{
+		auto errHis = ErrorHandling::getInstance();
+		errHis->throwErr(EType::Vm, "Unknown bytecode \n Please Check C++ Code");
+	}
 	}
 }
 
@@ -282,15 +291,21 @@ void ScriptC::Obj::CerVm::VmCall()
 	takeEat(CommandCode::CommandCodeType::Call);
 
 	std::stringstream ss;
-	auto_c this_var;
-	std::string this_name;
-	auto_c func = (*cmd.getCodeParams())["param1"];
-	auto_c paramSize = (*cmd.getCodeParams())["param2"];
-	std::string funcName,src_func_name;
+	auto_c this_var;			// this 变量代码指针
+	std::string this_name;		// 手动传参的this名
+	auto_c func = (*cmd.getCodeParams())["param1"];		// 将要调用的函数全名
+	auto_c paramSize = (*cmd.getCodeParams())["param2"];	// 将要调用的函数参数值
+	std::string funcName,src_func_name;			// 函数名和函数原始名
 	func >> funcName;
+
+	// 是否手动进行this 绑定检测
+	bool is_this_bind = (*cmd.getCodeParams()).find("param3") != (*cmd.getCodeParams()).end();
+
+	// 是否进行反序
 	bool is_reverse = false;
 	is_reverse = cmd.getCodeParams()->find("param6") != cmd.getCodeParams()->end();
 
+	// 是否为左值最后一位
 	bool is_left_last = false;
 	is_left_last = cmd.getCodeParams()->find("param5") != cmd.getCodeParams()->end();
 
@@ -401,11 +416,19 @@ void ScriptC::Obj::CerVm::VmCall()
 		/* 
 		* 2023.10.17
 		* 通过(u)的函数将不在直接回收，之后会在Leave返回值之前进行删除 _init 除外
+		* 2023.11.18
+		* fixed 修复普通函数会绑定栈最近一个栈内容的bug
+		* 当只有在进行接口方法调用时 且 没有手动绑定this 则会进行默认绑定
 		*/
 
 		// dataSf->pop_back();
-		auto del_nature = dataSf->back().getSelfAttribute();
-		dataSf->back().setAttribute(del_nature | 16);
+		if (!is_this_bind)
+		{
+			auto del_nature = dataSf->back().getSelfAttribute();
+			dataSf->back().setAttribute(del_nature | 16);
+
+			LetObject::reference(&this_var, &dataSf->back());
+		}
 	}
 
 	/*
@@ -413,15 +436,11 @@ void ScriptC::Obj::CerVm::VmCall()
 	* 默认不在需要手动传入this参数
 	* 手动更换this指针
 	*/
-	if ((*cmd.getCodeParams()).find("param3") != (*cmd.getCodeParams()).end()) {
+	if (is_this_bind) {
 		this_var = (*cmd.getCodeParams())["param3"];
 		this_var >> this_name;
 		LetObject::reference(&this_var, m_stacks.getVarMapValuePtr(this_name, true));
 
-	}
-	else
-	{
-		LetObject::reference(&this_var, &dataSf->back());
 	}
 
 	/*
@@ -467,7 +486,6 @@ void ScriptC::Obj::CerVm::VmCall()
 	sf = m_stacks.GetLastSF();
 	runT = sf->getRunTime();
 	dataSf = sf->getDataStack();
-
 
 	runT->setVarMapValue("this", std::move(this_var));
 
@@ -545,6 +563,8 @@ void ScriptC::Obj::CerVm::VmLeave()
 		dataSf->pop_front();
 		m_command_codes_index = retPtr;
 	}
+
+	auto_c this_ptr = runT->getVarMapValue("this");
 
 	if (popStack) {
 		CodePopNewSf();
@@ -959,6 +979,194 @@ void ScriptC::Obj::CerVm::VmInc()
 	m_command_codes_index = jumperEip;
 	advance();
 	dataSf->insert(dataSf->begin(), std::move(resEipDatas));
+}
+
+void ScriptC::Obj::CerVm::VmYield()
+{
+	/*
+	* Yield: 挂起当前最近的栈
+	*/
+
+	SFPtr sf = m_stacks.GetLastSF();
+	auto runT = sf->getRunTime();
+	auto dataSf = sf->getDataStack();
+
+	std::string frameName = sf->getStackFrameName();
+
+	auto_c retVal;
+	bool haveRetVal = true;
+	auto cmd = m_current_cmd_code;
+	takeEat(CommandCode::CommandCodeType::Yield);
+
+	/*
+	* 指针内容不再进行拷贝转换
+	*/
+
+	if (dataSf->back().getSelfAttribute() & (nature)AutoMem::Obj::NatureType::ptr)
+		auto_c::reference(&retVal, &dataSf->back());
+	else
+		retVal = dataSf->back();
+	dataSf->pop_back();
+
+	// yield 会保存所有内部的if for while 栈
+	numberT only_id = m_stacks.GetOnlyId();
+	numberT cmmand_index = m_command_codes_index - 1;
+	while (m_stacks.GetLastSF()->getStackFrameName()[0] == '~')
+	{
+		/* 保存 if for while 栈 */
+		m_stacks.SaveLastSF(only_id, cmmand_index);
+	}
+
+	sf = m_stacks.GetLastSF();
+	runT = sf->getRunTime();
+	dataSf = sf->getDataStack();
+
+	auto_c retSip;
+	retSip = *dataSf->begin();
+
+	/* 保存 当前函数栈 */
+	m_stacks.SaveLastSF(only_id, cmmand_index);
+
+	sf = m_stacks.GetLastSF();
+	runT = sf->getRunTime();
+	dataSf = sf->getDataStack();
+
+	numberT retPtr = 0;
+	if (retSip.getType() != LetObject::ObjT::string) {
+		numberT fileAddress = (getBaseAddress() - 1);
+		retSip >> retPtr;
+		m_command_codes_index = fileAddress + retPtr;
+	}
+	else {
+		std::string sipV;
+		retSip >> sipV;
+		auto retV = kstring::stringSplit(sipV, ';');
+		retPtr = kstring::stringTo<numberT>(retV[1]);
+		std::string filename = retV[0];
+		setBaseAddress(filename);
+
+		//dataSf->pop_front();
+
+		m_command_codes_index = retPtr;
+	}
+
+	advance();
+
+	/*
+	* 2023.11.18
+	* 保存父栈的this指针引用
+	*/
+	if (!dataSf->empty())
+	{
+		if ((dataSf->back().getSelfAttribute() & 16) != 0)
+		{
+			auto_c this_ref{ dataSf->back() };
+			m_stacks.SetBkStackThisRef(only_id, std::move(this_ref));
+			dataSf->pop_back();
+		}
+	}
+
+	/*
+	* 析构函数和构造函数禁止调用 yield
+	*/
+	if (frameName.find(":") != frameName.npos)
+	{
+		frameName = frameName.substr(frameName.find(":") + 1);
+
+		if (frameName == SPECIAL_FUNC_GC || frameName == SPECIAL_FUNC_INIT)
+		{
+			auto errHis = ErrorHandling::getInstance();
+			errHis->throwErr(EType::Vm, frameName + "prohibits calling yield");
+		}
+	}
+
+	auto_c yield_ret;
+	yield_ret[0] << only_id;
+	yield_ret[1] = retVal;
+
+	dataSf->emplace_back(yield_ret);
+}
+
+void ScriptC::Obj::CerVm::VmResume()
+{
+	/*
+	* Resume: 恢复指定的栈
+	*/
+
+	SFPtr sf = m_stacks.GetLastSF();
+	auto runT = sf->getRunTime();
+	auto dataSf = sf->getDataStack();
+	takeEat(CommandCode::CommandCodeType::Resume);
+
+	auto_c auto_resume_ret = dataSf->back();
+	dataSf->pop_back();
+
+	auto_c auto_only_id = dataSf->back();
+	dataSf->pop_back();
+
+	numberT only_id;
+	auto_only_id >> only_id;
+
+	/* 检测传输的only id 是否存在*/
+	if (!m_stacks.HasOnlyId(only_id))
+	{
+		auto errHis = ErrorHandling::getInstance();
+		errHis->throwErr(EType::Vm, "Invalid Yield numeric id");
+		return;
+	}
+
+	numberT command_eip = m_command_codes_index;
+	numberT resume_eip = 0;
+
+	/* 恢复栈,并发送内容 */
+	while ((resume_eip = m_stacks.LoadSfOnce(only_id)) > -1)
+	{
+		SFPtr sf = m_stacks.GetLastSF();
+		auto runT = sf->getRunTime();
+		auto dataSf = sf->getDataStack();
+
+		bool has_this = false;
+		
+		/* 跳转当前eip */
+		m_command_codes_index = resume_eip;
+
+		if (m_stacks.GetLastSF()->getStackFrameName()[0] == '~')
+			continue;
+
+		/* 重置栈的return eip */
+		auto retSip = *dataSf->begin();
+
+		if (retSip.getType() != LetObject::ObjT::string) {
+			numberT fileAddress = (getBaseAddress() - 1);
+			*dataSf->begin() << command_eip - fileAddress - 1;
+		}
+
+
+
+		/* 恢复栈的this指针 */
+		SFPtr parent_sf = sf;
+		parent_sf--;
+		auto parent_data = parent_sf->getDataStack();
+
+		if (parent_data->empty())
+			continue;
+
+		auto del_nature = parent_data->back().getSelfAttribute();
+		if ((del_nature & 16) != 0)
+		{
+			auto_c this_var;
+			LetObject::reference(&this_var, &parent_data->back());
+			runT->setVarMapValue("this", std::move(this_var));
+		}
+	}
+
+	/* 发送内容 */
+	sf = m_stacks.GetLastSF();
+	runT = sf->getRunTime();
+	dataSf = sf->getDataStack();
+	dataSf->emplace_back(std::move(auto_resume_ret));
+
+	advance();
 }
 
 auto_c ScriptC::Obj::CerVm::VmPop()
@@ -1761,16 +1969,46 @@ ScriptC::Obj::CerVm::VectorStr ScriptC::Obj::CerVm::isCallGc()
 	return ret;
 }
 
+ScriptC::Obj::CerVm::VectorStr ScriptC::Obj::CerVm::isCallGc(SFPtr sf)
+{
+	auto runT = sf->getRunTime();
+	auto dataSf = sf->getDataStack();
+
+	VectorStr ret;
+
+	auto var_list = runT->getVarMap();
+	for (auto it = var_list->begin(); it != var_list->end(); it++)
+	{
+		if (it->first != "this")
+		{
+			if (it->second.getAttribute() == (int)NatureType::cls)
+			{
+				bool auto_gc_called;
+				it->second[CLASS_AUTO_GC_CALL] >> auto_gc_called;
+				if (auto_gc_called == true)
+					ret.push_back(it->first);
+
+			}
+		}
+	}
+
+	return ret;
+}
+
 ScriptC::Obj::CerVm::VectorStr ScriptC::Obj::CerVm::isCallGcR()
 {
 	SFPtr sf = m_stacks.GetLastSF();
-	VectorStr ret = isCallGc();
+	VectorStr ret;
 
-	if (sf->getStackFrameName()[0] == '~' && ret.empty())
+	while (sf->getStackFrameName()[0] == '~')
 	{
-		CodePopNewSf();
-		return isCallGcR();
-	}
+		sf--;
+		VectorStr vec = isCallGc(sf);
+		ret.insert(ret.begin(), vec.begin(), vec.end());
+	} 
+
+	VectorStr vec = isCallGc(sf);
+	ret.insert(ret.begin(), vec.begin(), vec.end());
 
 	return ret;
 }
@@ -1809,20 +2047,43 @@ bool ScriptC::Obj::CerVm::GcCallBack()
 
 		// 获取变量指针
 		auto_c var;
-		var = runT->getVarMapValue(var_name);
+
+
+		/*
+		* 2023.11.19
+		* return 跳出多余栈
+		* Fixed: 修复 Gc删除的栈会影响if内部return返回值的问题
+		*/
+		while (true && sf != m_stacks.GetBaseSF())
+		{
+			bool gc_call = false;
+			runT = sf->getRunTime();
+			dataSf = sf->getDataStack();
+
+			var = runT->getVarMapValue(var_name);
+			var[CLASS_AUTO_GC_CALL] >> gc_call;
+
+			if (!gc_call)
+			{
+				sf--;
+				continue;
+			}
+
+			// 清除变量标志
+			auto var_map = runT->getVarMap();
+			if (var_map != nullptr)
+			{
+				auto iter = var_map->find(var_name);
+				iter->second[CLASS_AUTO_GC_CALL] << false;
+			}
+			break;
+		}
+		
 
 		// 获取析构函数名
 		std::string className = LetObject::cast<std::string>(var[CLASS_NAME]);
 		std::string gcName = SPECIAL_FUNC_GC;
 		func_name = findClassFunc(className, gcName);
-
-		// 清除变量标志
-		auto var_map = runT->getVarMap();
-		if (var_map != nullptr)
-		{
-			auto iter = var_map->find(var_name);
-			iter->second[CLASS_AUTO_GC_CALL] << false;
-		}
 
 		// 未找到相关析构函数
 		auto func_des = m_stacks.getFuncMapAddress(func_name);
@@ -1908,4 +2169,9 @@ void ScriptC::Obj::CerVm::setBaseAddress(std::string str)
 size_t ScriptC::Obj::CerVm::getBaseAddress()
 {
 	return m_CodeBaseAddress[m_BaseAddress];
+}
+
+std::string ScriptC::Obj::CerVm::getBaseName()
+{
+	return m_BaseAddress;
 }

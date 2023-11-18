@@ -1,4 +1,5 @@
 
+
 # ScriptC
 
 ## 基础介绍
@@ -68,7 +69,7 @@ myname50     _temp     Jsbd       a23b9        retVal
 
 ### 关键字
 
-ScriptC一共有21个关键字
+ScriptC一共有23个关键字
 
 |  	 	   |       |           |        |         |
 | -------- | ----- | :-------: | ---- | ------- |
@@ -76,7 +77,7 @@ ScriptC一共有21个关键字
 | elif     | end   |   false   | for  | true    |
 | function | if    |    in     | let  | while   |
 | null     | undef | interface | new  | require |
-| override     |  |  |   |  |
+| override     | yield | resume |   |  |
 
 
 ### 特殊变量
@@ -615,8 +616,105 @@ value1.setNumber(0);		// value1.number = 0;
 **当未手动绑定则会默认将this与调用变量进行绑定**
 
 
-## 头文件
+## 协程
+通过使用yield和resume可以实现函数之间的切换
 
+### yield关键字
+```sc
+yield(expr)
+```
++  expr 任意合法表达式
+
+yield关键字可以用来暂停当前函数执行并获取一个值，其中参数expr为任意表达式
+当调用yield关键字会返回一个数组，其中元素[0]为返回的协程id，元素[1]为expr表达式的值
+```sc
+	// require ...
+	
+	function func(str):
+		yield(str + " yield");
+		return null;
+	end
+	
+	let var = func("Hello World");
+	io.println(var); // var = [0:<number>, 1:"Hello World yield"]
+```
+
+### resume关键字
+```sc
+	resume(id, expr)
+```
++ id 要恢复的协程id
++ expr 任意合法表达式
+
+resume 关键字可以用来恢复一个被暂停的函数并发送一个值，其中id为yield关键字返回协程id，expr为任意合法表达式
+
+```sc
+	//require ...
+	function func(str):
+		io.println(str);
+		str = yield("Yield Str");
+		io.println(str);
+		return "Return Str";
+	end
+	
+	let coroutine = func("Hello World");
+	io.println(coroutine[1]);
+	let resume_str = resume(coroutine[0], "Resume Str");
+	io.println(resume_str);
+```
+
+输出如下
+```sc
+Hello World
+Yield Str
+Resume Str
+Return Str
+```
+
+### 简单的协程使用示例
+```sc
+require("io");
+let io = new StdIo;	
+
+function sell(max):
+	let count = yield(max);
+	while(count > 0):
+		io.println("Sell : " + count);
+		count = yield(count);
+	end
+end
+
+function buy(max):
+	let count = sell(max);
+	while(count[1] > 0):
+		count = resume(count[0], count[1]);
+		io.println("Buy : " + count[1]);
+		count[1] = count[1] - 1;
+	end
+end
+let person = buy(5);
+```
+下面是输出结果
+```sc
+Sell : 5
+Buy : 5
+Sell : 4
+Buy : 4
+Sell : 3
+Buy : 3
+Sell : 2
+Buy : 2
+Sell : 1
+Buy : 1
+```
+
+
+### 注意事项
+yield的使用和return基本一直，不可在部分函数中使用 如：特殊函数init或gc
+yield必须在函数内部使用
+
+
+## 头文件
 ### 引用头文件的语法  
 ```sc 
 require (file_string);

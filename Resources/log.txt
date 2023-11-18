@@ -397,3 +397,19 @@
 	库更新：
 	添加Direct库
 	拆分标准库system文件，为每个库提供单独的system文件
+
+2023.11.19
+	代码修改：
+	LetTools添加方法 isRef 检测引用与目标是否关联
+	添加YieldOp与ResumeOp节点和解析方法
+	修改Enum Key_Include和Key_Inherits - > Key_Require, Key_Override
+	对CFG的factor添加新的语法 Coroutine
+	CerRunTime::setVarMapValue 对已存在的函数将使用Tools::Swap
+	对于每个 CerStackFrame 添加自己的onlyId，调用Resume时通过onlyId 进行恢复
+	isCallGcR 将不在释放临时栈，同一由Leave释放
+	修复普通函数会自动绑定栈最近一个栈内容的bug
+	修复 临时栈进行return值时会被isCallGcR释放掉的问题
+	
+	语法修改:
+	新的协程语法 yield和resume,使用方法查看Script.md
+	+ LetTools::isRef(ptr, var) 检测ptr的引用目标是否为变量var

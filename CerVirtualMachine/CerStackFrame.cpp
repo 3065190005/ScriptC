@@ -5,9 +5,10 @@
 #include "CerStackFrame.h"
 using namespace ScriptC::Obj;
 
-ScriptC::Obj::CerStackFrame::CerStackFrame(std::string name)
+ScriptC::Obj::CerStackFrame::CerStackFrame(std::string name, numberT id)
 {
 	m_stackFrame_name = name;
+	m_frame_id = id;
 }
 
 CerCalcStack* ScriptC::Obj::CerStackFrame::getCalcStack()
@@ -28,4 +29,9 @@ CerRunTime* ScriptC::Obj::CerStackFrame::getRunTime()
 std::string ScriptC::Obj::CerStackFrame::getStackFrameName()
 {
 	return m_stackFrame_name;
+}
+
+numberT ScriptC::Obj::CerStackFrame::getStackFrameId()
+{
+	return m_frame_id;
 }

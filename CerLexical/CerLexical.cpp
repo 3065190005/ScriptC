@@ -119,8 +119,10 @@ std::string ScriptC::Obj::CerTokClass::getTypeName()
 	case (int)TokType::Key_For:return "Key_For";
 	case (int)TokType::Key_In:return "Key_In";
 	case (int)TokType::Key_Export:return "Key_Export";
-	case (int)TokType::Key_InClude:return "Key_Require";
-	case (int)TokType::Key_Inherits:return "Key_Inherits";
+	case (int)TokType::Key_Require:return "Key_Require";
+	case (int)TokType::Key_Override:return "Key_Override";
+	case (int)TokType::Key_Yield:return "Key_Yield";
+	case (int)TokType::Key_Resume:return "Key_Resume";
 
 	case (int)TokType::Eof:return "Eof";
 	default:

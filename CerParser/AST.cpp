@@ -827,6 +827,75 @@ std::string ScriptC::Obj::FuncCall::getthisName()
 }
 
 
+/********************
+* YieldOp : public AST
+* 协程暂停节点
+*********************/
+
+ScriptC::Obj::YieldOp::YieldOp(AST* expr)
+{
+	m_expr = expr;
+	m_ast_type = AST::AstType::YieldOp;
+}
+
+ScriptC::Obj::YieldOp::~YieldOp()
+{
+	if (m_expr)
+	{
+		delete m_expr;
+		m_expr = nullptr;
+	}
+
+	astlog("\n~YieldOp");
+}
+
+AST* ScriptC::Obj::YieldOp::getExpr()
+{
+	return m_expr;
+}
+
+
+/********************
+* ResumeOp : public AST
+* 协程恢复节点
+*********************/
+
+ScriptC::Obj::ResumeOp::ResumeOp(AST* co_id, AST* expr)
+{
+	m_co_id = co_id;
+	m_expr = expr;
+	m_ast_type = AST::AstType::ResumeOp;
+}
+
+ScriptC::Obj::ResumeOp::~ResumeOp()
+{
+	if (m_co_id)
+	{
+		delete m_co_id;
+		m_co_id = nullptr;
+	}
+
+	if (m_expr)
+	{
+		delete m_expr;
+		m_expr = nullptr;
+	}
+
+	astlog("\n~ResumeOp");
+}
+
+AST* ScriptC::Obj::ResumeOp::getExpr()
+{
+	return m_expr;
+}
+
+AST* ScriptC::Obj::ResumeOp::getCoId()
+{
+	return m_co_id;
+}
+
+
+
 
 /********************
 * FuncDelOp : public AST
@@ -961,5 +1030,4 @@ CerTokClass ScriptC::Obj::InterfaceHeaderOp::getParent()
 {
 	return m_parent;
 }
-
 

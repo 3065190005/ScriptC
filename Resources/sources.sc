@@ -140,4 +140,100 @@ init_cls.numbert = "numberT value";
 
 // ’‚ «◊¢ Õ
 io.println("program over");
+
+
+io.println("\n\n --- function Yield Test --- \n");
+
+function yieldFunc(param):
+	io.println("yieldFunc " + param);
+	param = yield(param + " yield");
+	io.println(param);
+	return param + " return";
+end
+
+let yield_value = yieldFunc("This is Param");
+io.println(yield_value[1]);
+yield_value = resume(yield_value[0], yield_value[1] + " resume");
+io.println(yield_value);
+
+
+io.println("\n\n --- function Yield this Test --- \n");
+
+function yieldFuncThis():
+	io.println("yieldFuncThis " + this);
+	this = "yieldFuncThis" + this;
+	this = yield(this + " yield");
+	io.println(this);
+	return this + " return";
+end
+
+let this_value = "This is this Value";
+let yield_value_this = yieldFuncThis()<this_value>;
+io.println(yield_value_this[1]);
+this_value = resume(yield_value_this[0], yield_value_this[1] + " resume");
+io.println(this_value);
+
+
+io.println("\n\n --- interface Yield Test --- \n");
+interface YieldClass{
+	let str = "Default";
+	let child = "Child";
+	function yieldFunc():
+		let value = "yeildFunc call";
+		this.str = this.str + " Yield";
+
+		io.println(value);
+		io.println(this.str);
+
+		value = yield(value + " Yield");
+
+		io.println(value);
+		io.println(this.str);
+
+		return value + " Return";
+	end
+}
+
+let yield_cls = new YieldClass;
+let value = yield_cls.yieldFunc();
+io.println(value[1]);
+io.println(yield_cls.str);
+
+yield_cls.str = yield_cls.str + " Resume";
+value = resume(value[0], value[1] + "Resume");
+
+io.println(value);
+
+io.println("\n\n --- Right interface Yield Test --- \n");
+function getRight():
+	return new YieldClass;
+end
+
+value = getRight().yieldFunc();
+io.println(value[1]);
+value = resume(value[0], value[1] + "Resume");
+io.println(value);
+
+io.println("\n\n --- Yield Sell Buy Apples --- \n");
+
+function sell(max):
+	let count = yield(max);
+	while(count >= 0):
+		io.println("Sell Apple: " + count);
+		count = yield(count);
+	end
+end
+
+function buy(max):
+	let count = sell(max);
+	while(count[1] >= 0):
+		count = resume(count[0], count[1]);
+		io.println("Buy Apple: " + count[1]);
+		count[1] = count[1] - 1;
+	end
+end
+
+let person = buy(5);
+
+
 return forResu;

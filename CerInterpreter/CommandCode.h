@@ -59,6 +59,9 @@ namespace ScriptC {
 				Call,		// 执行函数
 				Leave,		// 退出函数
 
+				Yield,		// 挂起栈
+				Resume,		// 恢复栈
+
 				Jmp,		// 跳转
 				PushS,		// 推送新栈
 				PopS,		// 销毁最近栈

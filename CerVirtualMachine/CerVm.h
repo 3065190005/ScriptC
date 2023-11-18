@@ -40,6 +40,8 @@ namespace ScriptC {
 			void VmPopS();
 			void VmLens();
 			void VmInc();
+			void VmYield();
+			void VmResume();
 			auto_c VmPop();
 			auto_c VmAdd();
 			auto_c VmSub();
@@ -83,6 +85,7 @@ namespace ScriptC {
 
 		private:
 			VectorStr isCallGc();		// 返回当前栈的所有 接口变量名 (不包含this)
+			VectorStr isCallGc(SFPtr);	// 返回当前栈的所有 接口变量名 (不包含this)
 			VectorStr isCallGcR();		// 返回当前栈所涵盖的所有 接口变量名 (不包含this)
 			bool GcCallBack();			// 是否调用接口的析构函数
 			std::string findClassFunc(std::string className, std::string funcName);// 递归获取类的函数名
@@ -97,6 +100,7 @@ namespace ScriptC {
 
 			void setBaseAddress(std::string str);
 			size_t getBaseAddress();
+			std::string getBaseName();
 
 		private: 
 			bool m_isinit;								// 是否初始化
@@ -104,7 +108,7 @@ namespace ScriptC {
 			CommandCode m_current_cmd_code;				// 当前code
 			size_t m_command_codes_index;				// 下一个code下标
 			CerStackSystem m_stacks;					// 栈系统
-			std::string m_BaseAddress;
+			std::string m_BaseAddress;					// 基地址
 		};
 	}
 }

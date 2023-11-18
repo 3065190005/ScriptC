@@ -324,6 +324,7 @@ copy /Y .\x64\Package\ScriptC.exe .\Package\</Command>
     <None Include="Resources\example\timeTest.sc" />
     <None Include="Resources\example\typeTest.sc" />
     <None Include="Resources\example\windowTest.sc" />
+    <None Include="Resources\example\yield_file.sc" />
     <None Include="Resources\libs\config.cfg" />
     <None Include="Resources\libs\std_array.dll" />
     <None Include="Resources\libs\std_io.dll" />

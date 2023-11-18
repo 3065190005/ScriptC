@@ -98,11 +98,18 @@ bool ScriptC::Obj::NodeVisitor::visit(AST* node,  autoPtr ret,CerInterpreter* in
 	case AstNodeType::ReturnAst:
 		interpreter->visit_ReturnOp(node, ret);
 		break;
+	case AstNodeType::YieldOp:
+		interpreter->visit_YieldOp(node, ret);
+		break;
+	case AstNodeType::ResumeOp:
+		interpreter->visit_ResumeOp(node, ret);
+		break;
 	case AstNodeType::EmptyAst:
 		interpreter->visit_Empty(node, ret);
 		break;
 	default:
-		break;
+		m_errHis->setErrInfo(node->getDebugInfo());
+		m_errHis->throwErr(EType::Interpreter, "Unknown AST node");
 	}
 
 	if (!ret || ret->getType() == LetObject::ObjT::null) {
@@ -195,7 +202,15 @@ bool ScriptC::Obj::NodeVisitor::visit(AST* node, autoPtr ret, SemanticAnalyzer* 
 	case AstNodeType::EmptyAst:
 		semantic->visit_Empty(node, ret);
 		break;
+	case AstNodeType::YieldOp:
+		semantic->visit_YieldOp(node, ret);
+		break;
+	case AstNodeType::ResumeOp:
+		semantic->visit_ResumeOp(node, ret);
+		break;
 	default:
+		m_errHis->setErrInfo(node->getDebugInfo());
+		m_errHis->throwErr(EType::SemanticAnalyzer, "Unknown AST node");
 		break;
 	}
 

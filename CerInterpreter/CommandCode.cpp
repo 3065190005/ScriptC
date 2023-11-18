@@ -72,6 +72,12 @@ std::string ScriptC::Obj::CommandCode::getCodeTypeStr()
 	case ScriptC::Obj::CommandCode::CommandCodeType::Leave:
 		ret = "Leave";
 		break;
+	case ScriptC::Obj::CommandCode::CommandCodeType::Yield:
+		ret = "Yield";
+		break;
+	case ScriptC::Obj::CommandCode::CommandCodeType::Resume:
+		ret = "Resume";
+		break;
 	case ScriptC::Obj::CommandCode::CommandCodeType::UnaryAdd:
 		ret = "UnaryAdd";
 		break;

@@ -294,7 +294,7 @@ PopS (~while
 // 导入文件
 require ("abc");
 
-KEY_InClude String_const SEMI
+KEY_REQUIRE String_const SEMI
 
 // main.cer
 inc abc

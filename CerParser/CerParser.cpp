@@ -600,6 +600,7 @@ AST* ScriptC::Obj::CerParser::factor()
 	*			| Key_False
 	*			| Key_Null
 	*			| Key_Undef
+	*			| Coroutine
 	*			(indexExpr)?
 	*/
 
@@ -669,6 +670,14 @@ AST* ScriptC::Obj::CerParser::factor()
 		result = new Num(tok);
 		takeEat(CerTokType::Key_Undef);
 		return result;
+	}
+	else if (tok_type == CerTokType::Key_Yield)
+	{
+		result = CoYieldExpression();
+	}
+	else if (tok_type == CerTokType::Key_Resume)
+	{
+		result = CoResumeExpression();
 	}
 	else if (tok_type == CerTokType::LBRACKET) {
 		result = ArrayExpression();
@@ -758,7 +767,7 @@ AST* ScriptC::Obj::CerParser::Body()
 			continue;
 		}
 
-		if (tok.getType() == CerTokType::Key_InClude) {
+		if (tok.getType() == CerTokType::Key_Require) {
 			ast = FileInclude();
 			vec.push_back(ast);
 			continue;
@@ -995,7 +1004,7 @@ AST* ScriptC::Obj::CerParser::InterfaceDeclaration()
 
 AST* ScriptC::Obj::CerParser::InterfaceHeader() {
 	/*
-	* InterfaceHeader	: VAR_ID (Key_INHERITS VAR_ID)?
+	* InterfaceHeader	: VAR_ID (KEY_OVERRIDE VAR_ID)?
 	*/
 
 	AST* ast = nullptr;
@@ -1005,9 +1014,9 @@ AST* ScriptC::Obj::CerParser::InterfaceHeader() {
 	name = tok.getCstr();
 	
 	tok = m_lexical->getCurrentToken();
-	if (tok.getType() == CerTokType::Key_Inherits)
+	if (tok.getType() == CerTokType::Key_Override)
 	{
-		takeEat(CerTokType::Key_Inherits);
+		takeEat(CerTokType::Key_Override);
 		auto tok = m_lexical->getCurrentToken();
 		takeEat(CerTokType::Var_Id);
 		parent = tok.getCstr();
@@ -1182,6 +1191,39 @@ AST* ScriptC::Obj::CerParser::InterfaceExpression()
 	return new InterExprOp(result);
 }
 
+AST* ScriptC::Obj::CerParser::CoYieldExpression()
+{
+	/*
+	* CoYield : 
+	*	KEY_YIELD LPARAM expr RPARAM
+	*/
+	takeEat(CerTokType::Key_Yield);
+	takeEat(CerTokType::LPARAM);
+	AST* _expr = expr();
+	takeEat(CerTokType::RPARAM);
+
+	astlog(" - YieldOpAst(expr) \n\n");
+
+	return new YieldOp(_expr);
+}
+
+AST* ScriptC::Obj::CerParser::CoResumeExpression()
+{
+	/*
+	* CoResume : 
+	*	KEY_RESUME LPARAM expr COMMA expr RPARAM
+	*/
+	
+	takeEat(CerTokType::Key_Resume);
+	takeEat(CerTokType::LPARAM);
+	AST* _expr = expr();
+	takeEat(CerTokType::COMMA);
+	AST* _co_id = expr();
+	takeEat(CerTokType::RPARAM);
+	astlog(" - ResumeOpAst(expr, expr) \n\n");
+	return new ResumeOp(_co_id, _expr);
+}
+
 bool ScriptC::Obj::CerParser::isExprBegin()
 {
 	auto tok = m_lexical->getCurrentToken();
@@ -1196,7 +1238,9 @@ bool ScriptC::Obj::CerParser::isExprBegin()
 		tok.getType() == CerTokType::Key_Undef ||
 		tok.getType() == CerTokType::Key_New ||
 		tok.getType() == CerTokType::Key_Break||
-		tok.getType() == CerTokType::Key_Continue)
+		tok.getType() == CerTokType::Key_Continue ||
+		tok.getType() == CerTokType::Key_Yield || 
+		tok.getType() == CerTokType::Key_Resume)
 	{
 		// expr	1 ... | 2.2....
 		return true;
@@ -1214,7 +1258,7 @@ bool ScriptC::Obj::CerParser::isExprBegin()
 	else if (tok.getType() == CerTokType::Var_Id && 
 		peek_tok.getType() != CerTokType::PlusAssign)
 	{
-		// expr var + .... | var - ....
+		// expr var + .... | var - .... | var...
 		return true;
 	}
 	else if (tok.getType() == CerTokType::Var_Id &&
@@ -1334,7 +1378,7 @@ AST* ScriptC::Obj::CerParser::ReturnExpr()
 AST* ScriptC::Obj::CerParser::FileInclude()
 {
 	/*
-	*	FileInclude: KEY_INCLUDE LPARAM String_const RPARAM SEMI
+	*	FileInclude: KEY_REQUIRE LPARAM String_const RPARAM SEMI
 	*/
 
 	/*
@@ -1343,7 +1387,7 @@ AST* ScriptC::Obj::CerParser::FileInclude()
 	*/
 
 	IncludeFile* include_file = nullptr;
-	takeEat(CerTokType::Key_InClude);
+	takeEat(CerTokType::Key_Require);
 	takeEat(CerTokType::LPARAM);
 	auto tok = this->m_lexical->getCurrentToken();
 	include_file = new IncludeFile(tok);

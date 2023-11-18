@@ -16,14 +16,26 @@ SFPtr ScriptC::Obj::CerStackSystem::GetLastSF()
 	return ret;
 }
 
+SFPtr ScriptC::Obj::CerStackSystem::GetLastFuncSf()
+{
+	auto riter = m_stacks.rbegin();
+	if (riter->getStackFrameName()[0] != '~')
+		return riter.base();
+	else
+		riter++;
+
+	return riter.base();
+}
+
 SFPtr ScriptC::Obj::CerStackSystem::PushNewSF(std::string name)
 {
-	m_stacks.emplace_back(CerStackFrame(name));
+	m_stacks.emplace_back(CerStackFrame(name, GetOnlyId()));
 	return GetLastSF();
 }
 
 SFPtr ScriptC::Obj::CerStackSystem::PopNewSF()
 {
+	ClearOnlyId(m_stacks.rbegin()->getStackFrameId());
 	m_stacks.pop_back();
 	return GetLastSF();
 }
@@ -32,6 +44,105 @@ SFPtr ScriptC::Obj::CerStackSystem::GetBaseSF()
 {
 	SFPtr ret = m_stacks.begin();
 	return ret;
+}
+
+bool ScriptC::Obj::CerStackSystem::SaveLastSF(numberT id, numberT eip)
+{
+	auto back_element = m_stacks.back();
+	m_stacks.pop_back();
+
+	m_bakcup_stacks[id].emplace_back(std::move(back_element));
+	m_bk_stack_eip[id].emplace_back(eip);
+	return true;
+}
+
+numberT ScriptC::Obj::CerStackSystem::LoadSfOnce(numberT id)
+{
+	auto finder = m_bakcup_stacks.find(id);
+	if (finder == m_bakcup_stacks.end())
+		return -2;
+
+	/* »Ö¸´¸¸Õ»µÄthis ±¾Ìå */
+	auto this_finder = m_bk_stack_this_ref.find(id);
+	if (this_finder != m_bk_stack_this_ref.end())
+	{
+		if (GetLastSF()->getStackFrameName()[0] != '~')
+		{
+			GetLastSF()->getDataStack()->emplace_back(std::move(this_finder->second));
+			m_bk_stack_this_ref.erase(id);
+		}
+	}
+
+	/* »Ö¸´Õ» */
+	m_stacks.emplace_back(finder->second.back());
+	finder->second.pop_back();
+
+	if (finder->second.empty())
+	{
+		m_bakcup_stacks.erase(id);
+	}
+
+	/* »Ö¸´Õ»µÄÖ´ÐÐÎ»ÖÃeip */
+	numberT ret = m_bk_stack_eip[id].back();
+	m_bk_stack_eip[id].pop_back();
+
+	return ret;
+}
+
+void ScriptC::Obj::CerStackSystem::SetBkStackThisRef(numberT id, auto_c ref)
+{
+	m_bk_stack_this_ref.insert({ id,std::move(ref) });
+}
+
+void ScriptC::Obj::CerStackSystem::ClearBkStackThisRef(numberT id)
+{
+	m_bk_stack_this_ref.erase(id);
+}
+
+numberT ScriptC::Obj::CerStackSystem::GetOnlyId()
+{
+	std::random_device rd;
+	std::mt19937 mt{ rd() };
+	
+	while (true)
+	{
+		numberT id = mt();
+		auto beg_iter = m_stack_id.begin();
+		auto end_iter = m_stack_id.end();
+
+		auto find_iter = std::find(beg_iter, end_iter, id);
+		if (find_iter == end_iter)
+		{
+			m_stack_id.emplace_back(id);
+			return id;
+		}
+
+		continue;
+	}
+
+	throw("GetOnlyId cannot obtain more numberT\n Please Check C++ Code");
+	return -1;
+}
+
+void ScriptC::Obj::CerStackSystem::ClearOnlyId(numberT id)
+{
+	auto beg_iter = m_stack_id.begin();
+	auto end_iter = m_stack_id.end();
+	auto find_iter = std::find(beg_iter, end_iter, id);
+	if (find_iter != end_iter)
+	{
+		m_stack_id.erase(find_iter);
+	}
+}
+
+bool ScriptC::Obj::CerStackSystem::HasOnlyId(numberT id)
+{
+	auto end_iter = m_bakcup_stacks.end();
+	if (m_bakcup_stacks.find(id) != end_iter)
+	{
+		return true;
+	}
+	return false;
 }
 
 void ScriptC::Obj::CerStackSystem::setVarMapValue(std::string name, auto_c element, bool recursion)

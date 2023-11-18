@@ -146,6 +146,24 @@ namespace AutoMem {
 			temp.m_str_array.clear();
 		}
 
+		bool LetObject::isRef(LetObject* value)
+		{
+			if (value == nullptr)
+				return false;
+
+			auto attribute = this->Attribute;
+			if (!((int)NatureType::ptr & attribute))
+				return false;
+			
+			auto block_ptr = this->m_block->ptr;
+			auto value_ptr = (long long)(value);
+			auto this_ptr  = *(longPtr)this->m_block->ptr;
+			if (value_ptr == this_ptr)
+				return true;
+			else
+				return false;
+		}
+
 		LetObject::ObjT LetObject::getType()
 		{
 			return m_objType.type;
@@ -422,4 +440,9 @@ bool AutoMem::Obj::LetTools::AutoCmp(std::pair<Operator, std::string> condition,
 void AutoMem::Obj::LetTools::Swap(auto_c& value1, auto_c& value2)
 {
 	value1.swap(value2);
+}
+
+bool AutoMem::Obj::LetTools::IsRef(auto_c& ref_value, auto_c* value)
+{
+	return ref_value.isRef(value);
 }
