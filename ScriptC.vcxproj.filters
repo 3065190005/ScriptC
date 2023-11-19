@@ -236,6 +236,9 @@
     <ClInclude Include="CerVirtualMachine\CerVmMacro.h">
       <Filter>CerVirtualMachine</Filter>
     </ClInclude>
+    <ClInclude Include="resource1.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="CerLexical\CerLexical.tpp">
@@ -426,5 +429,10 @@
     <Image Include="Resources\ScriptC.ico">
       <Filter>资源文件</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ScriptC1.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

@@ -300,6 +300,7 @@ copy /Y .\x64\Package\ScriptC.exe .\Package\</Command>
     <ClInclude Include="ErrorHandling\ErrorHandling.h" />
     <ClInclude Include="Global\globalDefine.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\QuickLib\QuickLib\QuickLib\kString\kString.tpp" />
@@ -367,6 +368,9 @@ copy /Y .\x64\Package\ScriptC.exe .\Package\</Command>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\ScriptC.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ScriptC1.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
