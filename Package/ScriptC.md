@@ -1396,11 +1396,11 @@ let win = new StdWindow;
 
 隐藏控制台：成功返回true，否则返回false
 void -> boolean;
-hideControl();
+hideConsole();
 
 显示控制台：成功返回true，否则返回false
 void -> boolean;
-showControl();
+showConsole();
 
 创建消息框：成功返回按钮id，否则返回false
 title|str, txt|str ,type|number -> number|boolean

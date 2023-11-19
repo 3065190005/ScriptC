@@ -1,13 +1,13 @@
 	require ("os");
 	require ("io");
 	require ("window");
-	require ("index");
+	require ("example\\index");
 
 	let os = new StdOs;
 	let io = new StdIo;
 	let window = new StdWindow;
 	
-	window.hideControl();
+	window.hideConsole();
 	let ret = window.msgBox("Title","txt",1);
 	io.print(ret);
 
@@ -46,6 +46,6 @@
 	io.print(ret);
 
 
-	window.showControl();
+	window.showConsole();
 	os.system("pause");
 	return;

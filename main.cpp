@@ -89,11 +89,6 @@ int main(int args , char** argv) {
 	if (getCmdParam(args, argv) != 0) {
 		return 0;
 	}
-
-	HWND hwnd = GetConsoleWindow();
-	if (hwnd) {
-		ShowWindow(hwnd, SW_SHOW);
-	}
 	
 	args -= 2;
 	argv += 2;
@@ -210,13 +205,15 @@ void TestCodeCall() {
 
 	std::string input = 
 R"(//--- debug
-require("io");
-let io = new StdIo;
-io.println(__FILE_NAME__);
-io.println(__MAIN_NAME__);
-require("example\\index");
-io.println(__FILE_NAME__);
-io.println(__MAIN_NAME__);
+require("window");
+require("os");
+
+let os = new StdOs;
+let win = new StdWindow;
+
+win.hideConsole();
+os.sleep(5000);
+win.showConsole();
 
 )";
 

@@ -2,13 +2,13 @@ require ("extern_system\\system_window");
 
 interface StdWindow{
 	// (void) -> boolean;
-	function hideControl():
-		return __system__window__hideControl__(); 
+	function hideConsole():
+		return __system__window__hideConsole__(); 
 	end
 
 	// (void) -> boolean;
-	function showControl():
-		return __system__window__showControl__();
+	function showConsole():
+		return __system__window__showConsole__();
 	end
 
 	// title|str , txt|str, type|number -> boolean|number;

@@ -1,6 +1,6 @@
 // window
-function export __system__window__hideControl__() end
-function export __system__window__showControl__() end
+function export __system__window__hideConsole__() end
+function export __system__window__showConsole__() end
 function export __system__window__msgBox__(title,txt,type) end
 function export __system__window__editBox__(title,txt) end
 function export __system__window__bowserBox__() end

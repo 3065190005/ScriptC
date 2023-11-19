@@ -426,3 +426,5 @@
 	新加特殊变量 __MAIN_NAME__ 指向第一个运行的文件名
 	bug修复
 	require内部的特殊函数Gc执行逻辑错误
+	StdWindow:hideControl 改名为 -> StdWindow:hideConsole
+	StdWindow:showControl 改名为 -> StdWindow::showConsole
