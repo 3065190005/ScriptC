@@ -227,20 +227,23 @@ void TestCodeCall() {
 
 	std::string input = 
 R"(//--- debug
-	function sell(max):
-	let count = yield(max);
-	while(count >= 0):
-		count = count - 1;
-		yield(count);
+require("io");
+let io = new StdIo;	
+
+interface Struct{
+	let str = "Default";
+	function _gc():
+		io.println(this.str);
 	end
-end
+}
 
 function buy(max):
-	let iter = sell(max);
-	let only_id = iter[0];
-	let count = iter[1];
-	while(count >= 0):
-		count = resume(only_id, count)[0];
+	let var = new Struct;
+	var.str = "Function Str";
+	if(true):
+		let var = new Struct;
+		var.str = "If Str";
+		return null;
 	end
 end
 

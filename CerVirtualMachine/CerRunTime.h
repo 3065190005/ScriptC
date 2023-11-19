@@ -33,6 +33,7 @@ namespace ScriptC {
 
 			std::map<std::string, auto_c>* getVarMap();
 			void setVarMapValue(std::string name, auto_c element);
+			void removeVarMapValue(std::string name);
 			auto_c getVarMapValue(std::string name);
 			autoPtr getVarMapValuePtr(std::string name);
 

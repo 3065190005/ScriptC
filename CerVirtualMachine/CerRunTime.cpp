@@ -39,6 +39,14 @@ void ScriptC::Obj::CerRunTime::setVarMapValue(std::string name, auto_c element)
 
 }
 
+void ScriptC::Obj::CerRunTime::removeVarMapValue(std::string name)
+{
+	auto inter = m_var_map.find(name);
+	if (inter != m_var_map.end()) {
+		m_var_map.erase(name);
+	}
+}
+
 auto_c ScriptC::Obj::CerRunTime::getVarMapValue(std::string name)
 {
 	return m_var_map[name];

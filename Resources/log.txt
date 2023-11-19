@@ -4,7 +4,7 @@
 
 2022.7.25
 	根据教程实现半成品解释器
-	重写从零实现代码解释器 Cervice
+	重写从零实现代码解释器
 
 
 2022.7.31
@@ -407,8 +407,9 @@
 	CerRunTime::setVarMapValue 对已存在的函数将使用Tools::Swap
 	对于每个 CerStackFrame 添加自己的onlyId，调用Resume时通过onlyId 进行恢复
 	isCallGcR 将不在释放临时栈，同一由Leave释放
-	修复普通函数会自动绑定栈最近一个栈内容的bug
+	修复 普通函数会自动绑定栈最近一个栈内容的bug
 	修复 临时栈进行return值时会被isCallGcR释放掉的问题
+	修复 当存在局部栈时，自动执行回收函数gc只会对一个变量多次执行的bug
 	
 	语法修改:
 	新的协程语法 yield和resume,使用方法查看Script.md

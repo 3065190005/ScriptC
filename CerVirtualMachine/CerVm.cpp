@@ -2002,9 +2002,13 @@ ScriptC::Obj::CerVm::VectorStr ScriptC::Obj::CerVm::isCallGcR()
 
 	while (sf->getStackFrameName()[0] == '~')
 	{
-		sf--;
+		/*
+		* 2023.11.19
+		* fixed : 修复两个不同栈的同名变量都获取最近的栈变量bug
+		*/
 		VectorStr vec = isCallGc(sf);
 		ret.insert(ret.begin(), vec.begin(), vec.end());
+		sf--;
 	} 
 
 	VectorStr vec = isCallGc(sf);
@@ -2065,7 +2069,12 @@ bool ScriptC::Obj::CerVm::GcCallBack()
 
 			if (!gc_call)
 			{
+				/*
+				* 2023.11.19
+				* 自动执行Gc函数后会直接销毁变量
+				*/
 				sf--;
+				runT->removeVarMapValue(var_name);
 				continue;
 			}
 
