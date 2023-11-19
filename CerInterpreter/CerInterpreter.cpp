@@ -13,8 +13,12 @@ ScriptC::Obj::CerInterpreter::CerInterpreter() :
 	m_rootAts(nullptr),
 	m_vm_code({})
 {
-	if (m_table_temp["_FILE_NAME_"] != 1) {
-		m_table_temp["_FILE_NAME_"] = 1;
+	if (m_table_temp[SYSTEM_FILE_NAME] != 1) {
+		m_table_temp[SYSTEM_FILE_NAME] = 1;
+	}
+
+	if (m_table_temp[SYSTEM_MAIN_NAME] != 1) {
+		m_table_temp[SYSTEM_MAIN_NAME] = 1;
 	}
 }
 
@@ -22,20 +26,23 @@ ScriptC::Obj::CerInterpreter::~CerInterpreter()
 {
 }
 
-CerInterpreter* ScriptC::Obj::CerInterpreter::create(AST* tree)
+CerInterpreter* ScriptC::Obj::CerInterpreter::create(AST* tree, std::string fileName)
 {
 	CerInterpreter* ret = new CerInterpreter();
-	ret->m_rootAts = tree;
-	
 	if (ret == nullptr || tree == nullptr) {
 		delete ret;
 		ret = nullptr;
+		return ret;
 	}
+
+	ret->m_rootAts = tree;
+	ret->m_file_name = fileName;
 
 	return ret;
 }
 
-std::vector<CommandCode>& ScriptC::Obj::CerInterpreter::CompileCode(autoPtr ret, AST* rootAts,bool isMerge)
+ScriptC::Obj::CerInterpreter::ByteCodes& 
+ScriptC::Obj::CerInterpreter::CompileCode(autoPtr ret, AST* rootAts)
 {
 	interlog("InterPreterCompileCode: >>>\n");
 
@@ -46,22 +53,8 @@ std::vector<CommandCode>& ScriptC::Obj::CerInterpreter::CompileCode(autoPtr ret,
 
 	visit(root, ret, this);
 
-	if (isMerge) {
-		fileAddressSet();
-	}
-
 	printCode();
 	return m_vm_code;
-}
-
-void ScriptC::Obj::CerInterpreter::fileAddressSet()
-{
-	numberT size = m_vm_code.size();
-	for (auto& i : m_include_file_sequence) {
-		auto address = m_table_temp.find(i);
-		size -= m_table_temp[i];
-		m_table_temp[i] = size;
-	}
 }
 
 bool ScriptC::Obj::CerInterpreter::visit_indexExprOp(AST* node, autoPtr ret)
@@ -100,7 +93,7 @@ bool ScriptC::Obj::CerInterpreter::visit_exprOp(AST* node, autoPtr ret)
 	if (expr->getHasIndex())
 	{
 		if (expr->getExpr()->getNodeType() == AstNodeType::Var)
-			m_vm_code.back().insertCodeParams("param3", auto_c());
+			GetSelfVmCodes()->back().insertCodeParams("param3", auto_c());
 		visit(expr->getIndex(), ret, this);
 	}
 
@@ -225,7 +218,7 @@ bool ScriptC::Obj::CerInterpreter::visit_IfExpr(AST* node, autoPtr ret)
 	m_errHis->setErrInfo(node->getDebugInfo());
 	PushCode(std::move(CommandCode(CodeType::Jmp, std::move(params))));
 
-	oneJump = m_vm_code.size();
+	oneJump = GetSelfVmCodes()->size();
 
 	param1 << "~if";
 	params.insert({ "param1",std::move(param1) });
@@ -242,7 +235,7 @@ bool ScriptC::Obj::CerInterpreter::visit_IfExpr(AST* node, autoPtr ret)
 	m_errHis->setErrInfo(node->getDebugInfo());
 	PushCode(std::move(CommandCode(CodeType::Jmp, std::move(params))));
 
-	twoJump = m_vm_code.size();
+	twoJump = GetSelfVmCodes()->size();
 
 	replaces.push_back({ oneJump,twoJump });
 	replaces.push_back({ twoJump ,-1 });
@@ -259,7 +252,7 @@ bool ScriptC::Obj::CerInterpreter::visit_IfExpr(AST* node, autoPtr ret)
 		m_errHis->setErrInfo(node->getDebugInfo());
 		PushCode(std::move(CommandCode(CodeType::Jmp, std::move(params))));
 
-		oneJump = m_vm_code.size();
+		oneJump = GetSelfVmCodes()->size();
 
 		param1 << "~elif";
 		params.insert({ "param1",std::move(param1) });
@@ -274,7 +267,7 @@ bool ScriptC::Obj::CerInterpreter::visit_IfExpr(AST* node, autoPtr ret)
 		params.insert({ "param1",std::move(param1) });
 		PushCode(std::move(CommandCode(CodeType::Jmp, std::move(params))));
 
-		twoJump = m_vm_code.size();
+		twoJump = GetSelfVmCodes()->size();
 
 		replaces.push_back({ oneJump,twoJump });
 		replaces.push_back({ twoJump ,-1 });
@@ -290,7 +283,7 @@ bool ScriptC::Obj::CerInterpreter::visit_IfExpr(AST* node, autoPtr ret)
 		m_errHis->setErrInfo(node->getDebugInfo());
 		PushCode(std::move(CommandCode(CodeType::Jmp, std::move(params))));
 
-		oneJump = m_vm_code.size();
+		oneJump = GetSelfVmCodes()->size();
 
 		param1 << "~else";
 		params.insert({ "param1",std::move(param1) });
@@ -305,7 +298,7 @@ bool ScriptC::Obj::CerInterpreter::visit_IfExpr(AST* node, autoPtr ret)
 		params.insert({ "param1",std::move(param1) });
 		PushCode(std::move(CommandCode(CodeType::Jmp, std::move(params))));
 
-		twoJump = m_vm_code.size();
+		twoJump = GetSelfVmCodes()->size();
 
 		replaces.push_back({ oneJump,twoJump });
 		replaces.push_back({ twoJump ,-1 });
@@ -313,10 +306,10 @@ bool ScriptC::Obj::CerInterpreter::visit_IfExpr(AST* node, autoPtr ret)
 		PushCode(std::move(CommandCode(CodeType::Pass, params)));
 	}
 
-	allJump = m_vm_code.size();
+	allJump = GetSelfVmCodes()->size();
 
 	for (auto& i : replaces) {
-		auto ptr = (m_vm_code.at(i.first - 1).getCodeParams());
+		auto ptr = (GetSelfVmCodes()->at(i.first - 1).getCodeParams());
 		numberT jumper = -1;
 		if (i.second != -1) {
 			jumper = i.second - i.first + 1;
@@ -360,11 +353,11 @@ bool ScriptC::Obj::CerInterpreter::visit_WhileExpr(AST* node, autoPtr ret)
 	params.insert({ "param1",std::move(param1) });
 	PushCode(std::move(CommandCode(CodeType::Push, std::move(params))));
 
-	beg_end = m_vm_code.size() - 1;
+	beg_end = GetSelfVmCodes()->size() - 1;
 
 	// pass (beg
 	PushCode(std::move(CommandCode(CodeType::Pass, std::move(params))));
-	beg_eip = m_vm_code.size() - 1;
+	beg_eip = GetSelfVmCodes()->size() - 1;
 
 	// expr
 	visit(_expr, ret, this);
@@ -397,7 +390,7 @@ bool ScriptC::Obj::CerInterpreter::visit_WhileExpr(AST* node, autoPtr ret)
 
 	// pass (end
 	PushCode(std::move(CommandCode(CodeType::Pass, std::move(params))));
-	end_eip = m_vm_code.size() - 1;
+	end_eip = GetSelfVmCodes()->size() - 1;
 
 	// popS (~while
 	PushCode(std::move(CommandCode(CodeType::PopS, std::move(params))));
@@ -408,7 +401,7 @@ bool ScriptC::Obj::CerInterpreter::visit_WhileExpr(AST* node, autoPtr ret)
 	ss << ":";
 	ss << end_eip;
 	ss >> str;
-	m_vm_code.at(beg_end).getCodeParams()->find("param1")->second << str;
+	GetSelfVmCodes()->at(beg_end).getCodeParams()->find("param1")->second << str;
 	return true;
 }
 
@@ -474,11 +467,11 @@ bool ScriptC::Obj::CerInterpreter::visit_ForExpr(AST* node, autoPtr ret)
 	params.insert({ "param1",std::move(param1) });
 	PushCode(std::move(CommandCode(CodeType::Push, std::move(params))));
 
-	beg_end = m_vm_code.size() - 1;
+	beg_end = GetSelfVmCodes()->size() - 1;
 
 	// pass (beg
 	PushCode(std::move(CommandCode(CodeType::Pass, std::move(params))));
-	beg_eip = m_vm_code.size() - 1;
+	beg_eip = GetSelfVmCodes()->size() - 1;
 
 	// push ~arrInd[~index]
 	param1 << "~arrInd";
@@ -594,7 +587,7 @@ bool ScriptC::Obj::CerInterpreter::visit_ForExpr(AST* node, autoPtr ret)
 
 	// pass (end
 	PushCode(std::move(CommandCode(CodeType::Pass, std::move(params))));
-	end_eip = m_vm_code.size() - 1;
+	end_eip = GetSelfVmCodes()->size() - 1;
 
 	// popS (~while
 	PushCode(std::move(CommandCode(CodeType::PopS, std::move(params))));
@@ -605,7 +598,7 @@ bool ScriptC::Obj::CerInterpreter::visit_ForExpr(AST* node, autoPtr ret)
 	ss << ":";
 	ss << end_eip;
 	ss >> str;
-	m_vm_code.at(beg_end).getCodeParams()->find("param1")->second << str;
+	GetSelfVmCodes()->at(beg_end).getCodeParams()->find("param1")->second << str;
 	return true;
 
 
@@ -932,8 +925,9 @@ bool ScriptC::Obj::CerInterpreter::visit_IncludeFile(AST* node, autoPtr ret)
 	IncludeFile* include_ast = dynamic_cast<IncludeFile*>(node);
 
 	std::string file = include_ast->getFile().getCstr();
-	std::string prefix = "%::";
-	if (m_table_temp.find(prefix + file) != m_table_temp.end()) {
+
+	/* 检测文件是否已包含 */
+	if (m_table_temp.find(REQUIRE_FILE_PREFIX + file) != m_table_temp.end()) {
 		return true;
 	}
 
@@ -948,12 +942,13 @@ bool ScriptC::Obj::CerInterpreter::visit_IncludeFile(AST* node, autoPtr ret)
 		m_errHis->throwErr(EType::Interpreter,"include file is not Exist");
 	}
 
-
+	/* 读取文件 */
 	std::string fileTxt, path;
 	while (std::getline(isExist, path))
 		fileTxt.append(std::move(path) + '\n');
 	isExist.close();
 
+	/* 生成Inc字节码 */
 	auto_c param1(false, false);
 	CodeParams params;
 	param1 << file;
@@ -961,38 +956,27 @@ bool ScriptC::Obj::CerInterpreter::visit_IncludeFile(AST* node, autoPtr ret)
 	m_errHis->setErrInfo(node->getDebugInfo());
 	PushCode(std::move(CommandCode(CodeType::Inc, std::move(params))));
 
-	// file codeing
-	m_table_temp[prefix + file] = 1;
-	m_include_file_sequence.push_back(prefix + file);
+	/* 设置文件包含标识 */
+	m_table_temp[REQUIRE_FILE_PREFIX + file] = 1;
+
+	/* 编译要包含的文件 */
 	auto lexical = CerLexical<char>::create(fileTxt, file);
 	auto parser = CerParser::create(lexical);
 	AST* astTree = parser->parser();
 	delete lexical;
 	delete parser;
 
-	auto interpr = CerInterpreter::create(astTree);
+	auto interpr = CerInterpreter::create(astTree, customPath);
 	
+	/* 子文件继承父文件的标识 */
 	interpr->m_table_temp = m_table_temp;
-	std::vector<CommandCode> codeVec;
+
+	/* 生成子文件的字节码 */
+	ScriptC::Obj::CerInterpreter::ByteCodes codeVec;
 	codeVec = std::move(interpr->CompileCode(ret));
-	m_table_temp[prefix + file] = interpr->m_self_size + 1;
-	m_table_temp.insert(interpr->m_table_temp.begin(), interpr->m_table_temp.end());
-	
-	m_include_file.insert({ file,std::move(codeVec) });
 
-	auto offset = m_include_file_sequence.begin();
-
-	for (auto inc = m_include_file_sequence.begin(); inc != m_include_file_sequence.end(); inc++)
-	{
-		if ((*inc) == (prefix + file)) {
-			offset = inc;
-		}
-	}
-
-	m_include_file_sequence.insert(offset,
-		interpr->m_include_file_sequence.begin(),
-		interpr->m_include_file_sequence.end()
-	);
+	m_vm_code.merge(std::move(codeVec));
+	m_table_temp = interpr->m_table_temp;
 
 	delete interpr;
 	delete astTree;
@@ -1044,16 +1028,16 @@ bool ScriptC::Obj::CerInterpreter::visit_ArrayVar(AST* node, autoPtr ret)
 			param3Str += param3StrPath;
 		}
 		else if (analysExprOp(i) == AST::AstType::Num) {
-			pushArray[pushIndex] = m_vm_code.back().getCodeParams()->find("param1")->second;
-			m_vm_code.pop_back();
+			pushArray[pushIndex] = GetSelfVmCodes()->back().getCodeParams()->find("param1")->second;
+			GetSelfVmCodes()->pop_back();
 			pushIndex >> unKnowIndex;
 			pushIndex = pushIndex + stepIndex;
 		}
 		else if (analysExprOp(i) == AST::AstType::Var) {
 			std::string param3StrPath;
 			std::stringstream ss;
-			pushArray[pushIndex] = m_vm_code.back().getCodeParams()->find("param1")->second;
-			m_vm_code.pop_back();
+			pushArray[pushIndex] = GetSelfVmCodes()->back().getCodeParams()->find("param1")->second;
+			GetSelfVmCodes()->pop_back();
 			pushIndex >> unKnowIndex;
 			pushIndex = pushIndex + stepIndex;
 
@@ -1121,8 +1105,8 @@ bool ScriptC::Obj::CerInterpreter::visit_InterExprOp(AST* node, autoPtr ret)
 		FuncCall* func_call = dynamic_cast<FuncCall*>(inter->getPerson());
 
 		visit(inter->getPerson(), ret, this);
-		auto code = m_vm_code.back();
-		m_vm_code.pop_back();
+		auto code = GetSelfVmCodes()->back();
+		GetSelfVmCodes()->pop_back();
 
 
 		std::string funcName;
@@ -1140,7 +1124,7 @@ bool ScriptC::Obj::CerInterpreter::visit_InterExprOp(AST* node, autoPtr ret)
 			auto_c param;
 			bool is_last = inter->gethasLeftLast() && inter->gethasLeftIndex();
 
-			m_vm_code.emplace_back(code);
+			GetSelfVmCodes()->emplace_back(code);
 
 			/*
 			* 如果是左值最后一位
@@ -1149,7 +1133,7 @@ bool ScriptC::Obj::CerInterpreter::visit_InterExprOp(AST* node, autoPtr ret)
 
 			if (is_last)
 			{
-				(*m_vm_code.rbegin()->getCodeParams())["param5"] = auto_c();
+				(*GetSelfVmCodes()->rbegin()->getCodeParams())["param5"] = auto_c();
 				/*
 				* Pop
 				*/
@@ -1408,7 +1392,7 @@ bool ScriptC::Obj::CerInterpreter::visit_FunDeclaration(AST* node, autoPtr ret)
 	visit(funcH, ret, this);
 	size_t last, now;
 	
-	last = m_vm_code.size();
+	last = GetSelfVmCodes()->size();
 
 	for (auto& i : funcH->getParams()) {
 		m_table_temp[i.getCstr()] = 1;
@@ -1425,12 +1409,12 @@ bool ScriptC::Obj::CerInterpreter::visit_FunDeclaration(AST* node, autoPtr ret)
 	for (auto& i : funcd->getCode())
 		visit(i, ret, this);
 
-	now = m_vm_code.size() + 1;
+	now = GetSelfVmCodes()->size() + 1;
 
 	numberT ptr = (numberT)(now - last);
 	auto_c blockLen;
 	blockLen << ptr;
-	m_vm_code.at(last-1).insertCodeParams("BlockLen", std::move(blockLen));
+	GetSelfVmCodes()->at(last-1).insertCodeParams("BlockLen", std::move(blockLen));
 
 	CodeParams param2;
 	CommandCode opear2(CodeType::Leave, param2);
@@ -1593,14 +1577,9 @@ bool ScriptC::Obj::CerInterpreter::visit_Program(AST* node, autoPtr ret)
 	m_errHis->setErrInfo(node->getDebugInfo());
 	PushCode(std::move(opear3));
 
-	
 	CodeParams param2;
-	numberT size = (numberT)m_vm_code.size() + 1;
+	numberT size = (numberT)GetSelfVmCodes()->size() + 1;
 	auto_c param;
-	m_self_size = size;
-	for (auto& i : m_include_file) {
-		size += i.second.size();
-	}
 	param << size;
 	param2.insert({ "param1",std::move(param) });
 	CommandCode opear2(CodeType::Push, param2);
@@ -1609,19 +1588,13 @@ bool ScriptC::Obj::CerInterpreter::visit_Program(AST* node, autoPtr ret)
 		PushCode(opear2);
 		return true;
 	}
-	m_vm_code.insert(m_vm_code.begin(), opear2);
+
+	GetSelfVmCodes()->insert(GetSelfVmCodes()->begin(), opear2);
 
 	CodeParams param4;
 	CommandCode opear4(CodeType::Pass, param4);
 	m_errHis->setErrInfo(node->getDebugInfo());
 	PushCode(opear4);
-
-	for (auto j = m_include_file_sequence.rbegin(); j != m_include_file_sequence.rend(); j ++) {
-		auto i = m_include_file.find(j->substr(3));
-		if (i != m_include_file.end()) {
-			m_vm_code.insert(m_vm_code.end(), i->second.begin(), i->second.end());
-		}
-	}
 
 	return true;
 }
@@ -1641,10 +1614,23 @@ bool ScriptC::Obj::CerInterpreter::visit_Empty(AST* node, autoPtr ret)
 	return true;
 }
 
+std::vector<CommandCode>* ScriptC::Obj::CerInterpreter::GetSelfVmCodes()
+{
+	auto finder = m_vm_code.find(m_file_name);
+	if (finder == m_vm_code.end())
+	{
+		m_errHis->throwErr(EType::Interpreter, "GetSelfVmCodes Finder == m_vm_code.end() \n Please Check C++ Code");
+		return nullptr;
+	}
+
+	auto ret = &(finder->second);
+	return ret;
+}
+
 void ScriptC::Obj::CerInterpreter::PushCode(CommandCode code)
 {
 	code.setDebugInfo(m_errHis->getErrorInfo());
-	m_vm_code.push_back(code);
+	m_vm_code[m_file_name].push_back(code);
 }
 
 AST::AstType ScriptC::Obj::CerInterpreter::analysExprOp(AST* node)
@@ -1660,10 +1646,10 @@ void ScriptC::Obj::CerInterpreter::printCode()
 {
 	AutoMem::Obj::LetTools tools;
 	auto column = 1;
-	for (auto code = m_vm_code.begin(); code != m_vm_code.end(); code++,column ++) 
+	for (auto code = GetSelfVmCodes()->begin(); code != GetSelfVmCodes()->end(); code++,column ++) 
 	{
 #if DebuInterLog && GlobalDebugOpend
-		std::cout << column;
+		std::cout << m_file_name << " : " << column;
 		interlog(" - CommandCode(" + code->getCodeTypeStr());
 		for (auto& i : *(code->getCodeParams())) {
 			interlog(" , " + i.first + ":");

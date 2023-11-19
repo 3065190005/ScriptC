@@ -19,7 +19,7 @@ namespace ScriptC {
 		{
 		public:
 			using VectorStr = std::vector<std::string>;
-
+			using ByteCodes = std::map<std::string, std::vector<CommandCode>>;
 		public:
 			CerVm();
 			~CerVm();
@@ -80,6 +80,7 @@ namespace ScriptC {
 		public:
 			void printRunCode();		// 打印当前代码 debug
 			bool isRunOver();			// 代码是否执行完毕
+			bool isLeaveStackPop();		// 检测Leave是否真正销毁栈
 			bool CmpCodeType(CommandCode::CommandCodeType type1 , CommandCode::CommandCodeType type2);	// 两个字节码类型是否匹配
 			bool CmpCurrentType(CommandCode::CommandCodeType type);				// 匹配当前该执行的字节码是否为 type
 
@@ -96,19 +97,22 @@ namespace ScriptC {
 
 		public:
 			static CerVm* create(std::vector<CommandCode> codes);
-			static std::map<std::string, size_t> m_CodeBaseAddress;
+			static CerVm* create(std::map<std::string, std::vector<CommandCode>> codes);
 
-			void setBaseAddress(std::string str);
-			size_t getBaseAddress();
-			std::string getBaseName();
+			void setCodeFile(std::string str);
+			std::string getCodeFile();
+			CommandCode commandAt(size_t pos);
+			size_t commandSize();
+			void commandNullptrThrow();
 
 		private: 
 			bool m_isinit;								// 是否初始化
-			std::vector<CommandCode> m_command_codes;	// 所有code
+			ByteCodes m_codes;							// 所有codes
+			std::vector<CommandCode> *m_command_codes;	// 当前正在运行的code列表
 			CommandCode m_current_cmd_code;				// 当前code
 			size_t m_command_codes_index;				// 下一个code下标
 			CerStackSystem m_stacks;					// 栈系统
-			std::string m_BaseAddress;					// 基地址
+			std::string m_code_file;
 		};
 	}
 }

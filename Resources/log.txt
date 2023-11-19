@@ -412,5 +412,17 @@
 	修复 当存在局部栈时，自动执行回收函数gc只会对一个变量多次执行的bug
 	
 	语法修改:
-	新的协程语法 yield和resume,使用方法查看Script.md
+	新的实验性内容 - 协程语法 yield和resume,使用方法查看Script.md
 	+ LetTools::isRef(ptr, var) 检测ptr的引用目标是否为变量var
+
+2023.11.20
+	代码层面
+	__FILE_NAME__ 将通过setCodeFile 进行更改
+	runTime将会设置 __MAIN_NAME__
+	文件包含将分开存放且可以动态更改 std::vector -> std::map<std::string, std::vector>
+	修改eip跳转逻辑，不在进行数字+基地址跳转，改为 修改当前执行文件&&跳转eip [数字，文件名]，文件代码结束的头部跳转将保持数字eip
+	用户层面
+	修改特殊变量 __FILE_NAME__  动态指向当前的正在运行的文件名
+	新加特殊变量 __MAIN_NAME__ 指向第一个运行的文件名
+	bug修复
+	require内部的特殊函数Gc执行逻辑错误

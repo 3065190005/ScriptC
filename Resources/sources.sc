@@ -214,6 +214,15 @@ io.println(value[1]);
 value = resume(value[0], value[1] + "Resume");
 io.println(value);
 
+io.println("\n\n --- Yield With Require --- \n");
+
+io.println("main Called");
+require("example\\yield_file");
+io.println("main Yield info Ret " + info[1]);
+info = resume(info[0],info[1]);
+io.println("main function return info " + info);
+
+
 io.println("\n\n --- Yield Sell Buy Apples --- \n");
 
 function sell(max):
@@ -235,5 +244,13 @@ end
 
 let person = buy(5);
 
+io.println("\n\n --- FILE_NAME && MAIN_NAME --- \n");
+
+
+io.println(__FILE_NAME__);
+io.println(__MAIN_NAME__);
+require("example\\console_var");
+io.println(__FILE_NAME__);
+io.println(__MAIN_NAME__);
 
 return forResu;

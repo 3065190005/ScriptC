@@ -404,6 +404,9 @@
     <None Include="Resources\example\yield_file.sc">
       <Filter>资源文件\example</Filter>
     </None>
+    <None Include="Resources\example\console_var.sc">
+      <Filter>资源文件\example</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />

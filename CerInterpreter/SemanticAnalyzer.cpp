@@ -19,8 +19,11 @@ ScriptC::Obj::SemanticAnalyzer::SemanticAnalyzer() :
 	m_rootAts(nullptr),
 	m_symbol_table(&m_global_symbol_table)
 {
-	if(m_global_symbol_table.findSymbol("_FILE_NAME_", SymbolType::VarSymbol,true) == SymbolTable::SymbolfindArea::noFind)
-		m_global_symbol_table.pushSymbol(SymbolClass("_FILE_NAME_", SymbolClass("let")));
+	if(m_global_symbol_table.findSymbol(SYSTEM_FILE_NAME, SymbolType::VarSymbol,true) == SymbolTable::SymbolfindArea::noFind)
+		m_global_symbol_table.pushSymbol(SymbolClass(SYSTEM_FILE_NAME, SymbolClass("let")));
+
+	if (m_global_symbol_table.findSymbol(SYSTEM_MAIN_NAME, SymbolType::VarSymbol, true) == SymbolTable::SymbolfindArea::noFind)
+		m_global_symbol_table.pushSymbol(SymbolClass(SYSTEM_MAIN_NAME, SymbolClass("let")));
 }
 
 ScriptC::Obj::SemanticAnalyzer::~SemanticAnalyzer()
@@ -711,7 +714,7 @@ bool ScriptC::Obj::SemanticAnalyzer::visit_FunctionCall(AST* node, autoPtr ret)
 
 	if (funcClass.getName() == "let") {
 		m_errHis->setErrInfo(funcd->getDebugInfo());
-		m_errHis->throwErr(EType::SemanticAnalyzer,"func is not define" + funcd->getFuncName());
+		m_errHis->throwErr(EType::SemanticAnalyzer,"func is not define " + funcd->getFuncName());
 	}
 
 	if (funcClass.getParams().size() != funParams.size()) {

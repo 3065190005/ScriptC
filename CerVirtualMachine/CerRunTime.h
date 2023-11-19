@@ -19,6 +19,7 @@ namespace ScriptC {
 				size_t addRess{0};
 				size_t paramLen{0};
 				std::vector<std::string> params;
+				std::string fileName;
 			};
 
 			struct InterProperties {

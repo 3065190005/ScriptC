@@ -16,7 +16,6 @@
 #include <algorithm>
 using namespace ScriptC::Obj;
 
-std::map<std::string, size_t> ScriptC::Obj::CerVm::m_CodeBaseAddress;
 
 ScriptC::Obj::CerVm::CerVm() :
 	m_isinit(false),
@@ -176,16 +175,17 @@ void ScriptC::Obj::CerVm::runTime()
 	extern std::string G_mainFile;
 	auto_c fileName;
 	fileName << G_mainFile;
-	m_stacks.setVarMapValue("_FILE_NAME_", std::move(fileName), false);
+	m_stacks.setVarMapValue(SYSTEM_MAIN_NAME, std::move(fileName), false);
+	m_stacks.setVarMapValue(SYSTEM_FILE_NAME, std::move(fileName), false);
 
 	m_stacks.PushNewSF("!program");
 
-	if (m_command_codes.size() == 0 || !m_isinit) {
+	if (commandSize() == 0 || !m_isinit) {
 		return;
 	}
 
 	m_command_codes_index = 0;
-	m_current_cmd_code = m_command_codes.at(m_command_codes_index);
+	m_current_cmd_code = commandAt(m_command_codes_index);
 	m_command_codes_index = 1;
 
 	do
@@ -243,7 +243,7 @@ void ScriptC::Obj::CerVm::VmFunc()
 	
 	des.addRess = m_command_codes_index-1;
 	des.paramLen = (numberT)paramSizeT;
-
+	des.fileName = getCodeFile();
 
 	for (size_t i = 0; i < paramSizeT; i++) {
 		std::string param;
@@ -477,7 +477,10 @@ void ScriptC::Obj::CerVm::VmCall()
 	leavePtr--;
 
 	auto_c leaveSip;
-	leaveSip << leavePtr;
+	leaveSip[0] << leavePtr;
+	leaveSip[1] << getCodeFile();
+
+	setCodeFile(funcMap.fileName);
 
 
 	m_stacks.PushNewSF(funcName);
@@ -547,17 +550,25 @@ void ScriptC::Obj::CerVm::VmLeave()
 	retSip = *dataSf->begin();
 
 	if (retSip.getType() != LetObject::ObjT::string) {
-		numberT fileAddress = (getBaseAddress() - 1);
-		retSip >> retPtr;
-		m_command_codes_index = fileAddress + retPtr;
+		if (retSip.getType() == LetObject::ObjT::array)
+		{
+			std::string file_name;
+			retSip[0] >> retPtr;
+			retSip[1] >> file_name;
+			setCodeFile(file_name);
+		}
+		else
+			retSip >> retPtr;
+		
+		m_command_codes_index = retPtr;
 	}
 	else {
 		std::string sipV;
 		retSip >> sipV;
-		auto retV = kstring::stringSplit(sipV,';');
+		auto retV = kstring::stringSplit(sipV, ';');
 		retPtr = kstring::stringTo<numberT>(retV[1]);
 		std::string filename = retV[0];
-		setBaseAddress(filename);
+		setCodeFile(filename);
 		popStack = false;
 
 		dataSf->pop_front();
@@ -874,7 +885,7 @@ void ScriptC::Obj::CerVm::VmJmp()
 		numberT index;
 		ret = (*cmd.getCodeParams())["param3"];
 		ret >> index;
-		m_command_codes_index = getBaseAddress() + eipVec.at(index);
+		m_command_codes_index = eipVec.at(index) + 1;
 		advance();
 	}
 	return;
@@ -968,15 +979,14 @@ void ScriptC::Obj::CerVm::VmInc()
 	(*cmd.getCodeParams())["param1"] >> fileName;
 
 	auto_c resEipDatas;
-	unsigned long nowEip, jumperEip;
+	unsigned long nowEip;
 	nowEip = m_command_codes_index - 1;
 	std::string resEipString;
-	resEipString = m_BaseAddress + ";";
+	resEipString = getCodeFile() + ";";
 	resEipString += kstring::stringFrom<unsigned long>(nowEip);
 	resEipDatas << resEipString;
-	setBaseAddress(fileName + ".sc");
-	jumperEip = getBaseAddress();
-	m_command_codes_index = jumperEip;
+	setCodeFile(fileName + ".sc");
+	m_command_codes_index = 0;
 	advance();
 	dataSf->insert(dataSf->begin(), std::move(resEipDatas));
 }
@@ -1014,7 +1024,7 @@ void ScriptC::Obj::CerVm::VmYield()
 	while (m_stacks.GetLastSF()->getStackFrameName()[0] == '~')
 	{
 		/* 保存 if for while 栈 */
-		m_stacks.SaveLastSF(only_id, cmmand_index);
+		m_stacks.SaveLastSF(only_id, cmmand_index, getCodeFile());
 	}
 
 	sf = m_stacks.GetLastSF();
@@ -1025,7 +1035,7 @@ void ScriptC::Obj::CerVm::VmYield()
 	retSip = *dataSf->begin();
 
 	/* 保存 当前函数栈 */
-	m_stacks.SaveLastSF(only_id, cmmand_index);
+	m_stacks.SaveLastSF(only_id, cmmand_index, getCodeFile());
 
 	sf = m_stacks.GetLastSF();
 	runT = sf->getRunTime();
@@ -1033,9 +1043,17 @@ void ScriptC::Obj::CerVm::VmYield()
 
 	numberT retPtr = 0;
 	if (retSip.getType() != LetObject::ObjT::string) {
-		numberT fileAddress = (getBaseAddress() - 1);
-		retSip >> retPtr;
-		m_command_codes_index = fileAddress + retPtr;
+		if (retSip.getType() == LetObject::ObjT::array)
+		{
+			std::string file_name;
+			retSip[0] >> retPtr;
+			retSip[1] >> file_name;
+			setCodeFile(file_name);
+		}
+		else
+			retSip >> retPtr;
+
+		m_command_codes_index = retPtr;
 	}
 	else {
 		std::string sipV;
@@ -1043,7 +1061,7 @@ void ScriptC::Obj::CerVm::VmYield()
 		auto retV = kstring::stringSplit(sipV, ';');
 		retPtr = kstring::stringTo<numberT>(retV[1]);
 		std::string filename = retV[0];
-		setBaseAddress(filename);
+		setCodeFile(filename);
 
 		//dataSf->pop_front();
 
@@ -1117,10 +1135,14 @@ void ScriptC::Obj::CerVm::VmResume()
 
 	numberT command_eip = m_command_codes_index;
 	numberT resume_eip = 0;
-
+	std::string code_file;
 	/* 恢复栈,并发送内容 */
-	while ((resume_eip = m_stacks.LoadSfOnce(only_id)) > -1)
+	while ((resume_eip = m_stacks.LoadSfOnce(only_id, code_file)) > -1)
 	{
+		auto_c retEip_c;
+		retEip_c[0] << command_eip - 1;
+		retEip_c[1] << getCodeFile();
+
 		SFPtr sf = m_stacks.GetLastSF();
 		auto runT = sf->getRunTime();
 		auto dataSf = sf->getDataStack();
@@ -1129,19 +1151,16 @@ void ScriptC::Obj::CerVm::VmResume()
 		
 		/* 跳转当前eip */
 		m_command_codes_index = resume_eip;
+		setCodeFile(code_file);
 
 		if (m_stacks.GetLastSF()->getStackFrameName()[0] == '~')
 			continue;
 
 		/* 重置栈的return eip */
 		auto retSip = *dataSf->begin();
-
 		if (retSip.getType() != LetObject::ObjT::string) {
-			numberT fileAddress = (getBaseAddress() - 1);
-			*dataSf->begin() << command_eip - fileAddress - 1;
+			*dataSf->begin() = retEip_c;
 		}
-
-
 
 		/* 恢复栈的this指针 */
 		SFPtr parent_sf = sf;
@@ -1875,25 +1894,31 @@ void ScriptC::Obj::CerVm::CodeCallFunc(std::string _funcName, std::vector<auto_c
 		return;
 	}
 
+
 	numberT leavePtr = m_command_codes_index;
 	leavePtr--;
 
 	auto_c leaveSip;
-	leaveSip << leavePtr;
+	leaveSip[0] << leavePtr;
+	leaveSip[1] << getCodeFile();
+
+	setCodeFile(funcMap.fileName);
 
 
 	m_stacks.PushNewSF(funcName);
+	this_var.getAttribute();
 
 	sf = m_stacks.GetLastSF();
 	runT = sf->getRunTime();
 	dataSf = sf->getDataStack();
-
 
 	runT->setVarMapValue("this", std::move(this_var));
 
 	for (size_t index = 0; index < funcMap.paramLen; index++) {
 		runT->setVarMapValue(funcMap.params.at(index), valueVec.at(index));
 	}
+
+	runT->getVarMapValue("this").getAttribute();
 
 	dataSf->emplace_back(leaveSip);
 	m_command_codes_index = funcMap.addRess;
@@ -1910,6 +1935,7 @@ void ScriptC::Obj::CerVm::printRunCode()
 {
 #if DebuvmLog && GlobalDebugOpend
 	AutoMem::Obj::LetTools tools;
+	std::cout << getCodeFile() + " : ";
 	std::cout << m_command_codes_index;
 	vmlog(" - VmRunCode(" + m_current_cmd_code.getCodeTypeStr());
 	for (auto& i : *(m_current_cmd_code.getCodeParams())) {
@@ -1924,8 +1950,28 @@ void ScriptC::Obj::CerVm::printRunCode()
 bool ScriptC::Obj::CerVm::isRunOver()
 {
 	bool index = false;
-	index = !(m_command_codes_index < m_command_codes.size());
+	index = !(m_command_codes_index < commandSize());
 	return index;
+}
+
+bool ScriptC::Obj::CerVm::isLeaveStackPop()
+{
+	SFPtr sf = m_stacks.GetLastFuncSf();
+	auto runT = sf->getRunTime();
+	auto dataSf = sf->getDataStack();
+	std::string frameName = sf->getStackFrameName();
+
+	bool popStack = true;
+	numberT retPtr = 0;
+	auto_c retSip;
+
+	retSip = *dataSf->begin();
+
+	if (retSip.getType() == LetObject::ObjT::string) {
+		return false;
+	}
+
+	return true;
 }
 
 bool ScriptC::Obj::CerVm::CmpCodeType(CommandCode::CommandCodeType type1, CommandCode::CommandCodeType type2)
@@ -2011,8 +2057,15 @@ ScriptC::Obj::CerVm::VectorStr ScriptC::Obj::CerVm::isCallGcR()
 		sf--;
 	} 
 
-	VectorStr vec = isCallGc(sf);
-	ret.insert(ret.begin(), vec.begin(), vec.end());
+	/*
+	* 2023.11.20
+	* fixed : 修复require的非销毁栈Leave会自动触发回收函数
+	*/
+	if (isLeaveStackPop())
+	{
+		VectorStr vec = isCallGc(sf);
+		ret.insert(ret.begin(), vec.begin(), vec.end());
+	}
 
 	return ret;
 }
@@ -2145,8 +2198,8 @@ bool ScriptC::Obj::CerVm::takeEat(CommandCode::CommandCodeType type)
 
 void ScriptC::Obj::CerVm::advance()
 {
-	m_current_cmd_code = m_command_codes.at(m_command_codes_index);
-	if (m_command_codes_index < m_command_codes.size()) {
+	m_current_cmd_code = commandAt(m_command_codes_index);
+	if (m_command_codes_index < commandSize()) {
 		m_command_codes_index++;
 	}
 }
@@ -2154,11 +2207,20 @@ void ScriptC::Obj::CerVm::advance()
 
 CerVm* ScriptC::Obj::CerVm::create(std::vector<CommandCode> codes)
 {
+	throw("DisAbled");
+	return nullptr;
+}
+
+CerVm* ScriptC::Obj::CerVm::create(std::map<std::string, std::vector<CommandCode>> codes)
+{
+	extern std::string G_mainFile;
+
 	bool init = false;
 	CerVm* vm = new CerVm();
-	vm->m_command_codes = codes;
+	vm->m_codes = codes;
+	vm->m_command_codes = &vm->m_codes.find(G_mainFile)->second;
 
-	if(vm){
+	if (vm) {
 		init = vm->initVm();
 	}
 
@@ -2170,17 +2232,44 @@ CerVm* ScriptC::Obj::CerVm::create(std::vector<CommandCode> codes)
 	return vm;
 }
 
-void ScriptC::Obj::CerVm::setBaseAddress(std::string str)
+void ScriptC::Obj::CerVm::setCodeFile(std::string str)
 {
-	m_BaseAddress = str;
+	if (str != m_code_file)
+	{
+		auto_c filename;
+		filename << str;
+
+		auto sf = m_stacks.GetBaseSF();
+		auto runT = sf->getRunTime(); 
+		runT->setVarMapValue(SYSTEM_FILE_NAME, filename);
+	}
+	
+	m_code_file = str;
+	m_command_codes = &m_codes.find(str)->second;
 }
 
-size_t ScriptC::Obj::CerVm::getBaseAddress()
+std::string ScriptC::Obj::CerVm::getCodeFile()
 {
-	return m_CodeBaseAddress[m_BaseAddress];
+	return m_code_file;
 }
 
-std::string ScriptC::Obj::CerVm::getBaseName()
+CommandCode ScriptC::Obj::CerVm::commandAt(size_t pos)
 {
-	return m_BaseAddress;
+	commandNullptrThrow();
+	return m_command_codes->at(pos);
+}
+
+size_t ScriptC::Obj::CerVm::commandSize()
+{
+	commandNullptrThrow();
+	return m_command_codes->size();
+}
+
+void ScriptC::Obj::CerVm::commandNullptrThrow()
+{
+	if (m_command_codes == nullptr)
+	{
+		auto errHis = ErrorHandling::getInstance();
+		errHis->throwErr(EType::Vm, "commandNullptrThrow Called \n Please Check C++ Code");
+	}
 }

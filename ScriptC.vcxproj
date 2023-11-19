@@ -312,6 +312,7 @@ copy /Y .\x64\Package\ScriptC.exe .\Package\</Command>
     <None Include="Resources\example\arrayTest.sc" />
     <None Include="Resources\example\client.py" />
     <None Include="Resources\example\clientUdp.py" />
+    <None Include="Resources\example\console_var.sc" />
     <None Include="Resources\example\directTest.sc" />
     <None Include="Resources\example\index.sc" />
     <None Include="Resources\example\ioTest.sc" />

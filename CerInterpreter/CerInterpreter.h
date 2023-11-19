@@ -25,15 +25,15 @@ namespace ScriptC {
 		class CerInterpreter : public NodeVisitor
 		{
 		public:
+			using ByteCodes = std::map<std::string, std::vector<CommandCode>>;
 
 		public:
 			CerInterpreter();
 			~CerInterpreter();
 
-			static CerInterpreter* create(AST* tree);
+			static CerInterpreter* create(AST* tree, std::string fileName);
 		public:
-			std::vector<CommandCode>& CompileCode(autoPtr ret, AST* rootAts = nullptr, bool isMerge = false);	// 对外实现接口
-			void fileAddressSet();
+			ByteCodes& CompileCode(autoPtr ret, AST* rootAts = nullptr);	// 对外实现接口
 		public:
 			bool visit_indexExprOp(AST* node, autoPtr ret);		// 编译生成下标运算操作码
 			bool visit_exprOp(AST* node, autoPtr ret);			// 编译生成总表达式操作码
@@ -64,6 +64,8 @@ namespace ScriptC {
 			bool visit_Program(AST* node, autoPtr ret);			// 程序开始节点，对块编译生成
 			bool visit_Empty(AST* node, autoPtr ret);			// pass 生成
 
+			std::vector<CommandCode>* GetSelfVmCodes();
+
 			void PushCode(CommandCode);
 
 			AST::AstType analysExprOp(AST*);
@@ -72,16 +74,10 @@ namespace ScriptC {
 			std::map<std::string, int> getTables();
 
 		private:
-			std::vector<CommandCode> m_vm_code;			// 操作码集合
-			AST* m_rootAts;
-
-			std::map<std::string,
-			std::vector<CommandCode>> m_include_file;	// 文件包内容
-			size_t m_self_size;		// 自身原大小
-
-			std::list<std::string> m_include_file_sequence; // 文件包含顺序
-
-			std::map<std::string,int> m_table_temp; // Var_table temp 
+			ByteCodes m_vm_code;								// 操作码集合
+			AST* m_rootAts;									// AST节点
+			std::map<std::string,int> m_table_temp;			// 标识符号
+			std::string m_file_name;						// 当前正在编译的文件名
 		};
 	}
 }

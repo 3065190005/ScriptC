@@ -18,13 +18,11 @@ SFPtr ScriptC::Obj::CerStackSystem::GetLastSF()
 
 SFPtr ScriptC::Obj::CerStackSystem::GetLastFuncSf()
 {
-	auto riter = m_stacks.rbegin();
-	if (riter->getStackFrameName()[0] != '~')
-		return riter.base();
-	else
-		riter++;
+	auto riter = GetLastSF();
+	while (riter->getStackFrameName()[0] == '~')
+		riter--;
 
-	return riter.base();
+	return riter;
 }
 
 SFPtr ScriptC::Obj::CerStackSystem::PushNewSF(std::string name)
@@ -46,17 +44,18 @@ SFPtr ScriptC::Obj::CerStackSystem::GetBaseSF()
 	return ret;
 }
 
-bool ScriptC::Obj::CerStackSystem::SaveLastSF(numberT id, numberT eip)
+bool ScriptC::Obj::CerStackSystem::SaveLastSF(numberT id, numberT eip, std::string file)
 {
 	auto back_element = m_stacks.back();
 	m_stacks.pop_back();
 
 	m_bakcup_stacks[id].emplace_back(std::move(back_element));
 	m_bk_stack_eip[id].emplace_back(eip);
+	m_bk_stack_file_name[id].emplace_back(file);
 	return true;
 }
 
-numberT ScriptC::Obj::CerStackSystem::LoadSfOnce(numberT id)
+numberT ScriptC::Obj::CerStackSystem::LoadSfOnce(numberT id, std::string& ret_file)
 {
 	auto finder = m_bakcup_stacks.find(id);
 	if (finder == m_bakcup_stacks.end())
@@ -85,6 +84,14 @@ numberT ScriptC::Obj::CerStackSystem::LoadSfOnce(numberT id)
 	/* 恢复栈的执行位置eip */
 	numberT ret = m_bk_stack_eip[id].back();
 	m_bk_stack_eip[id].pop_back();
+	if (m_bk_stack_eip[id].empty())
+		m_bk_stack_eip.erase(m_bk_stack_eip.find(id));
+
+	/* 获取恢复栈的文件位置 */
+	ret_file = m_bk_stack_file_name[id].back();
+	m_bk_stack_file_name[id].pop_back();
+	if (m_bk_stack_file_name[id].empty())
+		m_bk_stack_file_name.erase(m_bk_stack_file_name.find(id));
 
 	return ret;
 }

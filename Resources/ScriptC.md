@@ -85,10 +85,11 @@ ScriptC一共有23个关键字
 |  	特殊变量名 	   |    说明   |
 | -------- | ----- |
 | this | 调用函数时通过捕获符\<\>修改this与变量的绑定关系 |
-| \_FILE\_NAME\_ | 表示程序主文件名 |
-| _class_name | 表示变量的接口名 |
-| _class_parent | 表示变量口的父接口名 |
-| _class_auto_gc_call | 表示变量是否自动调用特殊函数_gc |
+| \_\_FILE\_NAME\_\_ | 当前正在运行的文件名 |
+| \_\_MAIN\_NAME\_\_ | 首个运行的文件名 |
+| _class_name | 变量的接口名 |
+| _class_parent | 变量口的父接口名 |
+| _class_auto_gc_call | 变量是否自动调用特殊函数_gc |
 
 
 ## 数据类型

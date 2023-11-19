@@ -130,27 +130,18 @@ void ScriptRun() {
 		delete lexical;
 		delete parser;
 
-		std::vector<CommandCode> codeVec;
+		CerInterpreter::ByteCodes codeVec;
 		auto_c ret(false, false), seman_ret(false, false), vm_ret(false, false);
 		auto seman = SemanticAnalyzer::create(astTree);
-		auto interpr = CerInterpreter::create(astTree);
+		auto interpr = CerInterpreter::create(astTree, G_mainFile);
 		seman->scanner(&seman_ret);
-		codeVec = std::move(interpr->CompileCode(&ret, nullptr, true));
-		
-		for (auto& i : interpr->getTables()) {
-			if (i.first.find("%::") != i.first.npos) {
-				std::string file;
-				file = i.first.substr(3);
-				CerVm::m_CodeBaseAddress.insert({ file + ".sc",i.second + 1 });
-			}
-		}
+		codeVec = std::move(interpr->CompileCode(&ret, nullptr));
 
 		delete seman;
 		delete interpr;
 
 		auto codeVm = CerVm::create(std::move(codeVec));
-		codeVm->m_CodeBaseAddress[G_mainFile] = 1;
-		codeVm->setBaseAddress(G_mainFile);
+		codeVm->setCodeFile(G_mainFile);
 
 		codeVm->runTime();
 		delete astTree;
@@ -186,27 +177,19 @@ void ProgramerCall() {
 	delete parser;
 
 
-	std::vector<CommandCode> codeVec;
+	CerInterpreter::ByteCodes codeVec;
 	auto_c ret(false, false), seman_ret(false, false), vm_ret(false, false);
 	auto seman = SemanticAnalyzer::create(astTree);
-	auto interpr = CerInterpreter::create(astTree);
+	auto interpr = CerInterpreter::create(astTree, G_mainFile);
 
 	seman->scanner(&seman_ret);
-	codeVec = std::move(interpr->CompileCode(&ret, nullptr, true));
-	for (auto& i : interpr->getTables()) {
-		if (i.first.find("%::") != i.first.npos) {
-			std::string file;
-			file = i.first.substr(3);
-			CerVm::m_CodeBaseAddress.insert({ file + ".sc",i.second + 1 });
-		}
-	};
+	codeVec = std::move(interpr->CompileCode(&ret, nullptr));
 
 	delete seman;
 	delete interpr;
 
 	auto codeVm = CerVm::create(std::move(codeVec));
-	codeVm->m_CodeBaseAddress[G_mainFile] = 1;
-	codeVm->setBaseAddress(G_mainFile);
+	codeVm->setCodeFile(G_mainFile);
 
 	std::chrono::steady_clock::time_point time_befor = std::chrono::steady_clock::now();
 	std::cout << "Program Interpreter : stdout <<< \n\n";
@@ -228,26 +211,12 @@ void TestCodeCall() {
 	std::string input = 
 R"(//--- debug
 require("io");
-let io = new StdIo;	
-
-interface Struct{
-	let str = "Default";
-	function _gc():
-		io.println(this.str);
-	end
-}
-
-function buy(max):
-	let var = new Struct;
-	var.str = "Function Str";
-	if(true):
-		let var = new Struct;
-		var.str = "If Str";
-		return null;
-	end
-end
-
-let person = buy(5);
+let io = new StdIo;
+io.println(__FILE_NAME__);
+io.println(__MAIN_NAME__);
+require("example\\index");
+io.println(__FILE_NAME__);
+io.println(__MAIN_NAME__);
 
 )";
 
@@ -260,7 +229,7 @@ let person = buy(5);
 	auto_c param1,param2;
 
 					// lexic, paser, seman, inter, vmret, print
-	bool control[] = { ta,		ta,	   ta,	  ta,	ta,	   ta };
+	bool control[] = { ta,		ta,	   ta,	  ta,	ta,	   fa };
 	G_mainFile = "sources.sc";
 	if (control[0]) {
 		auto lexical = CerLexical<char>::create(input, "sources");
@@ -268,7 +237,7 @@ let person = buy(5);
 			auto parser = CerParser::create(lexical);
 			astTree = parser->parser();
 
-			std::vector<CommandCode> codeVec;
+			CerInterpreter::ByteCodes codeVec;
 
 			auto_c ret(false, false), seman_ret(false, false), vm_ret(false, false);
 
@@ -278,21 +247,12 @@ let person = buy(5);
 
 				if (control[3]) {
 					std::map<std::string, int> import_file;
-					auto interpr = CerInterpreter::create(astTree);
-					codeVec = std::move(interpr->CompileCode(&ret, nullptr, true));
-
-					for (auto &i : interpr->getTables()) {
-						if (i.first.find("%::") != i.first.npos) {
-							std::string file;
-							file = i.first.substr(3);
-							CerVm::m_CodeBaseAddress.insert({ file+".sc",i.second+1 });
-						}
-					};
+					auto interpr = CerInterpreter::create(astTree, G_mainFile);
+					codeVec = std::move(interpr->CompileCode(&ret, nullptr));
 
 					if (control[4]) {
 						auto codeVm = CerVm::create(std::move(codeVec));
-						codeVm->m_CodeBaseAddress[G_mainFile] = 1;
-						codeVm->setBaseAddress(G_mainFile);
+						codeVm->setCodeFile(G_mainFile);
 
 						codeVm->runTime();
 
@@ -400,26 +360,18 @@ int CmdRunType()
 		auto parser = CerParser::create(lexical);
 		astTree = parser->parser();
 
-		std::vector<CommandCode> codeVec;
+		CerInterpreter::ByteCodes codeVec;
 
 		auto_c ret(false, false), seman_ret(false, false), vm_ret(false, false);
 
 		auto seman = SemanticAnalyzer::create(astTree);
 		seman->scanner(&seman_ret);
 		std::map<std::string, int> import_file;
-		auto interpr = CerInterpreter::create(astTree);
-		codeVec = std::move(interpr->CompileCode(&ret, nullptr, true));
-		for (auto& i : interpr->getTables()) {
-			if (i.first.find("%::") != i.first.npos) {
-				std::string file;
-				file = i.first.substr(3);
-				CerVm::m_CodeBaseAddress.insert({ file + ".sc",i.second + 1 });
-			}
-		};
+		auto interpr = CerInterpreter::create(astTree,G_mainFile);
+		codeVec = std::move(interpr->CompileCode(&ret, nullptr));
 
 		auto codeVm = CerVm::create(std::move(codeVec));
-		codeVm->m_CodeBaseAddress[G_mainFile] = 1;
-		codeVm->setBaseAddress(G_mainFile);
+		codeVm->setCodeFile(G_mainFile);
 		codeVm->runTime();
 
 		delete astTree;
