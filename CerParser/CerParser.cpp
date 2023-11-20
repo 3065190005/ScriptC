@@ -296,7 +296,7 @@ AST* ScriptC::Obj::CerParser::logicaloper_a()
 AST* ScriptC::Obj::CerParser::singleKey()
 {
 	/*
-	* singleKey : (InterNew | KEY_BREAK | KEY_CONTINUE)
+	* singleKey : (InterNew)
 	*/
 
 	AST* result = nullptr;
@@ -310,7 +310,25 @@ AST* ScriptC::Obj::CerParser::singleKey()
 	if (tok_type == CerTokType::Key_New) {
 		result = interNew();
 	}
-	else if (tok_type == CerTokType::Key_Break) {
+
+	return result;
+}
+
+AST* ScriptC::Obj::CerParser::jumpKey()
+{
+	/*
+	* JumpKey : (KEY_BREAK | KEY_CONTINUE)
+	*/
+
+	AST* result = nullptr;
+
+	CerTokClass& tok = m_lexical->getCurrentToken();
+	CerTokClass peek = m_lexical->peekNextToken();
+
+	auto tok_type = tok.getType();
+	auto peek_type = peek.getType();
+
+	if (tok_type == CerTokType::Key_Break) {
 		CerTokClass tokc;
 		CerTokClass::copy(tokc, tok);
 		takeEat(CerTokType::Key_Break);
@@ -697,7 +715,7 @@ AST* ScriptC::Obj::CerParser::factor()
 	else {
 		auto errHin = ErrorHandling::getInstance();
 		errHin->setErrInfo(tok.getDebugInfo());
-		errHin->throwErr(EType::Parser,"unknow factor " + tok.getCstr());
+		errHin->throwErr(EType::Parser,"Expression not allowed " + tok.getCstr());
 	}
 
 	tok = m_lexical->getCurrentToken();
@@ -796,6 +814,7 @@ std::vector<AST*> ScriptC::Obj::CerParser::ExpressionBody()
 	/*
 	*ExpressionBody	: Assignment SEMI
 	*				| expr	SEMI
+	*				| JumpKey SEMI
 	*				| ReturnExpr SEMI
 	*				| ifconditionExpr
 	*				| whileconditionExpr
@@ -826,6 +845,12 @@ std::vector<AST*> ScriptC::Obj::CerParser::ExpressionBody()
 		else if (isExprBegin()) {
 			// expr
 			ast = expr();
+			vec.push_back(ast);
+		}
+		else if (isJumpKeyBegin())
+		{
+			// jumpKey
+			ast = jumpKey();
 			vec.push_back(ast);
 		}
 		else if (tok.getType() == CerTokType::Key_Return) {
@@ -1237,8 +1262,6 @@ bool ScriptC::Obj::CerParser::isExprBegin()
 		tok.getType() == CerTokType::Key_Null ||
 		tok.getType() == CerTokType::Key_Undef ||
 		tok.getType() == CerTokType::Key_New ||
-		tok.getType() == CerTokType::Key_Break||
-		tok.getType() == CerTokType::Key_Continue ||
 		tok.getType() == CerTokType::Key_Yield || 
 		tok.getType() == CerTokType::Key_Resume)
 	{
@@ -1274,6 +1297,16 @@ bool ScriptC::Obj::CerParser::isExprBegin()
 	}
 
 	return false;
+}
+
+bool ScriptC::Obj::CerParser::isJumpKeyBegin()
+{
+	auto tok = m_lexical->getCurrentToken();
+	if (tok.getType() == CerTokType::Key_Break ||
+		tok.getType() == CerTokType::Key_Continue)
+		return true;
+	else
+		return false;
 }
 
 bool ScriptC::Obj::CerParser::isAssignBegin()

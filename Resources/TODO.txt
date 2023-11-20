@@ -20,7 +20,6 @@
 
 
 # 测试
-break 和 continue 语句脱离 expr语法
 修改 window:hideControl 和 window:showControl
 
 

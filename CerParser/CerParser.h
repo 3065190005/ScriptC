@@ -41,6 +41,7 @@ namespace ScriptC {
 
 			AST* expr();									// 计算(右值)运算
 			AST* singleKey();								// 单关键字运算符
+			AST* jumpKey();									// 跳转关键字运算符
 			AST* interNew();								// New 运算符
 			AST* logicaloper_b();							// 逻辑运算符b
 			AST* logicaloper_a();							// 逻辑运算符a
@@ -61,6 +62,7 @@ namespace ScriptC {
 
 		public:
 			bool isExprBegin();
+			bool isJumpKeyBegin();
 			bool isAssignBegin();
 
 			// call this function to get AST*

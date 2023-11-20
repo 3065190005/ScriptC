@@ -38,6 +38,7 @@ FunctionHeader	: VAR_ID LPARAM (VAR_ID (COMMA VAR_ID)*)* RPARAM
 // 表达式
 ExpressionBody	: Assignment SEMI
 				| expr	SEMI
+				| JumpKey SEMI
 				| ReturnExpr SEMI
 				| ifconditionExpr
 				| whileconditionExpr
@@ -71,7 +72,9 @@ ReturnExpr	: KEY_RETURN (expr | empty )
 expr	: singleKey | logicaloper_b
 
 // 单Key运算符
-singleKey : (InterNew | KEY_BREAK | KEY_CONTINUE)
+singleKey : (InterNew)
+
+JumpKey : (KEY_BREAK | KEY_CONTINUE)
 
 // 下标
 indexExpr  : (ArrayExpr | InterExpr)+

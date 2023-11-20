@@ -19,7 +19,7 @@
 
 std::string G_TipsSymbol = "->: ";
 std::string G_consoleTxt =
-R"(ScriptC £¨Last Update : 2023.11.19 | LetObject : v9_7) [console mode]
+R"(ScriptC £¨Last Update : 2023.11.20 | LetObject : v9_7) [console mode]
 If you want to compile and run the code, type Enter twice.
 
 )";
@@ -205,15 +205,9 @@ void TestCodeCall() {
 
 	std::string input = 
 R"(//--- debug
-require("window");
-require("os");
-
-let os = new StdOs;
-let win = new StdWindow;
-
-win.hideConsole();
-os.sleep(5000);
-win.showConsole();
+	while(true):
+		let value = 123;
+	end
 
 )";
 
