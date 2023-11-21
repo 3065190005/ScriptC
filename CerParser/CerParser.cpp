@@ -4,8 +4,6 @@
 #include "CerParser.h"
 #include "CerParserMacro.h"
 
-extern struct CerTokClass::DebugInfo G_Global_Debug_Info;
-
 
 ScriptC::Obj::CerParser::CerParser(CerLexical<char>* lexical) :
 	m_lexical(lexical)

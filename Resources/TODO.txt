@@ -20,7 +20,7 @@
 
 
 # 测试
-修改 window:hideControl 和 window:showControl
+修改 package 不依赖 ScriptC 环境变量
 
 
 # 实现机制【参考】

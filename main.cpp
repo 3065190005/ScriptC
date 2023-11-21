@@ -17,6 +17,8 @@
 #include "CerVirtualMachine/CerStackSystem.h"
 #include "CerVirtualMachine/CerVm.h"
 
+#include <direct.h>
+
 std::string G_TipsSymbol = "->: ";
 std::string G_consoleTxt =
 R"(ScriptC £¨Last Update : 2023.11.20 | LetObject : v9_7) [console mode]
@@ -56,8 +58,6 @@ int getCmdParam(int args, char** argv);
 
 void InitConsole();
 
-struct CerTokClass::DebugInfo G_Global_Debug_Info;
-
 int main(int args , char** argv) {
 
 	// InitConsole();
@@ -65,15 +65,14 @@ int main(int args , char** argv) {
 
 #ifdef _PACKAGE
 	char* pValue;
-	size_t len;
-	errno_t err = _dupenv_s(&pValue, &len, "ScriptC");
-	if (err == 0 && pValue) {
+	pValue = ::_getcwd(NULL, 0);
+	if (pValue != NULL) {
 		G_Res_path = pValue;
 		G_Res_path += "\\res\\";
-		free(pValue);
+		::free(pValue);
 	}
 	else {
-		std::cout << "Can not find env \"ScriptC\"";
+		std::cout << "Can not find res folder";
 		return 0;
 	}
 #endif
@@ -205,9 +204,26 @@ void TestCodeCall() {
 
 	std::string input = 
 R"(//--- debug
-	while(true):
-		let value = 123;
+	require ("os");
+	require ("io");
+	require ("window");
+
+	let os = new StdOs;
+	let io = new StdIo;
+	let window = new StdWindow;
+	let ret = false;
+
+	while(!ret):
+		ret = window.hideConsole();
 	end
+	ret = window.msgBox("Title","txt",1);
+	
+	io.print(ret);
+
+	io.println("show Console");
+	window.showConsole();
+	os.system("pause");
+	return;
 
 )";
 

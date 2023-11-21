@@ -429,3 +429,12 @@
 	continue 和 break 可以在复杂表达式中存在的bug
 	StdWindow:hideControl 改名为 -> StdWindow:hideConsole
 	StdWindow:showControl 改名为 -> StdWindow::showConsole
+
+2023.11.21
+	代码层面
+	删除部分无用变量
+	程序启动将不检测ScriptC环境变量，更换为exe所在位置
+	bug修复
+	StdWindow:hideConsole 返回true 但没有隐藏的bug
+	用户层面
+	用户可以不在添加ScriptC环境变量

@@ -1,23 +1,22 @@
 #include "DllFuncReader.h"
+#include <direct.h>
 namespace ScriptC {
     namespace Obj {
 
         std::string getLibsPath() {
             std::string ret;
             char* pValue;
-            size_t len;
             ret = ".\\libs\\";
 #ifdef _PACKAGE
-            errno_t err = _dupenv_s(&pValue, &len, "ScriptC");
-            if (err == 0 && pValue) {
+            pValue = ::_getcwd(NULL, 0);
+            if (pValue != NULL) {
                 ret = pValue;
                 ret += "\\libs\\";
                 free(pValue);
             }
             else {
-                std::cout << "Can not find env \"ScriptC\"" << std::endl;
-                throw("Can not find env \"ScriptC\"");
-                exit(0);
+                std::cout << "Can not find libs folder" << std::endl;
+                throw("Can not find libs folder");
             }
 #endif
             return ret;
