@@ -313,6 +313,7 @@ copy /Y .\x64\Package\ScriptC.exe .\Package\</Command>
     <None Include="Resources\example\client.py" />
     <None Include="Resources\example\clientUdp.py" />
     <None Include="Resources\example\console_var.sc" />
+    <None Include="Resources\example\dialogTest.sc" />
     <None Include="Resources\example\directTest.sc" />
     <None Include="Resources\example\index.sc" />
     <None Include="Resources\example\ioTest.sc" />
@@ -325,7 +326,6 @@ copy /Y .\x64\Package\ScriptC.exe .\Package\</Command>
     <None Include="Resources\example\threadTest.sc" />
     <None Include="Resources\example\timeTest.sc" />
     <None Include="Resources\example\typeTest.sc" />
-    <None Include="Resources\example\windowTest.sc" />
     <None Include="Resources\example\yield_file.sc" />
     <None Include="Resources\libs\config.cfg" />
     <None Include="Resources\libs\std_array.dll" />
@@ -336,8 +336,10 @@ copy /Y .\x64\Package\ScriptC.exe .\Package\</Command>
     <None Include="Resources\libs\std_time.dll" />
     <None Include="Resources\libs\std_type.dll" />
     <None Include="Resources\res\array.sc" />
+    <None Include="Resources\res\dialog.sc" />
     <None Include="Resources\res\direct.sc" />
     <None Include="Resources\res\extern_system\system_array.sc" />
+    <None Include="Resources\res\extern_system\system_dialog.sc" />
     <None Include="Resources\res\extern_system\system_direct.sc" />
     <None Include="Resources\res\extern_system\system_io.sc" />
     <None Include="Resources\res\extern_system\system_math.sc" />
@@ -347,7 +349,6 @@ copy /Y .\x64\Package\ScriptC.exe .\Package\</Command>
     <None Include="Resources\res\extern_system\system_thread.sc" />
     <None Include="Resources\res\extern_system\system_time.sc" />
     <None Include="Resources\res\extern_system\system_type.sc" />
-    <None Include="Resources\res\extern_system\system_window.sc" />
     <None Include="Resources\res\io.sc" />
     <None Include="Resources\res\math.sc" />
     <None Include="Resources\res\os.sc" />
@@ -356,7 +357,6 @@ copy /Y .\x64\Package\ScriptC.exe .\Package\</Command>
     <None Include="Resources\res\thread.sc" />
     <None Include="Resources\res\time.sc" />
     <None Include="Resources\res\type.sc" />
-    <None Include="Resources\res\window.sc" />
     <None Include="Resources\ScriptC.md" />
     <None Include="Resources\sources.sc" />
   </ItemGroup>

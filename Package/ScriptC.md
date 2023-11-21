@@ -1388,10 +1388,10 @@ isLower(str);
 str|string -> boolean;
 isUpper(str);
 
-## StdWindow 窗口库
+## StdDialog 对话框库
 ```sc
-require ("window");
-let win = new StdWindow;
+require ("dialog");
+let win = new StdDialog;
 ```
 
 隐藏控制台：成功返回true，否则返回false
@@ -1416,19 +1416,19 @@ bowserBox()
 
 通过IE内核 创建html窗口：成功返回true，否则返回false
 title|str, html|str -> boolean
-htmlBox(title,html)
+ieHtml(title,html)
 
 通过IE内核 创建url窗口：成功返回true，否则返回false
 title|str, url|str -> boolean
-urlBox(title,url)
+ieUrl(title,url)
 
 通过Edge内核 创建html窗口：成功返回true，否则返回false
 title|str, html|str -> boolean
-htmlView(title,html)
+edgeHtml(title,html)
 
 通过Edge内核 创建url窗口：成功返回true，否则返回false
 title|str, url|str -> boolean
-urlView(title,url)
+edgeUrl(title,url)
 
 setWebStyle   设置窗口样式	: 成功返回true，否则返回false
 style|number -> boolean

@@ -10,17 +10,16 @@
 
 
 # 语法修改
-1. new <interface> +> new <interface>(<args...>)	通过指定参数进行构造(不可主动调用) (Complate)
-2. interface => struct					将接口改为结构体
+1. require(string, var_id);				将执行后的返回值给var_id 并创建 var_id
 
 
 
 # 接口特殊方法
-3. _call(<args...>)			当作为函数调用时自动进入
+1. _call(<args...>)			当作为函数调用时自动进入
 
 
 # 测试
-修改 package 不依赖 ScriptC 环境变量
-
+修改 gc回收选择器， 退出栈时检测dataSf里的所有数据是否可回收
 
 # 实现机制【参考】
+增加require 字节码 , 如果有人接受返回值就Pop var 否则直接 Pop

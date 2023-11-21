@@ -3,16 +3,29 @@
 namespace ScriptC {
     namespace Obj {
 
+        char* getExePath()
+        {
+            char* path = new char[MAX_PATH] {0};
+            HMODULE hm = GetModuleHandle(NULL);
+            if (!::GetModuleFileNameA(hm, path, MAX_PATH) || !::PathRemoveFileSpecA(path))
+            {
+                delete[] path;
+                path = NULL;
+                return NULL;
+            }
+            return path;
+        }
+
         std::string getLibsPath() {
             std::string ret;
             char* pValue;
             ret = ".\\libs\\";
 #ifdef _PACKAGE
-            pValue = ::_getcwd(NULL, 0);
+            pValue = getExePath();
             if (pValue != NULL) {
                 ret = pValue;
                 ret += "\\libs\\";
-                free(pValue);
+                delete[] pValue;
             }
             else {
                 std::cout << "Can not find libs folder" << std::endl;

@@ -332,9 +332,6 @@
     <None Include="Resources\example\typeTest.sc">
       <Filter>资源文件\example</Filter>
     </None>
-    <None Include="Resources\example\windowTest.sc">
-      <Filter>资源文件\example</Filter>
-    </None>
     <None Include="Resources\example\directTest.sc">
       <Filter>资源文件\example</Filter>
     </None>
@@ -363,9 +360,6 @@
       <Filter>资源文件\res\extern_system</Filter>
     </None>
     <None Include="Resources\res\extern_system\system_type.sc">
-      <Filter>资源文件\res\extern_system</Filter>
-    </None>
-    <None Include="Resources\res\extern_system\system_window.sc">
       <Filter>资源文件\res\extern_system</Filter>
     </None>
     <None Include="Resources\res\array.sc">
@@ -398,13 +392,19 @@
     <None Include="Resources\res\type.sc">
       <Filter>资源文件\res</Filter>
     </None>
-    <None Include="Resources\res\window.sc">
-      <Filter>资源文件\res</Filter>
-    </None>
     <None Include="Resources\example\yield_file.sc">
       <Filter>资源文件\example</Filter>
     </None>
     <None Include="Resources\example\console_var.sc">
+      <Filter>资源文件\example</Filter>
+    </None>
+    <None Include="Resources\res\extern_system\system_dialog.sc">
+      <Filter>资源文件\res\extern_system</Filter>
+    </None>
+    <None Include="Resources\res\dialog.sc">
+      <Filter>资源文件\res</Filter>
+    </None>
+    <None Include="Resources\example\dialogTest.sc">
       <Filter>资源文件\example</Filter>
     </None>
   </ItemGroup>

@@ -17,11 +17,12 @@
 #include "CerVirtualMachine/CerStackSystem.h"
 #include "CerVirtualMachine/CerVm.h"
 
-#include <direct.h>
+#include <Shlwapi.h>
+#pragma comment(lib,"shlwapi.lib")
 
 std::string G_TipsSymbol = "->: ";
 std::string G_consoleTxt =
-R"(ScriptC £¨Last Update : 2023.11.20 | LetObject : v9_7) [console mode]
+R"(ScriptC £¨Last Update : 2023.11.21 | LetObject : v9_7) [console mode]
 If you want to compile and run the code, type Enter twice.
 
 )";
@@ -58,6 +59,8 @@ int getCmdParam(int args, char** argv);
 
 void InitConsole();
 
+char* getExePath();
+
 int main(int args , char** argv) {
 
 	// InitConsole();
@@ -65,11 +68,11 @@ int main(int args , char** argv) {
 
 #ifdef _PACKAGE
 	char* pValue;
-	pValue = ::_getcwd(NULL, 0);
+	pValue = getExePath();
 	if (pValue != NULL) {
 		G_Res_path = pValue;
 		G_Res_path += "\\res\\";
-		::free(pValue);
+		delete[] pValue;
 	}
 	else {
 		std::cout << "Can not find res folder";
@@ -111,6 +114,8 @@ int main(int args , char** argv) {
 }
 #ifdef _PACKAGE
 void ScriptRun() {
+	const char* update = "package update";
+
 	std::string input;
 	if (G_SourcesFile.empty())
 		input = R"(return ;)";
@@ -157,6 +162,7 @@ void ScriptRun() {
 
 #ifdef NDEBUG
 void ProgramerCall() {
+	const char* update = "released update";
 	std::string input;
 
 	if (G_SourcesFile.empty())
@@ -204,26 +210,13 @@ void TestCodeCall() {
 
 	std::string input = 
 R"(//--- debug
-	require ("os");
-	require ("io");
-	require ("window");
+require("io");
+require("dialog");
+let dialog = new StdDialog;
+let io = new StdIo;
 
-	let os = new StdOs;
-	let io = new StdIo;
-	let window = new StdWindow;
-	let ret = false;
-
-	while(!ret):
-		ret = window.hideConsole();
-	end
-	ret = window.msgBox("Title","txt",1);
-	
-	io.print(ret);
-
-	io.println("show Console");
-	window.showConsole();
-	os.system("pause");
-	return;
+dialog.hideConsole();
+dialog.edgeHtml("title", "http://www.baidu.com/");
 
 )";
 
@@ -332,6 +325,19 @@ void InitConsole()
 	std::wcerr.clear();
 	std::wcin.clear();
 
+}
+
+char* getExePath()
+{
+	char* path = new char[MAX_PATH] {0};
+	HMODULE hm = GetModuleHandle(NULL);
+	if (!::GetModuleFileNameA(hm, path, MAX_PATH) || !::PathRemoveFileSpecA(path))
+	{
+		delete[] path;
+		path = NULL;
+		return NULL;
+	}
+	return path;
 }
 
 int CmdRunType()

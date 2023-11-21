@@ -2,8 +2,11 @@
 #ifndef _SCRIPTC_DLL_DLLFUNCREADER_
 #define _SCRIPTC_DLL_DLLFUNCREADER_
 
-#include <iostream>
 #include <Windows.h>
+#include <Shlwapi.h>
+#pragma comment(lib,"shlwapi.lib")
+
+#include <iostream>
 #include <fstream>
 #include <unordered_map>
 

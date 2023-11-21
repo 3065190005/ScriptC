@@ -437,4 +437,6 @@
 	bug修复
 	StdWindow:hideConsole 返回true 但没有隐藏的bug
 	用户层面
-	用户可以不在添加ScriptC环境变量
+	脚本启动条件将不与ScriptC环境变量进行绑定
+	StdWindow改名为StdDialog
+	修改StdDialog库函数 urlBox, htmlBox, urlView, htmlView -> ieUrl, ieHtml, edgeUrl, edgeHtml
