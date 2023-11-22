@@ -440,3 +440,13 @@
 	脚本启动条件将不与ScriptC环境变量进行绑定
 	StdWindow改名为StdDialog
 	修改StdDialog库函数 urlBox, htmlBox, urlView, htmlView -> ieUrl, ieHtml, edgeUrl, edgeHtml
+
+2023.11.22
+	代码层面
+	添加require解析后的Pop 执行，丢弃无用的require return 值
+	对includeFile 解析， 创建新的接口变量
+	VmInc执行默认跳过第一个Push 数字eip无效指令
+	VmPop 单独存在将不在执行无效操作 setVarMapValue
+	用户层面
+	添加新语法
+	+ require(string_const, var) new interface

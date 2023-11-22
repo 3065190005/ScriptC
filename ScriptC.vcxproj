@@ -320,6 +320,7 @@ copy /Y .\x64\Package\ScriptC.exe .\Package\</Command>
     <None Include="Resources\example\lua_file.lua" />
     <None Include="Resources\example\mathTest.sc" />
     <None Include="Resources\example\osTest.sc" />
+    <None Include="Resources\example\requireTest.sc" />
     <None Include="Resources\example\server.py" />
     <None Include="Resources\example\socketTest.sc" />
     <None Include="Resources\example\stringTest.sc" />

@@ -1410,21 +1410,47 @@ AST* ScriptC::Obj::CerParser::FileInclude()
 {
 	/*
 	*	FileInclude: KEY_REQUIRE LPARAM String_const RPARAM SEMI
+	*				| KEY_REQUIRE LPARAM String_const, VAR_ID RPARAM KEY_NEW  VAR_ID SEMI
 	*/
 
 	/*
 	* 2023.10.11 
 	* 修改 将 require "str"; 改为 require (str);
+	* 2023.11.22
+	* 添加新语法 require(str, var) new interface;
 	*/
 
 	IncludeFile* include_file = nullptr;
 	takeEat(CerTokType::Key_Require);
 	takeEat(CerTokType::LPARAM);
 	auto tok = this->m_lexical->getCurrentToken();
-	include_file = new IncludeFile(tok);
+	CerTokClass file;
+	CerTokClass::copy(file, tok);
 	takeEat(CerTokType::Str_Const);
+	
+	tok = this->m_lexical->getCurrentToken();
+	
+	if (tok.getType() == CerTokType::COMMA)
+	{
+		CerTokClass interface, var;
+		takeEat(CerTokType::COMMA);
+		tok = this->m_lexical->getCurrentToken();
+		takeEat(CerTokType::Var_Id);
+		CerTokClass::copy(var, tok);
+		takeEat(CerTokType::RPARAM);
+		takeEat(CerTokType::Key_New);
+		tok = this->m_lexical->getCurrentToken();
+		CerTokClass::copy(interface, tok);
+		takeEat(CerTokType::Var_Id);
+		takeEat(CerTokType::SEMI);
+		include_file = new IncludeFile(file, interface, var);
+		return include_file;
+	}
+
 	takeEat(CerTokType::RPARAM);
 	takeEat(CerTokType::SEMI);
+
+	include_file = new IncludeFile(file);
 	return include_file;
 }
 

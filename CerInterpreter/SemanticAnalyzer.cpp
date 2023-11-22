@@ -465,6 +465,42 @@ bool ScriptC::Obj::SemanticAnalyzer::visit_IncludeFile(AST* node, autoPtr ret)
 	auto_c seman_ret(false, false);
 	seman->m_symbol_table = m_symbol_table;
 	seman->scanner(&seman_ret);
+
+	/*
+	* 2023.11.22
+	* Ìí¼ÓÐÂÓï·¨ÌÇ require(string, var) new interface
+	*/
+	if (include_ast->hasCreateVar())
+	{
+		std::string inter_name, var_name;
+		inter_name = include_ast->getInterface().getCstr();
+		var_name = include_ast->getVar().getCstr();
+
+		if (!m_symbol_table) {
+			m_errHis->setErrInfo(node->getDebugInfo());
+			m_errHis->throwErr(EType::SemanticAnalyzer, "undefine symbol " + inter_name);
+		}
+
+		symbArea inter_finder = symbArea::noFind;
+		symbArea var_finder = symbArea::noFind;
+
+		inter_finder = m_symbol_table->findSymbol(inter_name, SymbolType::InterSymbol, true);
+		var_finder = m_symbol_table->findSymbol(var_name, SymbolType::VarSymbol, true);
+
+		if (inter_finder == symbArea::noFind) {
+			m_errHis->setErrInfo(node->getDebugInfo());
+			m_errHis->throwErr(EType::SemanticAnalyzer, "undefine symbol " + inter_name);
+		}
+
+		if (var_finder != symbArea::noFind) {
+			m_errHis->setErrInfo(node->getDebugInfo());
+			m_errHis->throwErr(EType::SemanticAnalyzer, "symbom " + var_name + " was already define");
+		}
+
+		SymbolClass var_symbol(var_name, SymbolClass("let"));
+		m_symbol_table->pushSymbol(var_symbol);
+	}
+
 	delete seman;
 	delete astTree;
 

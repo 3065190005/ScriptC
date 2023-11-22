@@ -22,7 +22,7 @@
 
 std::string G_TipsSymbol = "->: ";
 std::string G_consoleTxt =
-R"(ScriptC £¨Last Update : 2023.11.21 | LetObject : v9_7) [console mode]
+R"(ScriptC £¨Last Update : 2023.11.22 | LetObject : v9_7) [console mode]
 If you want to compile and run the code, type Enter twice.
 
 )";
@@ -210,14 +210,9 @@ void TestCodeCall() {
 
 	std::string input = 
 R"(//--- debug
-require("io");
-require("dialog");
-let dialog = new StdDialog;
-let io = new StdIo;
-
-dialog.hideConsole();
-dialog.edgeHtml("title", "http://www.baidu.com/");
-
+require("io", io) new StdIo;
+require("os", os)new StdOs;
+return null;
 )";
 
 

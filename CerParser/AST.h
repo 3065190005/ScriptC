@@ -164,12 +164,20 @@ namespace ScriptC {
 		{
 		public:
 			IncludeFile(CerTokClass file);
+			IncludeFile(CerTokClass file, CerTokClass interface, CerTokClass var);
 			~IncludeFile();
 
 			CerTokClass getFile();
+			CerTokClass getInterface();
+			CerTokClass getVar();
+
+			bool hasCreateVar();
 
 		private:
-			CerTokClass m_file;
+			CerTokClass m_file;		// 文件名
+			CerTokClass m_interface;// 接口名
+			CerTokClass m_var;		// 变量名
+			bool m_is_create_var;	// 是否执行初始化变量
 		};
 
 

@@ -143,6 +143,16 @@ CerTokClass ScriptC::Obj::Str::getTok()
 ScriptC::Obj::IncludeFile::IncludeFile(CerTokClass file)
 {
 	CerTokClass::copy(m_file, file);
+	m_is_create_var = false;
+	m_ast_type = AST::AstType::IncludeFile;
+}
+
+ScriptC::Obj::IncludeFile::IncludeFile(CerTokClass file, CerTokClass interface, CerTokClass var)
+{
+	CerTokClass::copy(m_file, file);
+	CerTokClass::copy(m_interface, interface);
+	CerTokClass::copy(m_var, var);
+	m_is_create_var = true;
 	m_ast_type = AST::AstType::IncludeFile;
 }
 
@@ -154,6 +164,21 @@ ScriptC::Obj::IncludeFile::~IncludeFile()
 CerTokClass ScriptC::Obj::IncludeFile::getFile()
 {
 	return m_file;
+}
+
+CerTokClass ScriptC::Obj::IncludeFile::getInterface()
+{
+	return m_interface;
+}
+
+CerTokClass ScriptC::Obj::IncludeFile::getVar()
+{
+	return m_var;
+}
+
+bool ScriptC::Obj::IncludeFile::hasCreateVar()
+{
+	return m_is_create_var;
 }
 
 /*****************

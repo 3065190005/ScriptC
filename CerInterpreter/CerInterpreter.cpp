@@ -981,6 +981,40 @@ bool ScriptC::Obj::CerInterpreter::visit_IncludeFile(AST* node, autoPtr ret)
 	delete interpr;
 	delete astTree;
 
+	/*
+	* 2023.11.22
+	* require 添加Pop 丢弃require return的无效值
+	* require 新增初始化语法糖
+	*/
+	CodeParams param2;
+	CommandCode opear1(CodeType::Pop, param2);
+	PushCode(std::move(opear1));
+
+	
+	if (include_ast->hasCreateVar())
+	{
+		std::string var_name, inter_name;
+		var_name = include_ast->getVar().getCstr();
+		inter_name = include_ast->getInterface().getCstr();
+		m_errHis->setErrInfo(node->getDebugInfo());
+
+		auto_c space, param;
+		space << "interface";
+		param << inter_name;
+
+		CodeParams param2;
+		param2.insert({ "param1",std::move(param) });
+		param2.insert({ "param2" ,std::move(space) });
+		PushCode(std::move(CommandCode(CodeType::Push, std::move(param2))));
+
+		param << var_name;
+		param2.insert({ "param1",std::move(param) });
+		param2.insert({ "param2" ,std::move(space) });
+		PushCode(std::move(CommandCode(CodeType::Pop, std::move(param2))));
+
+		m_table_temp[var_name] = 1;
+	}
+
 	return true;
 
 }

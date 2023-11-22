@@ -721,8 +721,23 @@ yield必须在函数内部使用
 require (file_string);
 ```
 
+### 引用并初始化变量语法
+
+```sc
+require(file_string, Var) new Interface;
+```
+
+等同于
+
+```sc
+require(file_string);
+let Var = new Interface;
+```
+
 + require  头文件引入关键字
 + file_string  要引入的文件名字符串
++ Var 合法变量名
++ Interface 已定义的接口声明
 
 ### 引用头文件的操作  
 头文件在引入时会将要引入的文件代码全部执行一遍  

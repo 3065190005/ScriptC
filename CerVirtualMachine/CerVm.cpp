@@ -986,7 +986,13 @@ void ScriptC::Obj::CerVm::VmInc()
 	resEipString += kstring::stringFrom<unsigned long>(nowEip);
 	resEipDatas << resEipString;
 	setCodeFile(fileName + ".sc");
-	m_command_codes_index = 0;
+
+	/*
+	* 2023.11.22
+	* require 默认推送字符串eip
+	* 跳过文件正常leave需要的数字eip
+	*/
+	m_command_codes_index = 1;
 	advance();
 	dataSf->insert(dataSf->begin(), std::move(resEipDatas));
 }
@@ -1242,7 +1248,12 @@ auto_c ScriptC::Obj::CerVm::VmPop()
 		runT->insetInterVal(interName, varName, var_val);
 	}
 	else {
-		m_stacks.setVarMapValue(var_name, var_val, !create);
+		/*
+		* 2023.11.22
+		* 空字符将不在进行设置，提升性能
+		*/
+		if(!var_name.empty())
+			m_stacks.setVarMapValue(var_name, var_val, !create);
 	}
 
 	return ret;

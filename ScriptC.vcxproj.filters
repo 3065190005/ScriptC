@@ -407,6 +407,9 @@
     <None Include="Resources\example\dialogTest.sc">
       <Filter>资源文件\example</Filter>
     </None>
+    <None Include="Resources\example\requireTest.sc">
+      <Filter>资源文件\example</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
