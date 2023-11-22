@@ -1136,7 +1136,7 @@ fill  字符串填充        ： 字符串，位置，长度，内容 -> 返回�
 str:string ,pos:number ,lens:number ,txt:string -> string|null
 function fill(str,pos,lens,txt)
 
-lower   将字符串转换为大写 : 字符串 -> 返回转换字符串，失败返回null
+lower   将字符串转换为小写 : 字符串 -> 返回转换字符串，失败返回null
 str:string -> string|null
 function lower(str)
 
