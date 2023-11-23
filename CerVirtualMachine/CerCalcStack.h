@@ -32,6 +32,11 @@ namespace ScriptC {
 			void BinOpCalc(CodeType	type);		// 二元计算
 			void UnaryCalc(CodeType type);		// 一元计算
 
+			std::string getBinOpStr(CodeType);
+			std::string getUnaryStr(CodeType);
+
+			std::string getAutoCTypeStr(LetObject::ObjT);
+
 		public:
 			static CerCalcStack* create();		// 创建静态函数
 

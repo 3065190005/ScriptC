@@ -452,3 +452,10 @@
 	添加新语法
 	+ require(string_const, var) new interface
 	关键字 yield 和 resume 修改为 co_yield 和 co_resume
+
+2023.11.23
+	代码层面
+	对 Unary 和 BinOp 添加try 代码块
+	修改两个运算符会报 unknow error Check C++ Code 的问题
+	用户层面
+	添加了关于错误的变量运算符的报错信息

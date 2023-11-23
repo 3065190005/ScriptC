@@ -210,9 +210,66 @@ void TestCodeCall() {
 
 	std::string input = 
 R"(//--- debug
+require("socket", socket) new StdSocket;
 require("io", io) new StdIo;
-require("os", os)new StdOs;
-return null;
+require("os", os) new StdOs;
+
+let bye_string = "Bye ~ ~";
+
+let ip_address = null;
+let ip_port = null;
+
+io.println("请输入Ip地址");
+ip_address = io.input();
+
+io.println("请输入Ip端口");
+ip_port = io.input();
+ip_port = os.number(ip_port);
+if(ip_port == null):
+    io.println("输入了无效的端口");
+    return;
+end
+
+let sock = socket.create(socket.ipv4, socket.tcp);
+
+io.println("创建的sock : " + sock);
+if(sock <= 0):
+    io.println("socket创建失败, 返回的错误id: " + sock);
+    os.system("pause");
+    return;
+end
+
+os.system("title tcp_server bind");
+socket.bind(sock, ip_address, ip_port);
+
+os.system("title tcp_server listen");
+socket.listen(sock,10);
+
+os.system("title tcp_server accept");
+let client = socket.accept(sock);
+
+let buf = null;
+os.system("cls");
+io.println("开始对话 ---------- \n\n");
+while(true):
+    io.println("发送数据:");
+    buf = io.input();
+    socket.send(client, buf, 2048);
+    io.println("\n -----------------------\n\n");
+
+    io.println("接受数据:");
+    buf = socket.recv(client,2048);
+    io.println(buf);
+    io.println("\n -----------------------\n\n");
+    if(buf == bye_string):
+        socket.send(client, bye_string, 2048);
+        break;
+    end
+end
+
+socket.close(client);
+socket.close(sock);
+os.system("pause");
 )";
 
 
