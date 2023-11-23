@@ -9,6 +9,7 @@
 #include <unordered_map>
 #include <type_traits>
 #include <iostream>
+#include <filesystem>
 
 namespace AutoMem {
 	namespace Obj {
@@ -226,6 +227,9 @@ namespace AutoMem {
 
 			bool isRef(LetObject* value);
 
+			char* block();
+			size_t lens();
+
 		public:
 
 			ObjT getType();
@@ -281,11 +285,33 @@ namespace AutoMem {
 			};
 
 		public:
-			void print(auto_c& value);													// 打印
-			void println(auto_c& value);												// 打印带回车
-			bool AutoCmp(std::pair<Operator,std::string> condition, auto_c& target);	// 属性对比
-			void Swap(auto_c& value1, auto_c& value2);		// 通过move 交换两个数值
-			bool IsRef(auto_c& ref_value, auto_c *value);	// 检测 ref_vlaue 是否引用 value
+			void print(auto_c& value);														// 打印
+			void println(auto_c& value);													// 打印带回车
+			bool AutoCmp(std::pair<Operator,std::string> condition, auto_c& target);		// 属性对比
+			void Swap(auto_c& value1, auto_c& value2);										// 通过move 交换两个数值
+			bool IsRef(auto_c& ref_value, auto_c *value);									// 检测 ref_vlaue 是否引用 value
+			bool ToBin(auto_c& ref_value, std::string& bin_str, bool has_header = true);	// 编译为16进制
+			bool FromBin(auto_c& ref_value, std::string& bin_str, bool has_header = true);	// 16进制转换为变量
+			bool SaveToBin(auto_c& ref_value, std::filesystem::path);						// 编译的16进制保存到文件bin中
+			bool ReadFromBin(auto_c& ref_value, std::filesystem::path);						// 从文件bin中解析变量
+
+		private:
+			bool compileFileHeader(std::string&);				// 编译文件头
+			bool compileData(std::string&, auto_c&);			// 编译数据内容
+			bool compileDataObjS(std::string&, auto_c&);		// 数据块标识
+			bool compileDataAttribute(std::string&, auto_c&);	// 数据块属性
+			bool compileDataNumAry(std::string&, auto_c&);		// 数字数组
+			bool compileDataStrAry(std::string&, auto_c&);		// 字符数组
+			bool compileDataValue(std::string&, auto_c&);		// 变量值
+
+			bool analysisFileHeader(std::string&);				// 解析文件头
+			size_t analysisFileSize(std::string&);				// 解析文件大小
+			bool analysisData(std::string&, auto_c&);			// 解析文件大小
+			bool analysisDataObjS(std::string&, auto_c&);		// 数据块标识
+			bool analysisDataAttribute(std::string&, auto_c&);	// 数据块属性
+			bool analysisDataNumAry(std::string&, auto_c&);		// 数字数组
+			bool analysisDataStrAry(std::string&, auto_c&);		// 字符数组
+			bool analysisDataValue(std::string&, auto_c&);		// 获取变量值
 		};
 
 		using ToolsCond = std::pair<LetTools::Operator, std::string>;

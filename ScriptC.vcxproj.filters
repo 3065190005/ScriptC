@@ -135,6 +135,9 @@
     <ClCompile Include="AutoElement\LetObjectOperator.cpp">
       <Filter>AutoElement</Filter>
     </ClCompile>
+    <ClCompile Include="AutoElement\LetTools.cpp">
+      <Filter>AutoElement</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CerLexical\CerLexical.h">

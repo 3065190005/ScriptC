@@ -447,6 +447,8 @@
 	对includeFile 解析， 创建新的接口变量
 	VmInc执行默认跳过第一个Push 数字eip无效指令
 	VmPop 单独存在将不在执行无效操作 setVarMapValue
+	修改解析关键字 yield 和 resume 为 co_yield 和 co_resume
 	用户层面
 	添加新语法
 	+ require(string_const, var) new interface
+	关键字 yield 和 resume 修改为 co_yield 和 co_resume

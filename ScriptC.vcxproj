@@ -249,6 +249,7 @@ copy /Y .\x64\Package\ScriptC.exe .\Package\</Command>
     <ClCompile Include="AutoElement\LetManager.cpp" />
     <ClCompile Include="AutoElement\LetObject.cpp" />
     <ClCompile Include="AutoElement\LetObjectOperator.cpp" />
+    <ClCompile Include="AutoElement\LetTools.cpp" />
     <ClCompile Include="CerInterpreter\CerInterpreter.cpp" />
     <ClCompile Include="CerInterpreter\CommandCode.cpp" />
     <ClCompile Include="CerInterpreter\NodeVisitor.cpp" />

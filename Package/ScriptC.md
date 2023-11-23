@@ -1,5 +1,6 @@
 
 
+
 # ScriptC
 
 ## 基础介绍
@@ -77,7 +78,7 @@ ScriptC一共有23个关键字
 | elif     | end   |   false   | for  | true    |
 | function | if    |    in     | let  | while   |
 | null     | undef | interface | new  | require |
-| override     | yield | resume |   |  |
+| override     | co_yield | co_resume |   |  |
 
 
 ### 特殊变量
@@ -618,49 +619,49 @@ value1.setNumber(0);		// value1.number = 0;
 
 
 ## 协程
-通过使用yield和resume可以实现函数之间的切换
+通过使用co_yield和co_resume可以实现函数之间的切换
 
-### yield关键字
+### co_yield关键字
 ```sc
-yield(expr)
+co_yield(expr)
 ```
 +  expr 任意合法表达式
 
-yield关键字可以用来暂停当前函数执行并获取一个值，其中参数expr为任意表达式
-当调用yield关键字会返回一个数组，其中元素[0]为返回的协程id，元素[1]为expr表达式的值
+co_yield关键字可以用来暂停当前函数执行并获取一个值，其中参数expr为任意表达式
+当调用co_yield关键字会返回一个数组，其中元素[0]为返回的协程id，元素[1]为expr表达式的值
 ```sc
 	// require ...
 	
 	function func(str):
-		yield(str + " yield");
+		co_yield(str + " co_yield");
 		return null;
 	end
 	
 	let var = func("Hello World");
-	io.println(var); // var = [0:<number>, 1:"Hello World yield"]
+	io.println(var); // var = [0:<number>, 1:"Hello World co_yield"]
 ```
 
-### resume关键字
+### co_resume关键字
 ```sc
-	resume(id, expr)
+	co_resume(id, expr)
 ```
 + id 要恢复的协程id
 + expr 任意合法表达式
 
-resume 关键字可以用来恢复一个被暂停的函数并发送一个值，其中id为yield关键字返回协程id，expr为任意合法表达式
+resume 关键字可以用来恢复一个被暂停的函数并发送一个值，其中id为co_yield关键字返回协程id，expr为任意合法表达式
 
 ```sc
 	//require ...
 	function func(str):
 		io.println(str);
-		str = yield("Yield Str");
+		str = co_yield("Yield Str");
 		io.println(str);
 		return "Return Str";
 	end
 	
 	let coroutine = func("Hello World");
 	io.println(coroutine[1]);
-	let resume_str = resume(coroutine[0], "Resume Str");
+	let resume_str = co_resume(coroutine[0], "Resume Str");
 	io.println(resume_str);
 ```
 
@@ -678,17 +679,17 @@ require("io");
 let io = new StdIo;	
 
 function sell(max):
-	let count = yield(max);
+	let count = co_yield(max);
 	while(count > 0):
 		io.println("Sell : " + count);
-		count = yield(count);
+		count = co_yield(count);
 	end
 end
 
 function buy(max):
 	let count = sell(max);
 	while(count[1] > 0):
-		count = resume(count[0], count[1]);
+		count = co_resume(count[0], count[1]);
 		io.println("Buy : " + count[1]);
 		count[1] = count[1] - 1;
 	end

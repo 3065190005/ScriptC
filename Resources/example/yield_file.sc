@@ -2,8 +2,8 @@ require("io");
 
 function requireFunc():
 	io.println("require Func Call");
-	let value = yield("require Func Yield");
-	io.println("require Func Yield " + value);
+	let value = co_yield("require Func co_yield");
+	io.println("require Func co_yield " + value);
 	return "requireFunc Return";
 end
 

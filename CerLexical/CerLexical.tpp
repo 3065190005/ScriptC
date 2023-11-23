@@ -219,9 +219,9 @@ CerTokType ScriptC::Obj::CerLexical<T>::isKeyWord(std::string str)
 		ret = CerTokType::Key_Require;
 	else if (str == "override")
 		ret = CerTokType::Key_Override;
-	else if (str == "yield")
+	else if (str == "co_yield")
 		ret = CerTokType::Key_Yield;
-	else if (str == "resume")
+	else if (str == "co_resume")
 		ret = CerTokType::Key_Resume;
 
 	return ret;

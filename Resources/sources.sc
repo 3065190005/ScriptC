@@ -148,50 +148,50 @@ init_cls.numbert = "numberT value";
 io.println("program over");
 
 
-io.println("\n\n --- function Yield Test --- \n");
+io.println("\n\n --- function yield Test --- \n");
 
 function yieldFunc(param):
 	io.println("yieldFunc " + param);
-	param = yield(param + " yield");
+	param = co_yield(param + " co_yield");
 	io.println(param);
 	return param + " return";
 end
 
-let yield_value = yieldFunc("This is Param");
-io.println(yield_value[1]);
-yield_value = resume(yield_value[0], yield_value[1] + " resume");
-io.println(yield_value);
+let co_yield_value = yieldFunc("This is Param");
+io.println(co_yield_value[1]);
+co_yield_value = co_resume(co_yield_value[0], co_yield_value[1] + " co_resume");
+io.println(co_yield_value);
 
 
-io.println("\n\n --- function Yield this Test --- \n");
+io.println("\n\n --- function yield this Test --- \n");
 
 function yieldFuncThis():
 	io.println("yieldFuncThis " + this);
 	this = "yieldFuncThis" + this;
-	this = yield(this + " yield");
+	this = co_yield(this + " co_yield");
 	io.println(this);
 	return this + " return";
 end
 
 let this_value = "This is this Value";
-let yield_value_this = yieldFuncThis()<this_value>;
-io.println(yield_value_this[1]);
-this_value = resume(yield_value_this[0], yield_value_this[1] + " resume");
+let co_yield_value_this = yieldFuncThis()<this_value>;
+io.println(co_yield_value_this[1]);
+this_value = co_resume(co_yield_value_this[0], co_yield_value_this[1] + " co_resume");
 io.println(this_value);
 
 
-io.println("\n\n --- interface Yield Test --- \n");
-interface YieldClass{
+io.println("\n\n --- interface co_yield Test --- \n");
+interface co_yieldClass{
 	let str = "Default";
 	let child = "Child";
 	function yieldFunc():
 		let value = "yeildFunc call";
-		this.str = this.str + " Yield";
+		this.str = this.str + " co_yield";
 
 		io.println(value);
 		io.println(this.str);
 
-		value = yield(value + " Yield");
+		value = co_yield(value + " co_yield");
 
 		io.println(value);
 		io.println(this.str);
@@ -200,49 +200,49 @@ interface YieldClass{
 	end
 }
 
-let yield_cls = new YieldClass;
-let value = yield_cls.yieldFunc();
+let co_yield_cls = new co_yieldClass;
+let value = co_yield_cls.yieldFunc();
 io.println(value[1]);
-io.println(yield_cls.str);
+io.println(co_yield_cls.str);
 
-yield_cls.str = yield_cls.str + " Resume";
-value = resume(value[0], value[1] + "Resume");
+co_yield_cls.str = co_yield_cls.str + " co_resume";
+value = co_resume(value[0], value[1] + "Resume");
 
 io.println(value);
 
-io.println("\n\n --- Right interface Yield Test --- \n");
+io.println("\n\n --- Right interface co_yield Test --- \n");
 function getRight():
-	return new YieldClass;
+	return new co_yieldClass;
 end
 
 value = getRight().yieldFunc();
 io.println(value[1]);
-value = resume(value[0], value[1] + "Resume");
+value = co_resume(value[0], value[1] + "Resume");
 io.println(value);
 
-io.println("\n\n --- Yield With Require --- \n");
+io.println("\n\n --- co_yield With Require --- \n");
 
 io.println("main Called");
 require("example\\yield_file");
-io.println("main Yield info Ret " + info[1]);
-info = resume(info[0],info[1]);
+io.println("main co_yield info Ret " + info[1]);
+info = co_resume(info[0],info[1]);
 io.println("main function return info " + info);
 
 
-io.println("\n\n --- Yield Sell Buy Apples --- \n");
+io.println("\n\n --- co_yield Sell Buy Apples --- \n");
 
 function sell(max):
-	let count = yield(max);
+	let count = co_yield(max);
 	while(count >= 0):
 		io.println("Sell Apple: " + count);
-		count = yield(count);
+		count = co_yield(count);
 	end
 end
 
 function buy(max):
 	let count = sell(max);
 	while(count[1] >= 0):
-		count = resume(count[0], count[1]);
+		count = co_resume(count[0], count[1]);
 		io.println("Buy Apple: " + count[1]);
 		count[1] = count[1] - 1;
 	end
