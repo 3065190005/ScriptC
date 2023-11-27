@@ -132,5 +132,46 @@ interface StdString{
         return __system__str__rfind_not_N__(str,txt,cnt);
     end 
 
+
+    // str|string -> boolean;
+	function isAlpha(str):
+		return __system__str__isAlpha__(str); 
+	end
+
+	// str|string -> boolean;
+	function isAlnum(str):
+		return __system__str__isAlnum__(str);
+	end
+
+	// str|string -> boolean;
+	function hasBlank(str):
+		return __system__str__hasBlank__(str); 
+	end
+
+	// str|string -> boolean;
+	function isBlank(str):
+		return __system__str__isBlank__(str); 
+	end
+
+	// str|string -> boolean;
+	function hasCntrl(str):
+		return __system__str__hasCntrl__(str); 
+	end
+
+	// str|string -> boolean;
+	function isCntrl(str):
+		return __system__str__isCntrl__(str);
+	end
+
+	// str|string -> boolean;
+	function isLower(str):
+		return __system__str__isLower__(str); 
+	end
+
+	// str|string -> boolean;
+	function isUpper(str):
+		return __system__str__isUpper__(str); 
+	end
+
     let str_all = -1;
 }

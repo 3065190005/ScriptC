@@ -7,4 +7,3 @@ require("socket", socket) new StdSocket;
 require("string", string) new StdString;
 require("thread", thread) new StdThread;
 require("time", time) new StdTime;
-require("type", type) new StdType;

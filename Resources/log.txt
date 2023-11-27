@@ -459,3 +459,5 @@
 	修改两个运算符会报 unknow error Check C++ Code 的问题
 	用户层面
 	添加了关于错误的变量运算符的报错信息
+	修复buf
+	修复io.input 获取空格会截断的问题

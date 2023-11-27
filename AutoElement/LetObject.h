@@ -294,6 +294,10 @@ namespace AutoMem {
 			bool FromBin(auto_c& ref_value, std::string& bin_str, bool has_header = true);	// 16进制转换为变量
 			bool SaveToBin(auto_c& ref_value, std::filesystem::path);						// 编译的16进制保存到文件bin中
 			bool ReadFromBin(auto_c& ref_value, std::filesystem::path);						// 从文件bin中解析变量
+			std::string ObjTToStr(LetObject::ObjT objt);									// 转换ObjT 到 Str
+			std::string ObjGToStr(LetObject::ObjG objg);									// 转换ObjG 到 Str
+			LetObject::ObjT StrToObjT(std::string objt_str);									// 转换Str 到 ObjT
+			LetObject::ObjG StrToObjG(std::string objg_str);									// 转换Str 到 ObjG
 
 		private:
 			bool compileFileHeader(std::string&);				// 编译文件头

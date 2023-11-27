@@ -336,6 +336,109 @@ bool AutoMem::Obj::LetTools::ReadFromBin(auto_c& ref_value, std::filesystem::pat
 	return ret;
 }
 
+std::string AutoMem::Obj::LetTools::ObjTToStr(LetObject::ObjT objt)
+{
+	std::string ret;
+	switch (objt)
+	{
+	case AutoMem::Obj::LetObject::ObjT::null:
+		ret = "null";
+		break;
+	case AutoMem::Obj::LetObject::ObjT::undef:
+		ret = "undef";
+		break;
+	case AutoMem::Obj::LetObject::ObjT::boolean:
+		ret = "boolean";
+		break;
+	case AutoMem::Obj::LetObject::ObjT::number:
+		ret = "number";
+		break;
+	case AutoMem::Obj::LetObject::ObjT::string:
+		ret = "string";
+		break;
+	case AutoMem::Obj::LetObject::ObjT::array:
+		ret = "array";
+		break;
+	default:
+		ret = "";
+		break;
+	}
+
+	return ret;
+}
+
+std::string AutoMem::Obj::LetTools::ObjGToStr(LetObject::ObjG objg)
+{
+	std::string ret;
+	switch (objg)
+	{
+	case AutoMem::Obj::LetObject::ObjG::none:
+		ret = "none";
+		break;
+	case AutoMem::Obj::LetObject::ObjG::Static:
+		ret = "static";
+		break;
+	case AutoMem::Obj::LetObject::ObjG::Dynamic:
+		ret = "dynamic";
+		break;
+	default:
+		ret = "";
+		break;
+	}
+
+	return ret;
+}
+
+AutoMem::Obj::LetObject::ObjT AutoMem::Obj::LetTools::StrToObjT(std::string objt_str)
+{
+	for (size_t i = 0; i < objt_str.size(); i++)
+	{
+		if (objt_str[i] >= 'a' && objt_str[i] <= 'z')
+		{
+			objt_str[i] -= 32;
+		}
+	}
+
+	AutoMem::Obj::LetObject::ObjT ret{ LetObject::ObjT::null };
+
+	if (objt_str == "NULL")
+		ret = LetObject::ObjT::null;
+	if (objt_str == "UNDEF")
+		ret = LetObject::ObjT::undef;
+	if (objt_str == "BOOLEAN" || objt_str == "BOOL")
+		ret = LetObject::ObjT::boolean;
+	if (objt_str == "NUMBER")
+		ret = LetObject::ObjT::number;
+	if (objt_str == "STRING" || objt_str == "STR")
+		ret = LetObject::ObjT::string;
+	if (objt_str == "ARRAY")
+		ret = LetObject::ObjT::array;
+
+	return ret;
+}
+
+AutoMem::Obj::LetObject::ObjG AutoMem::Obj::LetTools::StrToObjG(std::string objg_str)
+{
+	for (size_t i = 0; i < objg_str.size(); i++)
+	{
+		if (objg_str[i] >= 'a' && objg_str[i] <= 'z')
+		{
+			objg_str[i] -= 32;
+		}
+	}
+
+	AutoMem::Obj::LetObject::ObjG ret{LetObject::ObjG::none};
+
+	if (objg_str == "NONE")
+		ret = LetObject::ObjG::none;
+	if (objg_str == "DYNAMIC")
+		ret = LetObject::ObjG::Dynamic;
+	if (objg_str == "STATIC")
+		ret = LetObject::ObjG::Static;
+
+	return ret;
+}
+
 bool AutoMem::Obj::LetTools::compileFileHeader(std::string& bin_str)
 {
 	char header_chars[9]{ 0xE4, 0xB8 ,0x83,0xE5,0xA4,0x9C,0xE8,0xAF,0x9A };

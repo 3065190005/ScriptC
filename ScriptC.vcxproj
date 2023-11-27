@@ -327,7 +327,6 @@ copy /Y .\x64\Package\ScriptC.exe .\Package\</Command>
     <None Include="Resources\example\stringTest.sc" />
     <None Include="Resources\example\threadTest.sc" />
     <None Include="Resources\example\timeTest.sc" />
-    <None Include="Resources\example\typeTest.sc" />
     <None Include="Resources\example\yield_file.sc" />
     <None Include="Resources\libs\config.cfg" />
     <None Include="Resources\libs\std_array.dll" />
@@ -350,15 +349,14 @@ copy /Y .\x64\Package\ScriptC.exe .\Package\</Command>
     <None Include="Resources\res\extern_system\system_string.sc" />
     <None Include="Resources\res\extern_system\system_thread.sc" />
     <None Include="Resources\res\extern_system\system_time.sc" />
-    <None Include="Resources\res\extern_system\system_type.sc" />
     <None Include="Resources\res\io.sc" />
     <None Include="Resources\res\math.sc" />
     <None Include="Resources\res\os.sc" />
+    <None Include="Resources\res\scriptc.sc" />
     <None Include="Resources\res\socket.sc" />
     <None Include="Resources\res\string.sc" />
     <None Include="Resources\res\thread.sc" />
     <None Include="Resources\res\time.sc" />
-    <None Include="Resources\res\type.sc" />
     <None Include="Resources\ScriptC.md" />
     <None Include="Resources\sources.sc" />
   </ItemGroup>

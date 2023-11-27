@@ -332,9 +332,6 @@
     <None Include="Resources\example\timeTest.sc">
       <Filter>资源文件\example</Filter>
     </None>
-    <None Include="Resources\example\typeTest.sc">
-      <Filter>资源文件\example</Filter>
-    </None>
     <None Include="Resources\example\directTest.sc">
       <Filter>资源文件\example</Filter>
     </None>
@@ -360,9 +357,6 @@
       <Filter>资源文件\res\extern_system</Filter>
     </None>
     <None Include="Resources\res\extern_system\system_time.sc">
-      <Filter>资源文件\res\extern_system</Filter>
-    </None>
-    <None Include="Resources\res\extern_system\system_type.sc">
       <Filter>资源文件\res\extern_system</Filter>
     </None>
     <None Include="Resources\res\array.sc">
@@ -392,9 +386,6 @@
     <None Include="Resources\res\time.sc">
       <Filter>资源文件\res</Filter>
     </None>
-    <None Include="Resources\res\type.sc">
-      <Filter>资源文件\res</Filter>
-    </None>
     <None Include="Resources\example\yield_file.sc">
       <Filter>资源文件\example</Filter>
     </None>
@@ -412,6 +403,9 @@
     </None>
     <None Include="Resources\example\requireTest.sc">
       <Filter>资源文件\example</Filter>
+    </None>
+    <None Include="Resources\res\scriptc.sc">
+      <Filter>资源文件\res</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

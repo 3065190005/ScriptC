@@ -151,7 +151,15 @@ void ScriptRun() {
 		printf("in file \"%s\" column \"%d\" row \"%d\" : \"%s\"\n", info.file.c_str(), info.column, info.row, info.character.c_str());
 		std::cout << str << std::endl;
 	}
+	catch (const char* cstr) {
+		std::string str{ cstr };
+		auto errHis = ErrorHandling::getInstance();
+		auto info = errHis->getErrorInfo();
+		printf("in file \"%s\" column \"%d\" row \"%d\" : \"%s\"\n", info.file.c_str(), info.column, info.row, info.character.c_str());
+		std::cout << str << std::endl;
+	}
 	catch (...) {
+
 		auto errHis = ErrorHandling::getInstance();
 		auto info = errHis->getErrorInfo();
 		printf("in file \"%s\" column \"%d\" row \"%d\" : \"%s\"\n", info.file.c_str(), info.column, info.row, info.character.c_str());
@@ -210,66 +218,64 @@ void TestCodeCall() {
 
 	std::string input = 
 R"(//--- debug
-require("socket", socket) new StdSocket;
-require("io", io) new StdIo;
-require("os", os) new StdOs;
+require ("io");
+	require ("os");
+	let os = new StdOs;
+	let io = new StdIo;
 
-let bye_string = "Bye ~ ~";
+	function log(str):
+		os.system("echo " + str);
+	end
 
-let ip_address = null;
-let ip_port = null;
+	function logv(str):
+		io.println(str);
+	end
+	
+	log("arg getting");
+	let arg = os.argv();
+	logv(arg);
+	
+	log("putenv");
+	let penv = os.putenv("Path","HelloWorld");
+	logv(penv);
 
-io.println("请输入Ip地址");
-ip_address = io.input();
+	log("getenv");
+	let genv = os.getenv("Path");
+	logv(genv);
 
-io.println("请输入Ip端口");
-ip_port = io.input();
-ip_port = os.number(ip_port);
-if(ip_port == null):
-    io.println("输入了无效的端口");
-    return;
-end
+	log("hex");
+	let hexV = os.hex("0xFFFF");
+	logv(hexV);
 
-let sock = socket.create(socket.ipv4, socket.tcp);
+	log("oct");
+	let octV = os.oct("0o7777");
+	logv(octV);
 
-io.println("创建的sock : " + sock);
-if(sock <= 0):
-    io.println("socket创建失败, 返回的错误id: " + sock);
-    os.system("pause");
-    return;
-end
+	log("bin");
+	let binV = os.bin("0b1111");
+	logv(binV);
 
-os.system("title tcp_server bind");
-socket.bind(sock, ip_address, ip_port);
+	log("type");
+	let typeV = os.type(os) + " " + os.type(octV) + " " + os.type(arg);
+	logv(typeV);
 
-os.system("title tcp_server listen");
-socket.listen(sock,10);
+	log("static cast bool string number");
+	let boolV = os.bool("true");
+	logv(boolV);
 
-os.system("title tcp_server accept");
-let client = socket.accept(sock);
+	let numberV = os.number("999");
+	logv(numberV);
 
-let buf = null;
-os.system("cls");
-io.println("开始对话 ---------- \n\n");
-while(true):
-    io.println("发送数据:");
-    buf = io.input();
-    socket.send(client, buf, 2048);
-    io.println("\n -----------------------\n\n");
+	let stringV = os.str(numberV);
+	logv(stringV);
 
-    io.println("接受数据:");
-    buf = socket.recv(client,2048);
-    io.println(buf);
-    io.println("\n -----------------------\n\n");
-    if(buf == bye_string):
-        socket.send(client, bye_string, 2048);
-        break;
-    end
-end
-
-socket.close(client);
-socket.close(sock);
-os.system("pause");
+	if(1 == 2):
+		log("exit 1");
+		os.exit(1);
+	elif(2 == 3):
+		log("abort");
+		os.abort();
+	end
 )";
 
 

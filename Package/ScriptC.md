@@ -1200,6 +1200,39 @@ rfind_not_N              反向查找N个not下标             :       字符串
 str:string ,txt:string ,cnt:number -> array|null
 function rfind_not_N(str,txt,cnt)
 
+
+检测字符串是否纯字母: 是则返回true，否则返回false
+str|string -> boolean;
+isAlpha(str);
+
+检测字符串是否纯数字: 是则返回true，否则返回false
+str|string -> boolean;
+isAlnum(str);
+
+检测字符串是否含有空格: 是则返回true，否则返回false
+str|string -> boolean;
+hasBlank(str);
+
+检测字符串是否纯空格: 是则返回true，否则返回false
+str|string -> boolean;
+isBlank(str);
+
+检测字符串是否含有控制符: 是则返回true，否则返回false
+str|string -> boolean;
+hasCntrl(str);
+
+检测字符串是否全控制符： 是则返回true，否则返回false
+str|string -> boolean;
+isCntrl(str);
+
+检测字符串是否全小写: 是则返回true，否则返回false
+str|string -> boolean;
+isLower(str);
+
+检测字符串是否全大写： 是则返回true，否则返回false
+str|string -> boolean;
+isUpper(str);
+
 **内置变量**  
 ```sc
 let str_all = -1;
@@ -1363,46 +1396,6 @@ let millisecond = 0;
 let msec = 0;
 let ms = 0;
 ```
-
-
-
-## StdType 类型库
-```sc
-require ("type");
-let tp = new StdType;
-```
-
-检测字符串是否纯字母: 是则返回true，否则返回false
-str|string -> boolean;
-isAlpha(str);
-
-检测字符串是否纯数字: 是则返回true，否则返回false
-str|string -> boolean;
-isAlnum(str);
-
-检测字符串是否含有空格: 是则返回true，否则返回false
-str|string -> boolean;
-hasBlank(str);
-
-检测字符串是否纯空格: 是则返回true，否则返回false
-str|string -> boolean;
-isBlank(str);
-
-检测字符串是否含有控制符: 是则返回true，否则返回false
-str|string -> boolean;
-hasCntrl(str);
-
-检测字符串是否全控制符： 是则返回true，否则返回false
-str|string -> boolean;
-isCntrl(str);
-
-检测字符串是否全小写: 是则返回true，否则返回false
-str|string -> boolean;
-isLower(str);
-
-检测字符串是否全大写： 是则返回true，否则返回false
-str|string -> boolean;
-isUpper(str);
 
 ## StdDialog 对话框库
 ```sc

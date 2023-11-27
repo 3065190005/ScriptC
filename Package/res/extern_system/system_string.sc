@@ -25,3 +25,13 @@ function export __system__str__rfind_first__(str,txt) end
 function export __system__str__rfind_N__(str,txt,cnt) end
 function export __system__str__rfind_not_first__(str,txt) end
 function export __system__str__rfind_not_N__(str,txt,cnt) end
+
+
+function export __system__str__isAlpha__(str) end
+function export __system__str__isAlnum__(str) end
+function export __system__str__hasBlank__(str) end
+function export __system__str__isBlank__(str) end
+function export __system__str__hasCntrl__(str) end
+function export __system__str__isCntrl__(str) end
+function export __system__str__isLower__(str) end
+function export __system__str__isUpper__(str) end

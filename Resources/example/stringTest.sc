@@ -18,4 +18,18 @@ io.println(revertStr);
 let atStr = string.at(str,0) + string.at(str,1);
 io.println(atStr);
 
+
+function log(val):
+	io.println(val);
+end
+	
+	log(string.isAlpha("abcAAfg"));
+	log(string.isAlnum("123456"));
+	log(string.hasBlank("123 455"));
+	log(string.isBlank("    "));
+	log(string.hasCntrl("123\n"));
+	log(string.isCntrl("\t\n"));
+	log(string.isLower("abcefg"));
+	log(string.isUpper("AAFEGSD"));
+
 return;
