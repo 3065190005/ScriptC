@@ -218,46 +218,31 @@ void TestCodeCall() {
 
 	std::string input = 
 R"(//--- debug
-require ("io");
-let io = new StdIo;
+	require ("io");
+	function log(val):
+		let io = new StdIo;
+		io.println(val);
+	end
 
-require ("array");
-let array = new StdArray;
+	require ("time");
+	let tm = new StdTime;
+	
+	log(tm.time());
+	log(tm.timeAsM());
+	log(tm.clock());
+	log(tm.clockAsM());
+	log(tm.cast("120",tm.min));
+	log(tm.castAsM(120000,tm.sec));
+	let schedule = tm.join();
+	log(schedule);
+	log(tm.over(schedule));
+	log(tm.overAsM(schedule));
+	log(tm.date());
+	log(tm.dateAsM());
+	log(tm.toDate(1664374474));
+	log(tm.toDateAsM(1664374474789));
 
-let value = 0;
-value[0] = 10;
-value[1] = 11;
-value[2] = 12;
-value[3] = 10;
-value[4] = 10;
-value["Name"] = 13;
-value["Age"] = 14;
-
-let value2 = ["ZhangSan","LiSi","WangWu"];
-
-let value3 = [100,200,300];
-
-io.println(value);
-io.println(value2);
-
-io.println(array.size(value));
-io.println(array.cmp(value,value2));
-io.println(array.max(value));
-io.println(array.min(value));
-io.println(array.append(value,"HAHA"));
-io.println(array.count(value,10));
-io.println(array.extend(value,value2));
-io.println(array.back(value));
-io.println(array.front(value));
-io.println(array.index(value,14));
-io.println(array.insert(value,1,value3));
-io.println(array.pop(value3,0));
-io.println(array.remove(value3,200));
-io.println(array.reverse(value));
-io.println(array.range(1,10));
-io.println(array.childs(value));
-
-return 0;
+	return 0;
 )";
 
 
