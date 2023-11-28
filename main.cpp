@@ -218,31 +218,57 @@ void TestCodeCall() {
 
 	std::string input = 
 R"(//--- debug
+	require ("os");
 	require ("io");
-	function log(val):
-		let io = new StdIo;
-		io.println(val);
-	end
+	require ("dialog");
+	require ("example\\index");
 
-	require ("time");
-	let tm = new StdTime;
+	let os = new StdOs;
+	let io = new StdIo;
+	let dialog = new StdDialog;
 	
-	log(tm.time());
-	log(tm.timeAsM());
-	log(tm.clock());
-	log(tm.clockAsM());
-	log(tm.cast("120",tm.min));
-	log(tm.castAsM(120000,tm.sec));
-	let schedule = tm.join();
-	log(schedule);
-	log(tm.over(schedule));
-	log(tm.overAsM(schedule));
-	log(tm.date());
-	log(tm.dateAsM());
-	log(tm.toDate(1664374474));
-	log(tm.toDateAsM(1664374474789));
+	dialog.hideConsole();
+	let ret = dialog.msgBox("Title","txt",1);
+	io.print(ret);
 
-	return 0;
+	ret = dialog.editBox("Title","txt");
+	io.print(ret);
+
+	ret = dialog.bowserBox();
+	io.print(ret);
+
+	let rect = [20,15,640,480];
+	let style = 0; 
+	
+	ret = dialog.getWebBoxSize();
+	ret = dialog.setWebBoxSize(rect[0],rect[1],rect[2],rect[3]);
+	io.println(ret);
+
+	ret = dialog.getWebBoxStyle();
+	io.println(ret);
+
+	// ret = dialog.setWebBoxStyle(style);
+	// io.println(ret);
+
+
+	ret = dialog.ieHtml(title,html);
+	io.print(ret);
+
+	ret = dialog.ieUrl("title2","www.baidu.com");
+	io.print(ret);
+
+
+	ret = dialog.edgeHtml(title,html);
+	io.print(ret);
+
+
+	ret = dialog.edgeUrl("title2","https://www.baidu.com/");
+	io.print(ret);
+
+
+	dialog.showConsole();
+	os.system("pause");
+	return;
 )";
 
 
