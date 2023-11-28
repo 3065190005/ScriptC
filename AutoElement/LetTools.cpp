@@ -15,38 +15,47 @@
 void AutoMem::Obj::LetTools::print(auto_c& value)
 {
 	if (value.getType() == LetObject::ObjT::array) {
-		for (auto& i : value.getStrArray()) {
-			if (i.second.getType() == LetObject::ObjT::array) {
-				print(i.second);
-			}
-			else if (i.second.getType() == LetObject::ObjT::number) {
-				std::cout << LetObject::cast<long double>(i.second);
-			}
-			else if (i.second.getType() == LetObject::ObjT::boolean) {
-				std::cout << std::boolalpha << LetObject::cast<bool>(i.second);
-			}
-			else {
-				std::cout << LetObject::cast<std::string>(i.second);
-			}
-		}
+		std::cout << "[ ";
+		auto_c index;
+		bool is_first = true;
 
 		for (auto& i : value.getNumArray()) {
-			if (i.second.getType() == LetObject::ObjT::array) {
-				print(i.second);
-			}
-			else if (i.second.getType() == LetObject::ObjT::boolean) {
-				std::cout << std::boolalpha << i.first << " " << LetObject::cast<bool>(i.second);
-			}
-			else if (i.second.getType() == LetObject::ObjT::number) {
-				std::cout << LetObject::cast<long double>(i.second);
-			}
-			else {
-				std::cout << LetObject::cast<std::string>(i.second);
-			}
+			if (!is_first)
+				std::cout << " , ";
+
+			index << i.first;
+			print(index);
+			std::cout << " : ";
+			print(i.second);
+			is_first = false;
 		}
+
+		for (auto& i : value.getStrArray()) {
+			if (!is_first)
+				std::cout << " , ";
+			index << i.first;
+
+			std::cout << "\"";
+			print(index);
+			std::cout << "\"";
+			
+			std::cout << " : ";
+			
+			print(i.second);
+			
+			is_first = false;
+		}
+
+		std::cout << " ]";
 	}
 	else if (value.getType() == LetObject::ObjT::number) {
-		std::cout << LetObject::cast<long double>(value);
+		numberT numb = LetObject::cast<numberT>(value);
+		std::string numb_str;
+		std::stringstream ss;
+		ss << std::setprecision(14) << numb;
+		numb_str = ss.str();
+		std::cout << numb_str;
+		
 	}
 	else if (value.getType() == LetObject::ObjT::string) {
 		std::cout << LetObject::cast<std::string>(value);
@@ -54,52 +63,20 @@ void AutoMem::Obj::LetTools::print(auto_c& value)
 	else if (value.getType() == LetObject::ObjT::boolean) {
 		std::cout << std::boolalpha << LetObject::cast<bool>(value);
 	}
+	else if (value.getType() == LetObject::ObjT::null) {
+		std::cout << "null";
+	}
+	else if (value.getType() == LetObject::ObjT::undef) {
+		std::cout << "undef";
+	}
 }
 
 
 
 void AutoMem::Obj::LetTools::println(auto_c& value)
 {
-	if (value.getType() == LetObject::ObjT::array) {
-		for (auto& i : value.getStrArray()) {
-			if (i.second.getType() == LetObject::ObjT::array) {
-				print(i.second);
-			}
-			else if (i.second.getType() == LetObject::ObjT::number) {
-				std::cout << LetObject::cast<long double>(i.second) << std::endl;
-			}
-			else if (i.second.getType() == LetObject::ObjT::boolean) {
-				std::cout << std::boolalpha << LetObject::cast<bool>(i.second) << std::endl;
-			}
-			else {
-				std::cout << LetObject::cast<std::string>(i.second) << std::endl;
-			}
-		}
-
-		for (auto& i : value.getNumArray()) {
-			if (i.second.getType() == LetObject::ObjT::array) {
-				print(i.second);
-			}
-			else if (i.second.getType() == LetObject::ObjT::boolean) {
-				std::cout << std::boolalpha << i.first << " " << LetObject::cast<bool>(i.second);
-			}
-			else if (i.second.getType() == LetObject::ObjT::number) {
-				std::cout << LetObject::cast<long double>(i.second) << std::endl;
-			}
-			else {
-				std::cout << LetObject::cast<std::string>(i.second) << std::endl;
-			}
-		}
-	}
-	else if (value.getType() == LetObject::ObjT::number) {
-		std::cout << LetObject::cast<long double>(value) << std::endl;
-	}
-	else if (value.getType() == LetObject::ObjT::string) {
-		std::cout << LetObject::cast<std::string>(value) << std::endl;
-	}
-	else if (value.getType() == LetObject::ObjT::boolean) {
-		std::cout << std::boolalpha << LetObject::cast<bool>(value) << std::endl;
-	}
+	print(value);
+	std::cout << std::endl;
 }
 
 bool AutoMem::Obj::LetTools::AutoCmp(std::pair<Operator, std::string> condition, auto_c& target)
