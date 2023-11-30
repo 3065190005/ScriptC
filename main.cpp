@@ -22,7 +22,7 @@
 
 std::string G_TipsSymbol = "->: ";
 std::string G_consoleTxt =
-R"(ScriptC £¨Last Update : 2023.11.22 | LetObject : v9_7) [console mode]
+R"(ScriptC £¨Last Update : 2023.11.30 | LetObject : v9_9) [console mode]
 If you want to compile and run the code, type Enter twice.
 
 )";
