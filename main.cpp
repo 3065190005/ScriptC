@@ -218,57 +218,129 @@ void TestCodeCall() {
 
 	std::string input = 
 R"(//--- debug
-	require ("os");
+		require ("socket");
 	require ("io");
-	require ("dialog");
-	require ("example\\index");
-
-	let os = new StdOs;
 	let io = new StdIo;
-	let dialog = new StdDialog;
-	
-	dialog.hideConsole();
-	let ret = dialog.msgBox("Title","txt",1);
-	io.print(ret);
+	let socket = new StdSocket;
 
-	ret = dialog.editBox("Title","txt");
-	io.print(ret);
+	let type = 1;
+	if(type == 1):
+		let result = false;
 
-	ret = dialog.bowserBox();
-	io.print(ret);
+		let listen = socket.create("ipv4",socket.tcp);
+		io.println("create : " + listen);
 
-	let rect = [20,15,640,480];
-	let style = 0; 
-	
-	ret = dialog.getWebBoxSize();
-	ret = dialog.setWebBoxSize(rect[0],rect[1],rect[2],rect[3]);
-	io.println(ret);
+		result = socket.bind(listen,"127.0.0.1",9997);
+		io.println(result);
 
-	ret = dialog.getWebBoxStyle();
-	io.println(ret);
+		result = socket.listen(listen,10);
+		io.println("listen :" + result);
 
-	// ret = dialog.setWebBoxStyle(style);
-	// io.println(ret);
+		let client = socket.accept(listen)[0];
+		io.println("client socket :" + client);
+
+		result = socket.send(client,"Hello ScriptC",100);
+		io.println("send lens :" + result);
+
+		result = socket.recv(client,100);
+		io.println("recv buf :" + result);
+
+		
+		result = socket.close(client);
+		io.println("close client socket :"+result);
+
+		result = socket.close(listen);
+		io.println("close listen socket :"+result);
+
+		result = socket.close(2333);
+		io.println("close error socket :"+result);
+
+	elif(type == 2):
+		let result = false;
+
+		let client = socket.create(socket.ipv4,socket.tcp);
+		io.println("create : " + client);
+
+		result = socket.connect(client,"127.0.0.1",9955);
+		io.println("connect : " + result);
 
 
-	ret = dialog.ieHtml(title,html);
-	io.print(ret);
+		result = socket.send(client,"Hello ScriptC",100);
+		io.println("send lens :" + result);
 
-	ret = dialog.ieUrl("title2","www.baidu.com");
-	io.print(ret);
+		result = socket.recv(client,100);
+		io.println("recv buf :" + result);
+
+		result = socket.close(client);
+		io.println("close client socket :"+result);
+
+	elif(type == 3):
+		let result = false;
+
+		let client = socket.create(socket.ipv4,socket.udp);
+		io.println("create : " + client);
+
+		result = socket.bind(client,"127.0.0.1",9933);
+		io.println(result);
+
+		result = socket.sendto(client,"Hello Udp",100,"127.0.0.1",9934);
+		io.println(result);
 
 
-	ret = dialog.edgeHtml(title,html);
-	io.print(ret);
+		result = socket.recvfrom(client,100);
+		io.println(result);
+				
+		result = socket.close(client);
+		io.println(result);
+	elif(type ==4):
+		let result = false;
 
+		let listen = socket.create(socket.ipv4,socket.tcp);
+		io.println("create : " + listen);
 
-	ret = dialog.edgeUrl("title2","https://www.baidu.com/");
-	io.print(ret);
+		result = socket.bind(listen,"127.0.0.1",9997);
+		io.println(result);
 
+		result = socket.listen(listen,10);
+		io.println("listen :" + result);
 
-	dialog.showConsole();
-	os.system("pause");
+		let recv_limit = 3;
+
+		while(true):
+			io.println("select block 3s");
+			result = socket.select([listen],3000);
+			for i in result:
+				if(i["r"] != null):
+					result = socket.accept(i["s"]);
+					let client = result[0];
+					io.println("client socket :" + client);
+
+					result = socket.send(client,"Hello ScriptC",100);
+					io.println("send lens :" + result);
+
+					result = socket.recv(client,100);
+					io.println("recv buf :" + result);
+
+					result = socket.close(client);
+					io.println("close client socket :"+result);
+
+					recv_limit = recv_limit - 1;
+				end
+			end
+
+			if(recv_limit == 0):
+					break;
+			end
+		end
+
+		result = socket.close(listen);
+		io.println("close listen socket :"+result);
+		
+	end
+
+	io.print("return");
 	return;
+	// ---
 )";
 
 
