@@ -4,7 +4,7 @@ require ("thread");
 	let io = new StdIo;
 	let thread = new StdThread;
 
-	let id = thread.create("lua_file.lua");
+	let id = thread.create("example\\lua_file.lua");
 
 	thread.set(id,"C_number",111);
 	thread.set(id,"C_string","aaa");
