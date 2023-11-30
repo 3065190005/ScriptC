@@ -265,6 +265,7 @@ copy /Y .\x64\Package\ScriptC.exe .\Package\</Command>
     <ClCompile Include="CerVirtualMachine\CerVm.cpp" />
     <ClCompile Include="DllReader\DllFuncReader.cpp" />
     <ClCompile Include="ErrorHandling\ErrorHandling.cpp" />
+    <ClCompile Include="Global\globalDefine.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

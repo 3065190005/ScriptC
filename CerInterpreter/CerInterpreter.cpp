@@ -1436,9 +1436,10 @@ bool ScriptC::Obj::CerInterpreter::visit_FunDeclaration(AST* node, autoPtr ret)
 		return true;
 	}
 
-	if (funcH->gethasClass()) {
-		m_table_temp["this"] = 1;
-	}
+	/*
+	* 修复 require 包含的文件缺少this定义信息
+	*/
+	m_table_temp["this"] = 1;
 
 	for (auto& i : funcd->getCode())
 		visit(i, ret, this);

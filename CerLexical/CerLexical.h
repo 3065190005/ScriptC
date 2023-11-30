@@ -6,6 +6,8 @@
 #include <vector>
 
 #include "QuickLib/quicklib.h"
+#include "../Global/globalDefine.h"
+
 
 namespace ScriptC {
 	namespace Obj {
@@ -20,7 +22,8 @@ namespace ScriptC {
 				unsigned int row = 0;		// 行
 				unsigned int column = 0;	// 列
 				std::string character;		// 单词
-				std::string file;
+				std::string file;			// 文件
+				size_t clock{ GlobalManager::global_debug_depth++ };	// 报错深度
 			};
 
 			// token 类型

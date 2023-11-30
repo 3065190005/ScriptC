@@ -146,23 +146,47 @@ void ScriptRun() {
 		delete astTree;
 	}
 	catch (std::string str) {
-		auto errHis = ErrorHandling::getInstance();
-		auto info = errHis->getErrorInfo();
-		printf("in file \"%s\" column \"%d\" row \"%d\" : \"%s\"\n", info.file.c_str(), info.column, info.row, info.character.c_str());
+		auto errinst = ErrorHandling::getInstance();
+		auto debug_list = errinst->getErrorList();
+		std::cout << "Unexpected exit for the following reasons : \n" << std::endl;
+		std::string space = " ";
+		for (auto& debug_info : debug_list)
+		{
+			auto info = debug_info.second;
+			printf("%s[error] in file \"%s\" column \"%d\" row \"%d\" : \"%s\"\n\n",
+				space.c_str(), info.file.c_str(), info.column, info.row, info.character.c_str());
+			space += " ";
+		}
 		std::cout << str << std::endl;
 	}
 	catch (const char* cstr) {
 		std::string str{ cstr };
-		auto errHis = ErrorHandling::getInstance();
-		auto info = errHis->getErrorInfo();
-		printf("in file \"%s\" column \"%d\" row \"%d\" : \"%s\"\n", info.file.c_str(), info.column, info.row, info.character.c_str());
+		auto errinst = ErrorHandling::getInstance();
+		auto debug_list = errinst->getErrorList();
+		std::cout << "Unexpected exit for the following reasons : \n" << std::endl;
+		std::string space = " ";
+		for (auto& debug_info : debug_list)
+		{
+			auto info = debug_info.second;
+			printf("%s[error] in file \"%s\" column \"%d\" row \"%d\" : \"%s\"\n\n",
+				space.c_str(), info.file.c_str(), info.column, info.row, info.character.c_str());
+			space += " ";
+		}
 		std::cout << str << std::endl;
 	}
 	catch (...) {
+		auto errinst = ErrorHandling::getInstance();
+		auto debug_list = errinst->getErrorList();
+		std::cout << "Unexpected exit for the following reasons : \n" << std::endl;
+		std::string space = " ";
+		for (auto& debug_info : debug_list)
+		{
+			auto info = debug_info.second;
+			printf("%s[error] in file \"%s\" column \"%d\" row \"%d\" : \"%s\"\n\n",
+				space.c_str(), info.file.c_str(), info.column, info.row, info.character.c_str());
+			space += " ";
+		}
 
-		auto errHis = ErrorHandling::getInstance();
-		auto info = errHis->getErrorInfo();
-		printf("in file \"%s\" column \"%d\" row \"%d\" : \"%s\"\n", info.file.c_str(), info.column, info.row, info.character.c_str());
 		std::cout << "Crash : unknow error, please check C++ codes." << std::endl;
 	}
 }
@@ -216,72 +240,10 @@ void ProgramerCall() {
 
 void TestCodeCall() {
 
-	std::string input = 
-R"(//--- debug
-require("io"); 
-	require("direct");
-
-	let io = new StdIo;
-	let dir = new StdDirect;
-
-	let run_path = "D:\\";
-
-	let value = dir.getcwd();
-	io.println(value);
-
-	value = dir.chdir(123);
-	io.println(value);
-
-	value = dir.listdir(run_path);
-	io.println(value);
-
-	value = dir.makedirs(".\\A\\B\\C\\D\\E\\");
-	io.println(value);
-
-	value = dir.mkdir(".\\MK");
-	io.println(value);
-
-	value = dir.removedirs(".\\A\\B\\C\\");
-	io.println(value);
-
-	value = dir.rmdir(".\\MK");
-	io.println(value);
-
-	value = dir.rename(".\\A\\B\\C", ".\\A\\B\\ReName");
-	io.println(value);
-
-	value = dir.stat(".\\stat.txt");
-	io.println(value);
-
-	value = dir.abspath(".\\stat.txt");
-	io.println(value);
-
-	io.println(dir.relative(value));
-	io.println(dir.basename(value));
-	io.println(dir.dirname(value));
-	io.println(dir.exists(value));
-	io.println(dir.expand("%AppData%"));
-
-	io.println(dir.getatime(value));
-	io.println(dir.getmtime(value));
-	io.println(dir.getctime(value));
-	io.println(dir.getsize(value));
-	io.println(dir.isabs(value));
-	io.println(dir.isfile(value));
-	io.println(dir.isdir(value));
-
-	io.println(dir.info(value));
-	io.println(dir.normcase(value));
-	io.println(dir.normpath(value));
-	io.println(dir.samefile(".\\stat.txt",".\\stat_tar.txt"));
-
-	value[0] = ".\\A\\1";
-	value[1] = ".\\A\\2";
-	value[2] = ".\\B\\1";
-	value[3] = ".\\B\\2";
-	value[4] = ".\\B\\3";
-
-	io.println(dir.commonprefix(value));
+	std::string input =
+		R"(//--- debug
+require("io", io) new StdIo;
+getFunc();
 	// ---
 )";
 
@@ -291,45 +253,99 @@ require("io");
 	auto ta = true;
 	auto fa = false;
 
-	auto_c param1,param2;
+	auto_c param1, param2;
 
-					// lexic, paser, seman, inter, vmret, print
+	// lexic, paser, seman, inter, vmret, print
 	bool control[] = { ta,		ta,	   ta,	  ta,	ta,	   fa };
 	G_mainFile = "sources.sc";
-	if (control[0]) {
-		auto lexical = CerLexical<char>::create(input, "sources");
-		if (control[1]) {
-			auto parser = CerParser::create(lexical);
-			astTree = parser->parser();
 
-			CerInterpreter::ByteCodes codeVec;
+#if DEBUG_TRY_CATCH==true
+	try
+	{
+#endif // DEBUG_TRY_CATCH
+		if (control[0]) {
+			auto lexical = CerLexical<char>::create(input, "sources");
+			if (control[1]) {
+				auto parser = CerParser::create(lexical);
+				astTree = parser->parser();
 
-			auto_c ret(false, false), seman_ret(false, false), vm_ret(false, false);
+				CerInterpreter::ByteCodes codeVec;
 
-			if (control[2]) {
-				auto seman = SemanticAnalyzer::create(astTree);
-				seman->scanner(&seman_ret);
+				auto_c ret(false, false), seman_ret(false, false), vm_ret(false, false);
 
-				if (control[3]) {
-					std::map<std::string, int> import_file;
-					auto interpr = CerInterpreter::create(astTree, G_mainFile);
-					codeVec = std::move(interpr->CompileCode(&ret, nullptr));
+				if (control[2]) {
+					auto seman = SemanticAnalyzer::create(astTree);
+					seman->scanner(&seman_ret);
 
-					if (control[4]) {
-						auto codeVm = CerVm::create(std::move(codeVec));
-						codeVm->setCodeFile(G_mainFile);
+					if (control[3]) {
+						std::map<std::string, int> import_file;
+						auto interpr = CerInterpreter::create(astTree, G_mainFile);
+						codeVec = std::move(interpr->CompileCode(&ret, nullptr));
 
-						codeVm->runTime();
+						if (control[4]) {
+							auto codeVm = CerVm::create(std::move(codeVec));
+							codeVm->setCodeFile(G_mainFile);
 
-						if (control[5]) {
-							auto_c index(false, false);
-							std::cout << std::endl << std::endl;
+							codeVm->runTime();
+
+							if (control[5]) {
+								auto_c index(false, false);
+								std::cout << std::endl << std::endl;
+							}
 						}
 					}
 				}
 			}
 		}
+
+#if DEBUG_TRY_CATCH==true
 	}
+	catch (std::string str) {
+		auto errinst = ErrorHandling::getInstance();
+		auto debug_list = errinst->getErrorList();
+		std::cout << "Unexpected exit for the following reasons : \n" << std::endl;
+		std::string space = " ";
+		for (auto& debug_info : debug_list)
+		{
+			auto info = debug_info.second;
+			printf("%s[error] in file \"%s\" column \"%d\" row \"%d\" : \"%s\"\n\n",
+				space.c_str(), info.file.c_str(), info.column, info.row, info.character.c_str());
+			space += " ";
+		}
+		std::cout << str << std::endl;
+	}
+	catch (const char* cstr) {
+		std::string str{ cstr };
+		auto errinst = ErrorHandling::getInstance();
+		auto debug_list = errinst->getErrorList();
+		std::cout << "Unexpected exit for the following reasons : \n" << std::endl;
+		std::string space = " ";
+		for (auto& debug_info : debug_list)
+		{
+			auto info = debug_info.second;
+			printf("%s[error] in file \"%s\" column \"%d\" row \"%d\" : \"%s\"\n\n",
+				space.c_str(), info.file.c_str(), info.column, info.row, info.character.c_str());
+			space += " ";
+		}
+		std::cout << str << std::endl;
+	}
+	catch (...) {
+		auto errinst = ErrorHandling::getInstance();
+		auto debug_list = errinst->getErrorList();
+		std::cout << "Unexpected exit for the following reasons : \n" << std::endl;
+		std::string space = " ";
+		for (auto& debug_info : debug_list)
+		{
+			auto info = debug_info.second;
+			printf("%s[error] in file \"%s\" column \"%d\" row \"%d\" : \"%s\"\n\n",
+				space.c_str(), info.file.c_str(), info.column, info.row, info.character.c_str());
+			space += " ";
+		}
+
+		std::cout << "Crash : unknow error, please check C++ codes." << std::endl;
+	}
+#endif // DEBUG_TRY_CATCH
+
 
 	delete astTree;
 	return;
@@ -465,9 +481,36 @@ int CmdRunType()
 			delete astTree;
 		}
 
-		auto errHis = ErrorHandling::getInstance();
-		auto info = errHis->getErrorInfo();
-		printf("in file \"%s\" column \"%d\" row \"%d\" : \"%s\"\n", info.file.c_str(), info.column, info.row, info.character.c_str());
+		auto errinst = ErrorHandling::getInstance();
+		auto debug_list = errinst->getErrorList();
+		std::cout << "Unexpected exit for the following reasons : \n" << std::endl;
+		std::string space = " ";
+		for (auto& debug_info : debug_list)
+		{
+			auto info = debug_info.second;
+			printf("%s[error] in file \"%s\" column \"%d\" row \"%d\" : \"%s\"\n\n",
+				space.c_str(), info.file.c_str(), info.column, info.row, info.character.c_str());
+			space += " ";
+		}
+		std::cout << str << std::endl;
+	}
+	catch (const char* cstr) {
+		if (astTree != nullptr) {
+			delete astTree;
+		}
+
+		std::string str{ cstr };
+		auto errinst = ErrorHandling::getInstance();
+		auto debug_list = errinst->getErrorList();
+		std::cout << "Unexpected exit for the following reasons : \n" << std::endl;
+		std::string space = " ";
+		for (auto& debug_info : debug_list)
+		{
+			auto info = debug_info.second;
+			printf("%s[error] in file \"%s\" column \"%d\" row \"%d\" : \"%s\"\n\n",
+				space.c_str(), info.file.c_str(), info.column, info.row, info.character.c_str());
+			space += " ";
+		}
 		std::cout << str << std::endl;
 	}
 	catch (...) {
@@ -475,9 +518,18 @@ int CmdRunType()
 			delete astTree;
 		}
 
-		auto errHis = ErrorHandling::getInstance();
-		auto info = errHis->getErrorInfo();
-		printf("in file \"%s\" column \"%d\" row \"%d\" : \"%s\"\n", info.file.c_str(), info.column, info.row, info.character.c_str());
+		auto errinst = ErrorHandling::getInstance();
+		auto debug_list = errinst->getErrorList();
+		std::cout << "Unexpected exit for the following reasons : \n" << std::endl;
+		std::string space = " ";
+		for (auto& debug_info : debug_list)
+		{
+			auto info = debug_info.second;
+			printf("%s[error] in file \"%s\" column \"%d\" row \"%d\" : \"%s\"\n\n",
+				space.c_str(), info.file.c_str(), info.column, info.row, info.character.c_str());
+			space += " ";
+		}
+
 		std::cout << "Crash : unknow error, please check C++ codes." << std::endl;
 	}
 
