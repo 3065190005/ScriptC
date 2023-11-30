@@ -218,128 +218,70 @@ void TestCodeCall() {
 
 	std::string input = 
 R"(//--- debug
-		require ("socket");
-	require ("io");
+require("io"); 
+	require("direct");
+
 	let io = new StdIo;
-	let socket = new StdSocket;
+	let dir = new StdDirect;
 
-	let type = 1;
-	if(type == 1):
-		let result = false;
+	let run_path = "D:\\";
 
-		let listen = socket.create("ipv4",socket.tcp);
-		io.println("create : " + listen);
+	let value = dir.getcwd();
+	io.println(value);
 
-		result = socket.bind(listen,"127.0.0.1",9997);
-		io.println(result);
+	value = dir.chdir(123);
+	io.println(value);
 
-		result = socket.listen(listen,10);
-		io.println("listen :" + result);
+	value = dir.listdir(run_path);
+	io.println(value);
 
-		let client = socket.accept(listen)[0];
-		io.println("client socket :" + client);
+	value = dir.makedirs(".\\A\\B\\C\\D\\E\\");
+	io.println(value);
 
-		result = socket.send(client,"Hello ScriptC",100);
-		io.println("send lens :" + result);
+	value = dir.mkdir(".\\MK");
+	io.println(value);
 
-		result = socket.recv(client,100);
-		io.println("recv buf :" + result);
+	value = dir.removedirs(".\\A\\B\\C\\");
+	io.println(value);
 
-		
-		result = socket.close(client);
-		io.println("close client socket :"+result);
+	value = dir.rmdir(".\\MK");
+	io.println(value);
 
-		result = socket.close(listen);
-		io.println("close listen socket :"+result);
+	value = dir.rename(".\\A\\B\\C", ".\\A\\B\\ReName");
+	io.println(value);
 
-		result = socket.close(2333);
-		io.println("close error socket :"+result);
+	value = dir.stat(".\\stat.txt");
+	io.println(value);
 
-	elif(type == 2):
-		let result = false;
+	value = dir.abspath(".\\stat.txt");
+	io.println(value);
 
-		let client = socket.create(socket.ipv4,socket.tcp);
-		io.println("create : " + client);
+	io.println(dir.relative(value));
+	io.println(dir.basename(value));
+	io.println(dir.dirname(value));
+	io.println(dir.exists(value));
+	io.println(dir.expand("%AppData%"));
 
-		result = socket.connect(client,"127.0.0.1",9955);
-		io.println("connect : " + result);
+	io.println(dir.getatime(value));
+	io.println(dir.getmtime(value));
+	io.println(dir.getctime(value));
+	io.println(dir.getsize(value));
+	io.println(dir.isabs(value));
+	io.println(dir.isfile(value));
+	io.println(dir.isdir(value));
 
+	io.println(dir.info(value));
+	io.println(dir.normcase(value));
+	io.println(dir.normpath(value));
+	io.println(dir.samefile(".\\stat.txt",".\\stat_tar.txt"));
 
-		result = socket.send(client,"Hello ScriptC",100);
-		io.println("send lens :" + result);
+	value[0] = ".\\A\\1";
+	value[1] = ".\\A\\2";
+	value[2] = ".\\B\\1";
+	value[3] = ".\\B\\2";
+	value[4] = ".\\B\\3";
 
-		result = socket.recv(client,100);
-		io.println("recv buf :" + result);
-
-		result = socket.close(client);
-		io.println("close client socket :"+result);
-
-	elif(type == 3):
-		let result = false;
-
-		let client = socket.create(socket.ipv4,socket.udp);
-		io.println("create : " + client);
-
-		result = socket.bind(client,"127.0.0.1",9933);
-		io.println(result);
-
-		result = socket.sendto(client,"Hello Udp",100,"127.0.0.1",9934);
-		io.println(result);
-
-
-		result = socket.recvfrom(client,100);
-		io.println(result);
-				
-		result = socket.close(client);
-		io.println(result);
-	elif(type ==4):
-		let result = false;
-
-		let listen = socket.create(socket.ipv4,socket.tcp);
-		io.println("create : " + listen);
-
-		result = socket.bind(listen,"127.0.0.1",9997);
-		io.println(result);
-
-		result = socket.listen(listen,10);
-		io.println("listen :" + result);
-
-		let recv_limit = 3;
-
-		while(true):
-			io.println("select block 3s");
-			result = socket.select([listen],3000);
-			for i in result:
-				if(i["r"] != null):
-					result = socket.accept(i["s"]);
-					let client = result[0];
-					io.println("client socket :" + client);
-
-					result = socket.send(client,"Hello ScriptC",100);
-					io.println("send lens :" + result);
-
-					result = socket.recv(client,100);
-					io.println("recv buf :" + result);
-
-					result = socket.close(client);
-					io.println("close client socket :"+result);
-
-					recv_limit = recv_limit - 1;
-				end
-			end
-
-			if(recv_limit == 0):
-					break;
-			end
-		end
-
-		result = socket.close(listen);
-		io.println("close listen socket :"+result);
-		
-	end
-
-	io.print("return");
-	return;
+	io.println(dir.commonprefix(value));
 	// ---
 )";
 
