@@ -464,6 +464,9 @@
 
 2023.11.30
 	代码层面
+	当一个栈将要销毁时会对所有接口变量尝试调用特殊函数gc
+	当将死变量(16) 将要被Leave PopBack时会进行调用
+	当返回一个 new interface 时会对栈外的变量重置auto_gc标识为 true
 	暂时废弃type 头文件 type内容合并到string头文件
 	LetTools 添加函数 v9_9	ObjTToStr ObjGToStr StrToObjT StrToObjG
 	LetTools 修改函数 v9_9 print和println 将会输出更好的数据格式 且 unll 和 undef 将输出 字符串 null 和 字符串 undef
@@ -475,3 +478,4 @@
 	用户层面
 	现在有了更好报错信息
 	如果调用标准库传入了错误的参数类型会进行报错，不在返回null或false
+	特殊函数Gc将对所有可能回收的接口变量尝试调用特殊函数gc
