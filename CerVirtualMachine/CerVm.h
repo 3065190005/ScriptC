@@ -74,7 +74,8 @@ namespace ScriptC {
 			bool BuiltInCond(numberT,CommandCode);
 
 		public:
-			void CodeCallFunc(std::string _funcName, std::vector<auto_c> _params, std::string _thisName);
+			void CodeCallFunc(std::string _funcName, std::vector<auto_c> _params, std::string _thisName);		// 通过 变量名设置this
+			void CodeCallFunc(std::string _funcName, std::vector<auto_c> _params, auto_c _thisName);			// 通过变量设置this
 			void CodePopNewSf();
 
 		public:
@@ -88,7 +89,12 @@ namespace ScriptC {
 			VectorStr isCallGc();		// 返回当前栈的所有 接口变量名 (不包含this)
 			VectorStr isCallGc(SFPtr);	// 返回当前栈的所有 接口变量名 (不包含this)
 			VectorStr isCallGcR();		// 返回当前栈所涵盖的所有 接口变量名 (不包含this)
+
+			bool getCallGcVar(SFPtr);	// 返回当前栈的所有需要处理的变量
+			bool getCallGcVarR();		// 返回当前栈所有需要处理的变量递归获取
+
 			bool GcCallBack();			// 是否调用接口的析构函数
+			bool GcCallBackDataSf();	// 对栈进行释放
 			std::string findClassFunc(std::string className, std::string funcName);// 递归获取类的函数名
 
 		public:
@@ -112,7 +118,9 @@ namespace ScriptC {
 			CommandCode m_current_cmd_code;				// 当前code
 			size_t m_command_codes_index;				// 下一个code下标
 			CerStackSystem m_stacks;					// 栈系统
-			std::string m_code_file;
+			std::string m_code_file;					// 当前执行的code所属文件
+			std::list<auto_c> m_destory_var;			// 待释放的变量ref合集
+			std::list<auto_c> m_destory_data;			// 待释放的变量本体合集
 		};
 	}
 }

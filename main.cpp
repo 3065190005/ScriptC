@@ -22,7 +22,7 @@
 
 std::string G_TipsSymbol = "->: ";
 std::string G_consoleTxt =
-R"(ScriptC £¨Last Update : 2023.11.30 | LetObject : v9_9) [console mode]
+R"(ScriptC £¨Last Update : 2023.11.30 | LetObject : v9_10) [console mode]
 If you want to compile and run the code, type Enter twice.
 
 )";
@@ -240,10 +240,26 @@ void ProgramerCall() {
 
 void TestCodeCall() {
 
-	std::string input =
-		R"(//--- debug
-require("io", io) new StdIo;
-getFunc();
+std::string input =
+R"(//--- debug
+	require("io", io) new StdIo;
+
+	interface Class{
+		let var = 114514;
+		function _gc():
+			io.println("Class Gc Called " + this.var);
+		end
+
+		function Test():
+		
+		end
+	}	
+
+	function func():
+		return new Class;
+	end
+
+	func().Test();
 	// ---
 )";
 
