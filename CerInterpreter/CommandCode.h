@@ -54,6 +54,8 @@ namespace ScriptC {
 				UnaryAdd,	// 正
 				UnarySub,	// 负
 
+				AryIndex,	// 中括号下标
+
 				Inter,		// 接口声明
 				Func,		// 函数声明开头
 				Call,		// 执行函数

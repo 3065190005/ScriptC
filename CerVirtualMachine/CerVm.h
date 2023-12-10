@@ -65,6 +65,7 @@ namespace ScriptC {
 			auto_c VmDOr();
 			auto_c VmUnaryAdd();
 			auto_c VmUnarySub();
+			auto_c VmAryIndex();
 			auto_c VmPass();
 
 		private:

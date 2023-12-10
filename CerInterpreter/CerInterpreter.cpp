@@ -486,12 +486,15 @@ bool ScriptC::Obj::CerInterpreter::visit_ForExpr(AST* node, autoPtr ret)
 	params.insert({ "param2",std::move(param1) });
 	PushCode(std::move(CommandCode(CodeType::Push, std::move(params))));
 
+	/*
+	* 2023.12.10
+	* []下标将通过AryIndex字节码进行处理
+	* 不再通过 push 进行推送
+	* 提高效率
+	*/
+	param1 << "right";
 	params.insert({ "param1",std::move(param1) });
-	param1 << "array";
-	params.insert({ "param2",std::move(param1) });
-	param1 << ",0:(i)";
-	params.insert({ "param3",std::move(param1) });
-	PushCode(std::move(CommandCode(CodeType::Push, std::move(params))));
+	PushCode(std::move(CommandCode(CodeType::AryIndex, std::move(params))));
 	
 	// push KEY_null;
 	params.insert({ "param1",std::move(param1) });
@@ -530,19 +533,20 @@ bool ScriptC::Obj::CerInterpreter::visit_ForExpr(AST* node, autoPtr ret)
 	params.insert({ "param2",std::move(param1) });
 	PushCode(std::move(CommandCode(CodeType::Push, std::move(params))));
 
-	params.insert({ "param1",std::move(param1) });
-	param1 << "array";
-	params.insert({ "param2",std::move(param1) });
-	param1 << ",0:(i)";
-	params.insert({ "param3",std::move(param1) });
-	PushCode(std::move(CommandCode(CodeType::Push, std::move(params))));
+	/*
+	* 2023.12.10
+	* []下标将通过AryIndex字节码进行处理
+	* 不再通过 push 进行推送
+	* 提高效率
+	*/
 
+	param1 << "right";
 	params.insert({ "param1",std::move(param1) });
-	param1 << "array";
-	params.insert({ "param2",std::move(param1) });
-	param1 << ",0:(i)";
-	params.insert({ "param3",std::move(param1) });
-	PushCode(std::move(CommandCode(CodeType::Push, std::move(params))));
+	PushCode(std::move(CommandCode(CodeType::AryIndex, std::move(params))));
+
+	param1 << "right";
+	params.insert({ "param1",std::move(param1) });
+	PushCode(std::move(CommandCode(CodeType::AryIndex, std::move(params))));
 
 	// pop forvar
 	param1 << var_name;
@@ -1021,6 +1025,18 @@ bool ScriptC::Obj::CerInterpreter::visit_IncludeFile(AST* node, autoPtr ret)
 
 bool ScriptC::Obj::CerInterpreter::visit_ArrayVar(AST* node, autoPtr ret)
 {
+	/*
+	* 2023.12.10
+	* 两种数组表达式
+	* 第一种， 作为数组形式 [1,2,3,4,5, index, getfunc()]
+	*	(v) 表示当前值是一个变量名需要获取
+	*	(u) 表示最近一个栈值
+	* 第二种， 作为下表形式 var[1]
+	*	"left" 表示以引用的方式获取
+	*	 "right" 表示以值的方式获取
+	*	
+	* 
+	*/
 	if (node->getNodeType() != AstNodeType::ArrayVar) {
 		m_errHis->setErrInfo(node->getDebugInfo());
 		m_errHis->throwErr(EType::Interpreter, "getNode need ArrayVar");
@@ -1028,6 +1044,7 @@ bool ScriptC::Obj::CerInterpreter::visit_ArrayVar(AST* node, autoPtr ret)
 
 	ArrayVar* array_ast = dynamic_cast<ArrayVar*>(node);
 
+	bool only_index_mode = array_ast->gethasOnlyIndex();
 	auto array_ast_params = array_ast->getExpr();
 
 	int index = 0;
@@ -1044,7 +1061,10 @@ bool ScriptC::Obj::CerInterpreter::visit_ArrayVar(AST* node, autoPtr ret)
 	for (auto& i : array_ast_params) {
 		visit(i, ret, this);
 
-		if (array_ast->gethasOnlyIndex()) {
+		/*
+		* 以下标方式进行解析
+		*/
+		if (only_index_mode) {
 			std::string param3StrPath;
 			std::stringstream ss;
 			
@@ -1055,12 +1075,16 @@ bool ScriptC::Obj::CerInterpreter::visit_ArrayVar(AST* node, autoPtr ret)
 			}
 
 			if(array_ast->gethasLeftIndex())
-				param3StrPath += "0:(s)";
+				param3StrPath += "left";
 			else
-				param3StrPath += "0:(i)";
+				param3StrPath += "right";
 
 			param3Str += param3StrPath;
 		}
+
+		/*
+		* 以数组方式进行解析
+		*/
 		else if (analysExprOp(i) == AST::AstType::Num) {
 			pushArray[pushIndex] = GetSelfVmCodes()->back().getCodeParams()->find("param1")->second;
 			GetSelfVmCodes()->pop_back();
@@ -1097,17 +1121,39 @@ bool ScriptC::Obj::CerInterpreter::visit_ArrayVar(AST* node, autoPtr ret)
 		}
 	}
 
-	CodeParams param1;
-	auto_c space,param3C;	
-	space << "array";
-	param3C << param3Str;
+	/*
+	* 2023.12.10
+	* 下标字节码修改为 AryIndex
+	* 数组标识保持不变
+	*/
+	if (!only_index_mode)
+	{
+		CodeParams param1;
+		auto_c space, param3C;
+		space << "array";
+		param3C << param3Str;
 
-	param1.insert({ "param1", std::move(pushArray) });
-	param1.insert({ "param2", std::move(space) });
-	param1.insert({ "param3", std::move(param3C) });
-	CommandCode opear1(CodeType::Push, std::move(param1));
-	m_errHis->setErrInfo(node->getDebugInfo());
-	PushCode(std::move(opear1));
+		param1.insert({ "param1", std::move(pushArray) });
+		param1.insert({ "param2", std::move(space) });
+		param1.insert({ "param3", std::move(param3C) });
+		CommandCode opear1(CodeType::Push, std::move(param1));
+		m_errHis->setErrInfo(node->getDebugInfo());
+		PushCode(std::move(opear1));
+	}
+	else
+	{
+		auto_c temp;
+		CodeParams param1;
+		if (array_ast->gethasLeftIndex())
+			temp << "left";
+		else
+			temp << "right";
+
+		param1.insert({ "param1", std::move(temp) });
+		CommandCode opear1(CodeType::AryIndex, std::move(param1));
+		m_errHis->setErrInfo(node->getDebugInfo());
+		PushCode(std::move(opear1));
+	}
 
 	return true;
 }

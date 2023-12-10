@@ -27,6 +27,16 @@ auto_c ScriptC::Obj::CerCalcStack::pop_opera()
     return ret;
 }
 
+auto_c& ScriptC::Obj::CerCalcStack::opera_back()
+{
+    return m_stack.back();
+}
+
+void ScriptC::Obj::CerCalcStack::opera_drop()
+{
+    m_stack.pop_back();
+}
+
 void ScriptC::Obj::CerCalcStack::calc_opera(CodeType type)
 {
 
@@ -58,6 +68,9 @@ void ScriptC::Obj::CerCalcStack::calc_opera(CodeType type)
     case CodeType::Mat:
         UnaryCalc(type);
         return;
+    case CodeType::AryIndex:
+        IndexOpCalc(type);
+        break;
     default:
         break;
     }
@@ -215,6 +228,56 @@ void ScriptC::Obj::CerCalcStack::UnaryCalc(CodeType type)
     m_stack.emplace_back(result);
 }
 
+void ScriptC::Obj::CerCalcStack::IndexOpCalc(CodeType type)
+{
+    auto getVar = [&](auto_c& var) {
+        if (m_stack.back().getSelfAttribute() & (int)NatureType::ptr)
+            LetObject::reference(&var, &m_stack.back());
+        else
+            var = m_stack.back();
+
+        m_stack.pop_back();
+        };
+
+    auto_c left, right, result;
+    
+    getVar(left);
+    getVar(right);
+
+    try
+    {
+        switch (type)
+        {
+        case CodeType::AryIndex:
+        {
+			// 如果传参是指针则进行引用
+            if (left.getSelfAttribute() & (int)NatureType::ptr)
+                LetObject::reference(&result, &left[right]);
+            else // 如果传参不是指针则进行赋值
+                result = left[right];
+        }
+            
+        }
+    }
+    catch (...)
+    {
+        LetTools tools;
+        std::string str;
+        str.append("Vm : Type ");
+        str.append(getAutoCTypeStr(left.getType()));
+        str.append(" and type ");
+        str.append(getAutoCTypeStr(right.getType()));
+        str.append(" cannot perform ");
+        str.append(getBinOpStr(type));
+        str.append(" operation");
+        throw(str);
+        return;
+    }
+
+
+    m_stack.emplace_back(result);
+}
+
 std::string ScriptC::Obj::CerCalcStack::getBinOpStr(CodeType type)
 {
     switch (type)
@@ -272,6 +335,9 @@ std::string ScriptC::Obj::CerCalcStack::getBinOpStr(CodeType type)
         break;
     case CodeType::DOr:
         return "||";
+        break;
+    case CodeType::AryIndex:
+        return "[]";
         break;
     }
 

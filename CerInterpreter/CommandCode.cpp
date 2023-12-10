@@ -93,6 +93,9 @@ std::string ScriptC::Obj::CommandCode::getCodeTypeStr()
 	case ScriptC::Obj::CommandCode::CommandCodeType::Add:
 		ret = "Add";
 		break;
+	case ScriptC::Obj::CommandCode::CommandCodeType::AryIndex:
+		ret = "AryIndex";
+		break;
 	case ScriptC::Obj::CommandCode::CommandCodeType::Sub:
 		ret = "Sub";
 		break;

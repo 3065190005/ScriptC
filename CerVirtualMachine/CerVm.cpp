@@ -128,6 +128,9 @@ void ScriptC::Obj::CerVm::Command()
 	case CommandCode::CommandCodeType::UnarySub:
 		VmUnarySub();
 		break;
+	case CommandCode::CommandCodeType::AryIndex:
+		VmAryIndex();
+		break;
 	case ScriptC::Obj::CommandCode::CommandCodeType::Inter:
 		VmInter();
 		break;
@@ -628,10 +631,14 @@ void ScriptC::Obj::CerVm::VmLeave()
 
 	if (haveRetVal) {
 		dataSf->emplace_back(retVal);
-		if (dataSf->back().getSelfAttribute() & (int)NatureType::cls)
-		{
-			dataSf->back()[CLASS_AUTO_GC_CALL] << true;
-		}
+		/*
+		* 2023.12.10
+		* 返回接口类型默认不再重置自动回收方法
+		*/
+		//if (dataSf->back().getSelfAttribute() & (int)NatureType::cls)
+		//{
+		//	dataSf->back()[CLASS_AUTO_GC_CALL] << true;
+		//}
 	}
 	else {
 		auto_c space;
@@ -701,54 +708,59 @@ void ScriptC::Obj::CerVm::VmPush()
 					}
 				}
 
-				std::vector<auto_c> vecR;
-				std::vector<auto_c> vecL;
-				auto_c targetArray;
-				for (auto i = allPath.rbegin(); i != allPath.rend();) {
-					std::string index, indextype;
-					index = i->substr(0, i->rfind(":"));
-					indextype = i->substr(i->rfind(":") + 1);
+				/*
+				* 2023.12.10
+				* 下标模式统一由操作字节码进行处理
+				*/
 
-					if (indextype == "(i)") {
-						vecR.emplace_back(dataSf->back());
-						dataSf->pop_back();
-					}
+				//std::vector<auto_c> vecR;
+				//std::vector<auto_c> vecL;
+				//auto_c targetArray;
+				//for (auto i = allPath.rbegin(); i != allPath.rend();) {
+				//	std::string index, indextype;
+				//	index = i->substr(0, i->rfind(":"));
+				//	indextype = i->substr(i->rfind(":") + 1);
 
-					else if (indextype == "(s)") {
-						vecL.emplace_back(dataSf->back());
-						dataSf->pop_back();
-					}
+				//	if (indextype == "(i)") {
+				//		vecR.emplace_back(dataSf->back());
+				//		dataSf->pop_back();
+				//	}
 
-					i++;
-				}
-				if (vecR.size() != 0) {
-					targetArray = dataSf->back();
-					dataSf->pop_back();
-				}
+				//	else if (indextype == "(s)") {
+				//		vecL.emplace_back(dataSf->back());
+				//		dataSf->pop_back();
+				//	}
 
-				numberT indexI = 0;
-				for (auto i = vecR.rbegin(); i != vecR.rend(); i ++) {
-					auto_c indexC;
-					indexC << indexI;
-					indexI++;
-					if (vecR.size() != 1) {
-						obj[indexC] = targetArray[*i];
-					}
-					else {
-						obj = targetArray[*i];
-					}
-				}
+				//	i++;
+				//}
+				//if (vecR.size() != 0) {
+				//	targetArray = dataSf->back();
+				//	dataSf->pop_back();
+				//}
 
-				if (vecL.size() != 0) {
-					LetObject::reference(&targetArray,&dataSf->back());
-					dataSf->pop_back();
-				}
+				//numberT indexI = 0;
+				//for (auto i = vecR.rbegin(); i != vecR.rend(); i ++) {
+				//	auto_c indexC;
+				//	indexC << indexI;
+				//	indexI++;
+				//	if (vecR.size() != 1) {
+				//		obj[indexC] = targetArray[*i];
+				//	}
+				//	else {
+				//		obj = targetArray[*i];
+				//	}
+				//}
 
-				for (auto i = vecL.rbegin(); i != vecL.rend(); i++) {
-					LetObject::reference(&obj, &targetArray[*i]);
-				}
+				//if (vecL.size() != 0) {
+				//	LetObject::reference(&targetArray,&dataSf->back());
+				//	dataSf->pop_back();
+				//}
 
-				break;
+				//for (auto i = vecL.rbegin(); i != vecL.rend(); i++) {
+				//	LetObject::reference(&obj, &targetArray[*i]);
+				//}
+
+				//break;
 			}
 			else if (Pushtype == "interface") 
 			{
@@ -1765,6 +1777,49 @@ auto_c ScriptC::Obj::CerVm::VmUnarySub()
 	calcSf->calc_opera(CodeType::UnarySub);
 
 	dataSf->emplace_back(calcSf->pop_opera());
+	return ret;
+}
+
+auto_c ScriptC::Obj::CerVm::VmAryIndex()
+{
+	/*
+	* 2023.12.10
+	* 下标处理将通过操作字节码进行解析处理
+	* 不再通过 push 进行推送
+	* 提高效率
+	*/
+	auto_c ret;
+	SFPtr sf = m_stacks.GetLastSF();
+	auto runT = sf->getRunTime();
+	auto dataSf = sf->getDataStack();
+	auto calcSf = sf->getCalcStack();
+	auto cmd = m_current_cmd_code;
+
+	std::string direct_str;
+	auto_c direct;
+	direct = (*cmd.getCodeParams())["param1"];
+	direct >> direct_str;
+
+	takeEat(CommandCode::CommandCodeType::AryIndex);
+	auto_c one = dataSf->back();
+	dataSf->pop_back();
+	auto_c two = dataSf->back();
+	dataSf->pop_back();
+
+	calcSf->push_opera(one);
+	calcSf->push_opera(two);
+	calcSf->calc_opera(CodeType::AryIndex);
+
+	auto_c push_var;
+	if (direct_str == "left")
+	{
+		LetObject::reference(&push_var, &calcSf->opera_back());
+		calcSf->opera_drop();
+	}
+	else
+		push_var = calcSf->pop_opera();
+	
+	dataSf->emplace_back(std::move(push_var));
 	return ret;
 }
 
